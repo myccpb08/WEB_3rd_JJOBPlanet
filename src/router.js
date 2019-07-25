@@ -5,7 +5,8 @@ import PostPage from './views/PostPage.vue'
 import PortfolioPage from './views/PortfolioPage.vue'
 import PortfolioWriter from './views/PortfolioWriter.vue'
 import PostWriter from './views/PostWriter.vue'
-
+import PostDetail f rom './views/PostDetail.vue'
+import PostUpdate from './views/PostUpdate.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -36,6 +37,18 @@ export default new Router({
          path: '/postwriter',
          name: 'postwriter',
          component: PostWriter
-      }
+      },
+      {
+     path: '/postDetail/:postId',
+     name: 'postDetail',
+     component: PostDetail,
+     props:true
+  },
+  {
+     path: '/postUpdate/:postId',
+     name: 'postUpdate',
+     component: PostUpdate,
+     props:true
+  }
   ]
 })

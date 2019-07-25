@@ -2,10 +2,12 @@
   <div class="notranslate">
     <v-layout row wrap mw-700>
       <v-flex v-for="i in posts.length > limits ? limits : posts.length" :class="'xs' + 12 / column" px-3>
+        <router-link :to="{ name: 'postDetail', params: {postId: posts[i-1].id} }">
         <Post
         :date="posts[i - 1].created_at"
         :title="posts[i - 1].title"
         :body="posts[i - 1].body"></Post>
+        </router-link>
         <v-divider></v-divider>
       </v-flex>
       <v-flex xs12 text-xs-center round my-5 v-if="loadMore">
@@ -45,8 +47,8 @@ export default {
       await FirebaseService.postPost(title, body)
     },
     loadMorePosts() {
-        this.limits = this.limits*2;
-    } 
+        this.limits = this.limits +6;
+    }
   }
 }
 </script>

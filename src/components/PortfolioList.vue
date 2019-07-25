@@ -44,7 +44,7 @@
         this.portfolios = await FirebaseService.getPortfolios()
       },
       loadMorePortfolios() {
-         this.limits = this.limits *2;
+         this.limits = this.limits +6;
       }
     },
   }

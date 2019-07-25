@@ -21,19 +21,50 @@ firebase.initializeApp(config)
 const firestore = firebase.firestore()
 
 export default {
-   getPosts() {
-      const postsCollection = firestore.collection(POSTS)
-      return postsCollection
-            .orderBy('created_at', 'desc')
-            .get()
-            .then((docSnapshots) => {
-               return docSnapshots.docs.map((doc) => {
-                  let data = doc.data()
-                  data.created_at = new Date(data.created_at.toDate())
-                  return data
-               })
-            })
-   },
+  getPosts() {
+    const postsCollection = firestore.collection(POSTS)
+    return postsCollection
+          .orderBy('created_at', 'desc')
+          .get()
+          .then((docSnapshots) => {
+             return docSnapshots.docs.map((doc) => {
+                let data = doc.data()
+                data.created_at = new Date(data.created_at.toDate())
+                data.id = doc.id
+                return data
+             })
+          })
+  },
+  getPost(postId) {
+    return firestore.collection(POSTS).doc(postId)
+    .get()
+    .then((doc) => {
+          let data = doc.data()
+          data.created_at = new Date(data.created_at.toDate())
+          return data
+    })
+  },
+  deletePost(postId){
+   const post = firestore.collection(POSTS).doc(postId)
+   post.delete().then(function(){
+    console.log("해당 Post가 삭제되었습니다.");
+  }).catch(function(error) {
+    console.error("삭제에 실패했습니다 ", error);
+  })
+  },
+  updatePost(postId,title,body){
+   return firestore.collection(POSTS).doc(postId).update({
+     title:title,
+     body:body,
+     created_at: firebase.firestore.FieldValue.serverTimestamp()
+   })
+   .then(function() {
+     console.log("게시글이 수정되었습니다.");
+    })
+    .catch(function(error) {
+      console.error("수정 실패: ", error);
+    });
+  },
    postPost(title, body) {
       return firestore.collection(POSTS).add({
          title,
