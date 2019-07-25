@@ -45,7 +45,7 @@ export default {
       }else if(this.post.body == ''){
         alert("내용을 입력해주세요")
       }else{
-        await FirebaseService.updatePost(this.postId,this.post.title,this.post.body);
+        await FirebaseService.updatePost(this.postId,this.post.title,this.post.body,this.post.uid);
         this.$router.go(-1)
       }
 

@@ -9,9 +9,8 @@
       <!-- Post -->
       <v-layout>
         <v-flex xs12>
-          <PostList :limits="6" :load-more="true"></PostList>
+          <PostList :limits="limits" :load-more="true" v-on:loadMore="limits = $event"></PostList>
         </v-flex>
-
       </v-layout>
     </v-container>
   </div>
@@ -25,7 +24,9 @@ import FirebaseService from '@/services/FirebaseService'
 export default {
 	name: 'PostPage',
   data(){
-    return{}
+    return{
+      limits : 6
+    }
   },
 	components: {
 		ImgBanner,

@@ -46,7 +46,7 @@ export default {
       }else if(body == ''){
         alert("내용을 입력해주세요")
       }else{
-        await FirebaseService.postPost(title, body)
+        await FirebaseService.postPost(title, body,this.$store.state.user)
         alert("post가 작성되었습니다.")
         this.$router.replace('/post')
       }

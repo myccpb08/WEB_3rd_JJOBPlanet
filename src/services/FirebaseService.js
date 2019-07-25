@@ -5,7 +5,7 @@ import 'firebase/auth'
 const POSTS = 'posts'
 const PORTFOLIOS = 'portfolios'
 const BANNER = 'banner'
-const USER = 'users'
+const USERS = 'users'
 
 
 // Setup Firebase
@@ -52,7 +52,7 @@ export default {
     console.error("삭제에 실패했습니다 ", error);
   })
   },
-  updatePost(postId,title,body){
+  updatePost(postId,title,body,uid){
    return firestore.collection(POSTS).doc(postId).update({
      title:title,
      body:body,
@@ -65,10 +65,13 @@ export default {
       console.error("수정 실패: ", error);
     });
   },
-   postPost(title, body) {
+   postPost(title, body, user) {
       return firestore.collection(POSTS).add({
          title,
          body,
+         uid:user.uid,
+         displayName:user.displayName,
+         email:user.email,
          created_at: firebase.firestore.FieldValue.serverTimestamp()
       })
    },
@@ -135,14 +138,47 @@ export default {
        console.log("update banner");
      })
    },
-   addLog(id,msg) {
-     return firestore.collection(USER).doc(id).collection("history").add({
+   addLog(uid,msg) {
+     return firestore.collection(USERS).doc(uid).collection("history").add({
         created_at: firebase.firestore.FieldValue.serverTimestamp(),
         msg:msg
      })
      .then(function(){
-       console.log("update log");
+
      })
    },
+
+   initUserClass(user, userClass){
+     const usersCollection = firestore.collection(USERS).doc(user.uid).get().then((docSnapshots) => {
+       if(docSnapshots._document == null){
+          firestore.collection(USERS).doc(user.uid).set({
+            changed_at: firebase.firestore.FieldValue.serverTimestamp(),
+            displayName: user.displayName,
+            email: user.email,
+            userClass: "visitor",
+            uid: user.uid
+          })
+       }
+     })
+   },
+   getUserClasses(){
+     const usersCollection = firestore.collection(USERS)
+     return usersCollection
+           .get()
+           .then((docSnapshots) => {
+              return docSnapshots.docs.map((doc) => {
+                 let data = doc.data()
+                 return data
+              })
+           })
+   },
+   updateUserClass(uid, userClass){
+     return firestore.collection(USERS).doc(uid).update({
+        userClass,
+     })
+     .then(function(){
+       alert("Changed!");
+     })
+   }
 
 }

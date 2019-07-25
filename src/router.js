@@ -7,6 +7,7 @@ import PortfolioWriter from './views/PortfolioWriter.vue'
 import PostWriter from './views/PostWriter.vue'
 import PostDetail from './views/PostDetail.vue'
 import PostUpdate from './views/PostUpdate.vue'
+import BackOffice from './views/BackOffice.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -39,16 +40,21 @@ export default new Router({
          component: PostWriter
       },
       {
-     path: '/postDetail/:postId',
-     name: 'postDetail',
-     component: PostDetail,
-     props:true
-  },
-  {
-     path: '/postUpdate/:postId',
-     name: 'postUpdate',
-     component: PostUpdate,
-     props:true
-  }
+         path: '/postDetail/:postId',
+         name: 'postDetail',
+         component: PostDetail,
+         props:true
+      },
+      {
+         path: '/postUpdate/:postId',
+         name: 'postUpdate',
+         component: PostUpdate,
+         props:true
+      },
+      {
+         path: '/backoffice',
+         name: 'backoffice',
+         component: BackOffice
+      }
   ]
 })

@@ -33,7 +33,7 @@
               <v-card>
                 <v-img :src="getImgUrl('login_form.png')" style="width:100%">
 
-                  <v-card-text style="margin-top:150px ">
+                  <v-card-text style="margin-top:150px">
                     <div class="notranslate" style="padding-left:50px; text-align:center;">
                       <v-text-field v-model="loginEmail" label="Email" placeholder="이메일을 입력하세요." style="width:250px;"></v-text-field>
                       <v-text-field v-model="loginPassword" label="Password" placeholder="비밀번호를 입력하세요." type="password" style="width:250px;"></v-text-field>
@@ -67,7 +67,7 @@
                         </v-card>
 
                       </v-dialog>
-                      <p style="margin-top: 30px; font-size:12px; color:RGB(255,255,255,0.65)">@provided by HARMONY @2019.07.10 @git:lab.ssafy.com</p>
+                      <p style="margin-top: 20px; font-size:12px; color:RGB(255,255,255,0.65)">@provided by HARMONY @2019.07.10 @git:lab.ssafy.com</p>
                     </div>
                   </v-card-text>
                 </v-img>
@@ -263,7 +263,7 @@ export default {
         alert(this.$store.state.user.email + "님 로그인 되었습니다")
         this.closeDialog()
         this.$router.replace('/')
-        FirebaseService.addLog(this.$store.state.user.email,"login with mail")
+        FirebaseService.addLog(this.$store.state.user.uid,"login with mail")
       })
       .catch((error)=>{
         alert(error)
@@ -277,8 +277,9 @@ export default {
       localStorage.setItem('user', JSON.stringify(result.user))
       alert(this.$store.state.user.email + "님 로그인 되었습니다")
       this.closeDialog()
+      FirebaseService.addLog(this.$store.state.user.uid,"login with google")
+      FirebaseService.initUserClass(result.user, "visitor")
       this.$router.replace('/')
-      FirebaseService.addLog(this.$store.state.user.email,"login with google")
     },
     async loginWithFacebook() {
       const result = await FirebaseService.loginWithFacebook()
@@ -288,14 +289,19 @@ export default {
       localStorage.setItem('user', JSON.stringify(result.user))
       alert(this.$store.state.user.displayName + "님 로그인 되었습니다")
       this.closeDialog()
+      FirebaseService.addLog(this.$store.state.user.uid,"login with facebook")
+      FirebaseService.initUserClass(result.user, "visitor")
       this.$router.replace('/')
-      FirebaseService.addLog(this.$store.state.user.displayName,"login with facebook")
     },
     signUp(){
       firebase.auth().createUserWithEmailAndPassword(this.signupEmail, this.signupPassword)
       .then((user)=>{
         alert("Your account has been created!")
         this.closeDialog()
+
+        //권한 초기 설정
+        FirebaseService.addLog(user.user.uid, "singup")
+        FirebaseService.initUserClass(user.user, "visitor")
         this.$router.replace('/')
       })
       .catch((error)=>{
@@ -312,8 +318,9 @@ export default {
         this.$router.replace('/')
       }
       else if(firebase.auth().currentUser){
+        console.log(this.$store.state.user)
         firebase.auth().signOut().then(() => {
-          FirebaseService.addLog(this.$store.state.user.email,"logout");
+          FirebaseService.addLog(this.$store.state.user.uid,"logout");
           alert(this.$store.state.user.email + "님 로그아웃 되었습니다.");
           this.$store.state.accessToken = '';
           this.$store.state.user = '';
