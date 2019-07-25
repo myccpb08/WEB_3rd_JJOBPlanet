@@ -5,7 +5,7 @@ import PostPage from './views/PostPage.vue'
 import PortfolioPage from './views/PortfolioPage.vue'
 import PortfolioWriter from './views/PortfolioWriter.vue'
 import PostWriter from './views/PostWriter.vue'
-import PostDetail f rom './views/PostDetail.vue'
+import PostDetail from './views/PostDetail.vue'
 import PostUpdate from './views/PostUpdate.vue'
 Vue.use(Router)
 
