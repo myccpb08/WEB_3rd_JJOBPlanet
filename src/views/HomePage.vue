@@ -3,7 +3,7 @@
     <div style="margin-top:48px"></div>
     <div class="notranslate">
       <ImgBanner>
-        <div id="bannerTitle" style="line-height:1.2em; font-size:7rem;" slot="text">Orchestrate Life.</div>
+        <div id="bannerTitle" style="line-height:1.2em; font-size:7rem;" slot="text">JJOBPLANET</div>
       </ImgBanner>
     </div>
 <canvas id="canvas" v-show="this.$store.state.night" style="position:absolute; width:100%; height:85%; z-index:0"></canvas>
@@ -19,10 +19,11 @@
             <v-btn v-else flat icon @click='refreshUS()' href="#googtrans(en|en)"><img src="img/US.png" alt="USA" width="25px"></v-btn>
           </h2>
 
-          <p class="mr-4" v-line-clamp:20="5">안녕하세요!
-            구미 통합 1반 6조입니다. 우리는 다양한 전공자들로 구성되어 있습니다.<br>
-            다양한 전공자들이 모여 그룹을 형성하기란 쉽지 않은 일입니다.<br>
-            우리 조의 콘셉트는 서로가 서로를 포용하며 조화를 이루는 것입니다.
+          <p class="mr-4" v-line-clamp:20="5">
+            안녕하세요! JJOBPLANET을 방문해주셔서 감사합니다.<br>
+            저희 페이지는 취업을 하고싶은 취준생들의<br>
+            취준생을 위한 취준생들에 의한 페이지입니다.<br>
+            전국 취준생들의 취업을 열렬히 응원합니다.<br>
           </p>
         </v-flex>
 

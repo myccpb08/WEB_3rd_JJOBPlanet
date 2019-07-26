@@ -29,8 +29,8 @@
         <div v-if="this.comments.length > 0"> <!-- 작성된 댓글 리스트가 있으면 -->
           <h3 v-for="comment in this.comments">
             {{ comment.email }}  -  {{ comment.contents }}
-            <v-btn color="info" @click='changeflag()'>수정</v-btn>
-            <v-btn color="red" @click='deleteComment(comment.id)'>삭제</v-btn>
+            <v-btn class="movebtn button1" color="info" @click='changeflag()'>수정</v-btn>
+            <v-btn class="movebtn button1" color="red" @click='deleteComment(comment.id)'>삭제</v-btn>
           </h3>
         </div>
         <form>
@@ -85,6 +85,11 @@ export default {
         alert(
           "댓글이 작성되었습니다.")
         this.$router.replace(where)
+
+    // 변화 감지로 리로드 시도해보기
+        setTimeout((function() {
+          window.location.reload();
+        }), 250);
       }
     },
 
