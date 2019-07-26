@@ -50,7 +50,6 @@ export default {
         alert("post가 작성되었습니다.")
         this.$router.replace('/post')
       }
-
     }
   }
 }
