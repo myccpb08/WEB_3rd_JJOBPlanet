@@ -6,6 +6,7 @@ const POSTS = 'posts'
 const PORTFOLIOS = 'portfolios'
 const BANNER = 'banner'
 const USERS = 'users'
+const SNS = 'post-comments'
 
 
 // Setup Firebase
@@ -21,6 +22,40 @@ firebase.initializeApp(config)
 const firestore = firebase.firestore()
 
 export default {
+   getComments(postId){
+      const commentCollection = firestore.collection(POSTS).doc(postId).collection(SNS)
+      // console.log(commentCollection)
+      return commentCollection
+      .get()
+      .then((docSnapshots) => {
+         return docSnapshots.docs.map((doc) => {
+            let data = doc.data()
+            // data.created_at = new Date(data.created_at.toDate())
+            data.id = doc.id
+            return data
+         })
+      })
+    },
+  
+    postComment(postId,content,user){
+      return firestore.collection(POSTS).doc(postId).collection(SNS).add({
+        contents: content,
+        created_at: firebase.firestore.FieldValue.serverTimestamp(),
+        uid : user.uid,
+        email : user.email
+      })
+    },
+  
+    deleteComment(postId,commentId){
+      const comment = firestore.collection(POSTS).doc(postId).collection(SNS).doc(commentId)
+      comment.delete().then(function(){
+        alert('해당 댓글이 삭제되었습니다');
+      }).catch(function(error){
+        console.error('댓글 삭제에 실패했습니다', error);
+      })
+    },
+
+
   getPosts() {
     const postsCollection = firestore.collection(POSTS)
     return postsCollection
