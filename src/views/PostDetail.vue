@@ -15,31 +15,50 @@
         </v-flex>
         <v-flex  xs12 text-xs-center round my-5>
           <router-link :to="{ name: 'postUpdate', params: {postId: postId} }">
-            <v-btn color="info" v-if="$store.state.user.uid===post.uid" class="movebtn button1">update</v-btn>
+            <v-btn color="info" v-if="check" class="movebtn button1">update</v-btn>
           </router-link>
-          <v-btn color="info" @click='deletePost()' v-if="$store.state.user.uid===post.uid" class="movebtn button1">delete</v-btn>
+          <v-btn color="info" @click='deletePost()' v-if="check" class="movebtn button1">delete</v-btn>
           <v-btn color="info" @click='$router.go(-1)' class="movebtn button2">back</v-btn>
         </v-flex>
       </v-layout>
 
-        <!-- 댓글 테스트 -->
+      <!-- 댓글 테스트 -->
     <v-layout column style="text-align:left">
       <v-flex xs12>
-        <p v-if="this.comments.length == 0">엄써용</p> <!-- 작성된 댓글 리스트가 없으면 -->
-        <div v-if="this.comments.length > 0"> <!-- 작성된 댓글 리스트가 있으면 -->
+        <p v-if="this.comments.length == 0">엄써용</p>
+        <!-- 작성된 댓글 리스트가 없으면 -->
+        <div v-if="this.comments.length > 0">
+          <!-- 작성된 댓글 리스트가 있으면 -->
           <h3 v-for="comment in this.comments">
-            {{ comment.email }}  -  {{ comment.contents }}
-            <v-btn class="movebtn button1" color="info" @click='changeflag()'>수정</v-btn>
-            <v-btn class="movebtn button1" color="red" @click='deleteComment(comment.id)'>삭제</v-btn>
+            {{ comment.email }} - {{ comment.contents }}
+
+            <!-- 수정버튼 -->
+            <v-btn class="ma-2" text icon @click='editComment(comment.index)'>
+              <v-icon color="blue">edit</v-icon>
+            </v-btn>
+
+            <!-- 삭제버튼 -->
+            <v-btn class="ma-2" text icon @click="deleteComment(comment.id)">
+              <v-icon color="red">delete</v-icon>
+            </v-btn>
+
+            {{comments_edit[comment.index]}}
+
+            <p v-show="comments_edit[comment.index]" id="test">
+               랄랄라, </p>
+
           </h3>
         </div>
         <form>
           <v-text-field v-model="content" placeholder="내용을 입력해주세요."></v-text-field>
         </form>
-        <v-btn color="info" v-on:click="postComment(postId, content)" class="movebtn button2">submit</v-btn>
+        <v-btn
+          color="info"
+          v-on:click="postComment(postId, content)"
+          class="movebtn button2"
+        >submit</v-btn>
       </v-flex>
     </v-layout>
-    <!-- 댓글 테스트 끝 -->
 
 
     </v-container>
@@ -59,6 +78,8 @@ export default {
       post :{},
       comments: {},
       content: '',
+       comments_edit: [],
+      check:false
     }
   },
 	components: {
@@ -66,39 +87,59 @@ export default {
 		PostList,
 	},
   mounted(){
-    this.getPost(this.postId)
-    this.getComments(this.postId)
+    this.temp()
+    // this.getPost(this.postId)
+    // this.getComments(this.postId)
   },
   methods:{
+    async temp(){
+      this.checkUserClass(this.$store.state.user.uid)
+      this.getPost(this.postId)
+      this.getComments(this.postId)
+    },
         // 댓글 가져오기
     async getComments(id) {
+      this.comments_edit = []
       this.comments = await FirebaseService.getComments(id);
+      for (var i=0 ; i<this.comments.length; i++){
+        this.comments_edit.push(0)
+        console.log(this.comments_edit)
+      }
     },
 
     // 댓글 생성
     async postComment(postId, content) {
-      const where = '/postDetail/'+ postId
-      if (content == '') {
-        alert("내용을 입력해주세요")
+      if (content == "") {
+        alert("내용을 입력해주세요");
       } else {
-        await FirebaseService.postComment(postId, content, this.$store.state.user)
-        alert(
-          "댓글이 작성되었습니다.")
-        this.$router.replace(where)
-
-    // 변화 감지로 리로드 시도해보기
-        setTimeout((function() {
-          window.location.reload();
-        }), 250);
+        await FirebaseService.postComment(
+          postId,
+          content,
+          this.$store.state.user
+        );
+        alert("댓글이 작성되었습니다.");
+        this.content = ''
+        this.getComments(postId)
       }
     },
 
     // 댓글 삭제
-    async deleteComment(comment_id){
+    async deleteComment(comment_id) {
       await FirebaseService.deleteComment(this.postId, comment_id);
-      this.$router.replace('/post')
+      this.getComments(this.postId)
     },
-
+    async checkUserClass(uid){
+      this.userClass = await FirebaseService.getUserClass(uid).then((result) => {
+        console.log('----------')
+        console.log(result)
+        console.log('----------')
+        return result;
+      })
+      console.log(this.userClass)
+      if(this.userClass ==='master' || this.userClass==='admin'){
+        this.check=true;
+      }
+    },
     async getPost(id) {
       this.post = await FirebaseService.getPost(id);
     },
@@ -113,6 +154,12 @@ export default {
 			  return `${date.getFullYear()}년 ${date.getMonth()}월 ${date.getDate()}일`
       }
     }
-  }
+  },
+  watch : {
+   comments_edit : function(){
+     console.log(1234)
+   }
+ }
+
 }
 </script>

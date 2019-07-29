@@ -36,7 +36,7 @@ export default {
          })
       })
     },
-  
+
     postComment(postId,content,user){
       return firestore.collection(POSTS).doc(postId).collection(SNS).add({
         contents: content,
@@ -45,7 +45,7 @@ export default {
         email : user.email
       })
     },
-  
+
     deleteComment(postId,commentId){
       const comment = firestore.collection(POSTS).doc(postId).collection(SNS).doc(commentId)
       comment.delete().then(function(){
@@ -205,6 +205,14 @@ export default {
                  let data = doc.data()
                  return data
               })
+           })
+   },
+   getUserClass(uid){
+     return firestore.collection(USERS).doc(uid)
+           .get()
+           .then((doc) => {
+             let data = doc.data().userClass
+             return data
            })
    },
    updateUserClass(uid, userClass){

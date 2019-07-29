@@ -31,18 +31,48 @@ export default {
   },
   data(){
     return{
-      userClasses: []
+      userClasses: [],
+      userClass :{}
     }
   },
    components: {
     UserClass
    },
   mounted(){
-    this.getUserClasses()
+    this.temp()
   },
   methods:{
+    async temp() {
+      // await this.getUserClasses()
+      // console.log(this.$store.state.user)
+      var val = await this.checkUserClass(this.$store.state.user.uid);
+      console.log("vallllll" + val)
+
+      if(val){
+        console.log(this.$store.state.user)
+        await this.getUserClasses()
+      }else{
+        console.log(this.$store.state.user+"!!")
+        alert("you are not admin. please login admin account");
+        this.$router.replace('/')
+      }
+    },
     async getUserClasses(){
       this.userClasses = await FirebaseService.getUserClasses()
+    },
+    async checkUserClass(uid){
+      this.userClass = await FirebaseService.getUserClass(uid).then((result) => {
+        console.log('----------')
+        console.log(result)
+        console.log('----------')
+        return result;
+      })
+      console.log(this.userClass)
+      if('admin' ===this.userClass){
+        return true;
+      }else{
+        return false;
+      }
     }
   }
 }
