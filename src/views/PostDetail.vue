@@ -33,12 +33,12 @@
             {{ comment.email }} - {{ comment.contents }}
 
             <!-- 수정버튼 -->
-            <v-btn class="ma-2" v-if="comment.uid == userinfo" text icon @click='comment.edit = !comment.edit'>
+            <v-btn class="ma-2" v-if="comment.uid == $store.state.user.uid" text icon @click='comment.edit = !comment.edit'>
               <v-icon color="blue">edit</v-icon>
             </v-btn>
 
             <!-- 삭제버튼 -->
-            <v-btn class="ma-2" v-if="comment.uid == userinfo" text icon @click="deleteComment(comment.id)">
+            <v-btn class="ma-2" v-if="comment.uid == $store.state.user.uid" text icon @click="deleteComment(comment.id)">
               <v-icon color="red">delete</v-icon>
             </v-btn>
 
@@ -82,7 +82,7 @@ export default {
       content: '',
       update_content: '',
       check: false,
-      userinfo: this.$store.state.user.uid
+      // userinfo: this.$store.state.user.uid
     }
   },
   components: {
