@@ -122,7 +122,13 @@ export default {
         this.getComments(postId)
       }
     },
+    // 댓글 수정
+    async editComment(index){
+      this.comments_edit[index]=true
+      console.log(this.comments_edit)
 
+
+    },
     // 댓글 삭제
     async deleteComment(comment_id) {
       await FirebaseService.deleteComment(this.postId, comment_id);
