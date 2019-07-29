@@ -1,28 +1,28 @@
 <template>
-  <div>
-    <div style="margin-top:48px"></div>
+<div>
+  <div style="margin-top:48px"></div>
 
-    <v-container>
+  <v-container>
 
-      <v-layout column style='text-align:center'>
-        <v-flex xs12>
+    <v-layout column style='text-align:center'>
+      <v-flex xs12>
         <strong class="display-1">{{post.title}}</strong><br>
         date : {{formatedDate(post.created_at)}}<br>
         by user {{post.displayName}} | {{post.email}}<br>
         content : <br>
         {{post.body}}
 
-        </v-flex>
-        <v-flex  xs12 text-xs-center round my-5>
-          <router-link :to="{ name: 'postUpdate', params: {postId: postId} }">
-            <v-btn color="info" v-if="check" class="movebtn button1">update</v-btn>
-          </router-link>
-          <v-btn color="info" @click='deletePost()' v-if="check" class="movebtn button1">delete</v-btn>
-          <v-btn color="info" @click='$router.go(-1)' class="movebtn button2">back</v-btn>
-        </v-flex>
-      </v-layout>
+      </v-flex>
+      <v-flex xs12 text-xs-center round my-5>
+        <router-link :to="{ name: 'postUpdate', params: {postId: postId} }">
+          <v-btn color="info" v-if="check" class="movebtn button1">update</v-btn>
+        </router-link>
+        <v-btn color="info" @click='deletePost()' v-if="check" class="movebtn button1">delete</v-btn>
+        <v-btn color="info" @click='$router.go(-1)' class="movebtn button2">back</v-btn>
+      </v-flex>
+    </v-layout>
 
-      <!-- 댓글 테스트 -->
+    <!-- 댓글 테스트 -->
     <v-layout column style="text-align:left">
       <v-flex xs12>
         <p v-if="this.comments.length == 0">엄써용</p>
@@ -33,78 +33,75 @@
             {{ comment.email }} - {{ comment.contents }}
 
             <!-- 수정버튼 -->
-            <v-btn class="ma-2" text icon @click='editComment(comment.index)'>
+            <v-btn class="ma-2" v-if="comment.uid == userinfo" text icon @click='comment.edit = !comment.edit'>
               <v-icon color="blue">edit</v-icon>
             </v-btn>
 
             <!-- 삭제버튼 -->
-            <v-btn class="ma-2" text icon @click="deleteComment(comment.id)">
+            <v-btn class="ma-2" v-if="comment.uid == userinfo" text icon @click="deleteComment(comment.id)">
               <v-icon color="red">delete</v-icon>
             </v-btn>
 
-            {{comments_edit[comment.index]}}
-
-            <p v-show="comments_edit[comment.index]" id="test">
-               랄랄라, </p>
+            <!-- 댓글수정 작성 -->
+            <form v-if="comment.edit">
+              <v-text-field v-model="update_content" placeholder="수정 내용을 입력해주세요.">
+              </v-text-field>
+              <v-btn class="ml-0" text icon @click='editComment_contents(postId, update_content, comment.id)'>
+                <v-icon>check_circle</v-icon>
+              </v-btn>
+            </form>
 
           </h3>
         </div>
-        <form>
-          <v-text-field v-model="content" placeholder="내용을 입력해주세요."></v-text-field>
-        </form>
-        <v-btn
-          color="info"
-          v-on:click="postComment(postId, content)"
-          class="movebtn button2"
-        >submit</v-btn>
+
+        <div v-if="$store.state.user">
+          <form>
+            <v-text-field v-model="content" placeholder="내용을 입력해주세요"></v-text-field>
+          </form>
+          <v-btn color="info" v-on:click="postComment(postId, content)" class="movebtn button2">submit</v-btn>
+        </div>
       </v-flex>
     </v-layout>
 
 
-    </v-container>
-  </div>
+  </v-container>
+</div>
 </template>
 
 <script>
-import ImgBanner from '../components/ImgBanner'
 import PostList from '../components/PostList'
 import FirebaseService from '@/services/FirebaseService'
 
 export default {
-	name: 'postDetail',
-  data(){
-    return{
+  name: 'postDetail',
+  data() {
+    return {
       postId: this.$route.params.postId,
-      post :{},
+      post: {},
       comments: {},
       content: '',
-       comments_edit: [],
-      check:false
+      update_content: '',
+      check: false,
+      userinfo: this.$store.state.user.uid
     }
   },
-	components: {
-		ImgBanner,
-		PostList,
-	},
-  mounted(){
-    this.temp()
-    // this.getPost(this.postId)
-    // this.getComments(this.postId)
+  components: {
+    PostList,
   },
-  methods:{
-    async temp(){
+  mounted() {
+    this.temp()
+  },
+  methods: {
+    async temp() {
       this.checkUserClass(this.$store.state.user.uid)
       this.getPost(this.postId)
       this.getComments(this.postId)
     },
-        // 댓글 가져오기
+
+    // 댓글 가져오기
     async getComments(id) {
       this.comments_edit = []
       this.comments = await FirebaseService.getComments(id);
-      for (var i=0 ; i<this.comments.length; i++){
-        this.comments_edit.push(0)
-        console.log(this.comments_edit)
-      }
     },
 
     // 댓글 생성
@@ -123,49 +120,41 @@ export default {
       }
     },
     // 댓글 수정
-    async editComment(index){
-      this.comments_edit[index]=true
-      console.log(this.comments_edit)
-
+    async editComment_contents(postId, update_content, commentId) {
+      await FirebaseService.editComment(postId, update_content, commentId)
+      this.update_content = ''
+      this.getComments(postId)
 
     },
+
     // 댓글 삭제
     async deleteComment(comment_id) {
       await FirebaseService.deleteComment(this.postId, comment_id);
       this.getComments(this.postId)
     },
-    async checkUserClass(uid){
+
+    async checkUserClass(uid) {
       this.userClass = await FirebaseService.getUserClass(uid).then((result) => {
-        console.log('----------')
-        console.log(result)
-        console.log('----------')
         return result;
       })
-      console.log(this.userClass)
-      if(this.userClass ==='master' || this.userClass==='admin'){
-        this.check=true;
+      if (this.userClass === 'master' || this.userClass === 'admin') {
+        this.check = true;
       }
     },
     async getPost(id) {
       this.post = await FirebaseService.getPost(id);
     },
-    async deletePost(){
+    async deletePost() {
       await FirebaseService.deletePost(this.postId);
       this.$router.go(-1);
     },
     formatedDate(date) {
-      if(date == null){
+      if (date == null) {
         return;
-      }else{
-			  return `${date.getFullYear()}년 ${date.getMonth()}월 ${date.getDate()}일`
+      } else {
+        return `${date.getFullYear()}년 ${date.getMonth()}월 ${date.getDate()}일`
       }
     }
   },
-  watch : {
-   comments_edit : function(){
-     console.log(1234)
-   }
- }
-
 }
 </script>

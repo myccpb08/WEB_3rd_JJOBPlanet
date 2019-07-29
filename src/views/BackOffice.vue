@@ -4,6 +4,8 @@
 
     <div style="padding:50px">
       <div class="headline"><font>BackOfficePage</font></div>
+      POST 게시글 수 : {{postNum}}<br>
+      Portfolio 게시글 수 : {{portfolioNum}}<br>
       <v-layout column wrap justify-start mw-700>
         <v-flex v-for="i in userClasses.length">
           <UserClass
@@ -32,7 +34,9 @@ export default {
   data(){
     return{
       userClasses: [],
-      userClass :{}
+      userClass :{},
+      postNum:0,
+      portfolioNum:0
     }
   },
    components: {
@@ -44,30 +48,33 @@ export default {
   methods:{
     async temp() {
       // await this.getUserClasses()
-      // console.log(this.$store.state.user)
       var val = await this.checkUserClass(this.$store.state.user.uid);
-      console.log("vallllll" + val)
 
       if(val){
-        console.log(this.$store.state.user)
         await this.getUserClasses()
+        this.postNum = await this.getListNum('posts')
+        this.portfolioNum = await this.getListNum('portfolios')
+        // this.portfolioNum = await this.getListNum('portfolios')
       }else{
-        console.log(this.$store.state.user+"!!")
         alert("you are not admin. please login admin account");
         this.$router.replace('/')
       }
+    },
+    async getListNum(board){
+      return FirebaseService.getListNum(board).then((num)=>{
+        return num;
+      })
     },
     async getUserClasses(){
       this.userClasses = await FirebaseService.getUserClasses()
     },
     async checkUserClass(uid){
+      if(uid == null){
+        return false;
+      }
       this.userClass = await FirebaseService.getUserClass(uid).then((result) => {
-        console.log('----------')
-        console.log(result)
-        console.log('----------')
         return result;
       })
-      console.log(this.userClass)
       if('admin' ===this.userClass){
         return true;
       }else{

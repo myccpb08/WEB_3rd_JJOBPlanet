@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import ImgBanner from '../components/ImgBanner'
 import markdownEditor from 'vue-simplemde/src/markdown-editor'
 import FirebaseService from '@/services/FirebaseService'
 
@@ -29,7 +28,6 @@ export default {
     }
   },
   components: {
-    ImgBanner,
     markdownEditor
   },
   mounted(){

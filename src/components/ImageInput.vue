@@ -1,6 +1,7 @@
 <template>
   <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
     <img :src="imageUrl" height="150" v-if="imageUrl"/>
+    <img :src="imgurl" height="150" v-if="imgurl"/>
     <v-text-field label="Select Image" @click='pickFile' v-model='imageName' prepend-icon='attach_file'></v-text-field>
     <input type="file" style="display: none"   ref="image" accept="image/*" @change="onFilePicked">
   </v-flex>
@@ -9,9 +10,13 @@
 import FirebaseService from '@/services/FirebaseService'
 import $ from 'jquery'
 export default {
+  props: {
+    imgurl: {type: String, default: ''}
+  },
   data(){
     return{
       imageName: '',
+      // imageUrl: this.imgurl,
       imageUrl: '',
       imageFile: '',
       selectedFile: null,
@@ -23,6 +28,7 @@ export default {
     },
     onFilePicked (e) {
       const files = e.target.files
+      console.log(files[0])
       if(files[0] !== undefined) {
         this.imageName = files[0].name
         if(this.imageName.lastIndexOf('.') <= 0) {
@@ -30,6 +36,7 @@ export default {
         }
         const fr = new FileReader ()
         fr.readAsDataURL(files[0])
+        console.log(fr)
         fr.addEventListener('load', () => {
           this.imageUrl = fr.result
           this.imageFile = files[0] // this is an image file that can be sent to server...
@@ -65,12 +72,13 @@ export default {
         formData.append("image", this.selectedFile[0]);
         settings.data = formData;
 
-
         $.ajax(settings).done(response => {
             this.$store.state.inputimg = JSON.parse(response).data.link;
             console.log(this.$store.state.inputimg)
         });
       }
+
+      this.$emit('changeImg',this.$store.state.inputimg)
     },
 
 

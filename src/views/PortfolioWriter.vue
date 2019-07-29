@@ -1,9 +1,6 @@
 <template>
   <div class="notranslate">
     <div style="margin-top:48px"></div>
-    <ImgBanner>
-      <div id="bannerTitle" style="line-height:1.2em;font-size:1.2em;" slot="text">PortfolioWriter</div>
-    </ImgBanner>
 
     <v-container>
       <form>
@@ -24,7 +21,7 @@
 </template>
 
 <script>
-import ImgBanner from '../components/ImgBanner'
+
 import ImageInput from '../components/ImageInput'
 import markdownEditor from 'vue-simplemde/src/markdown-editor'
 import FirebaseService from '@/services/FirebaseService'
@@ -39,7 +36,6 @@ export default {
     }
   },
   components: {
-    ImgBanner,
     markdownEditor,
     ImageInput
   },
@@ -51,11 +47,10 @@ export default {
         alert("내용을 입력해주세요")
       }else{
         img=this.$store.state.inputimg
-        await FirebaseService.postPortfolio(title, body, img)
+        await FirebaseService.postPortfolio(title, body, img, this.$store.state.user)
         alert("portfolio가 작성되었습니다."+img)
         this.$router.replace('/portfolio')
       }
-
     }
   }
 }

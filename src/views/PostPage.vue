@@ -1,9 +1,7 @@
 <template>
   <div>
     <div style="margin-top:48px"></div>
-    <ImgBanner>
-      <div id="bannerTitle" style="line-height:1.2em; font-size:7rem;" slot="text">Post</div>
-    </ImgBanner>
+
     <v-container>
 
       <!-- Post -->
@@ -17,7 +15,6 @@
 </template>
 
 <script>
-import ImgBanner from '../components/ImgBanner'
 import PostList from '../components/PostList'
 import FirebaseService from '@/services/FirebaseService'
 
@@ -29,7 +26,6 @@ export default {
     }
   },
 	components: {
-		ImgBanner,
 		PostList,
 	},
   mounted(){

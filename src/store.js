@@ -12,6 +12,7 @@ export default new Vuex.Store({
     langage: 1,
     inputimg: '',
     randomimg:true,
-    night: false
+    userApplyData: '',
+
   }
 })

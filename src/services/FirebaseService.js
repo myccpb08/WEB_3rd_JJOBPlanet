@@ -42,7 +42,20 @@ export default {
         contents: content,
         created_at: firebase.firestore.FieldValue.serverTimestamp(),
         uid : user.uid,
-        email : user.email
+        email : user.email,
+        edit : false
+      })
+    },
+    editComment(postId, update_content, commentId){
+      const comment = firestore.collection(POSTS).doc(postId).collection(SNS).doc(commentId)
+      comment.update({
+        contents : update_content,
+        edit : false,
+      })
+      .then(function(){
+        alert('해당 댓글이 수정되었습니다');
+      }).catch(function(error){
+        console.error('댓글 수정에 실패했습니다', error);
       })
     },
 
@@ -119,15 +132,58 @@ export default {
                return docSnapshots.docs.map((doc) => {
                   let data = doc.data()
                   data.created_at = new Date(data.created_at.toDate())
+                  data.id = doc.id
                   return data
                })
             })
    },
-   postPortfolio(title, body, img) {
+
+
+   getListNum(board){
+       const num = firestore.collection(board).get().then(querySnapshot =>{
+         return querySnapshot.size
+       })
+       return num;
+   },
+   getPortfolio(portfolioId) {
+     return firestore.collection(PORTFOLIOS).doc(portfolioId)
+     .get()
+     .then((doc) => {
+           let data = doc.data()
+           data.created_at = new Date(data.created_at.toDate())
+           return data
+     })
+   },
+   deletePortfolio(portfolioId){
+    const portfolio = firestore.collection(PORTFOLIOS).doc(portfolioId)
+    portfolio.delete().then(function(){
+     console.log("해당 portfolio가 삭제되었습니다.");
+   }).catch(function(error) {
+     console.error("삭제에 실패했습니다 ", error);
+   })
+   },
+   updatePortfolio(portfolioId,title,body,img,uid){
+    return firestore.collection(PORTFOLIOS).doc(portfolioId).update({
+      title:title,
+      body:body,
+      img:img,
+      created_at: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(function() {
+      console.log("게시글이 수정되었습니다.");
+     })
+     .catch(function(error) {
+       console.error("수정 실패: ", error);
+     });
+   },
+   postPortfolio(title, body, img,user) {
       return firestore.collection(PORTFOLIOS).add({
          title,
          body,
          img,
+         uid:user.uid,
+         displayName:user.displayName,
+         email:user.email,
          created_at: firebase.firestore.FieldValue.serverTimestamp()
       })
    },

@@ -1,9 +1,7 @@
 <template>
   <div class="notranslate">
     <div style="margin-top:48px"></div>
-    <ImgBanner>
-      <div id="bannerTitle" style="line-height:1.2em;font-size:1.2em;" slot="text">PostWriter</div>
-    </ImgBanner>
+
 
     <v-container>
       <form>
@@ -20,7 +18,6 @@
 </template>
 
 <script>
-import ImgBanner from '../components/ImgBanner'
 import markdownEditor from 'vue-simplemde/src/markdown-editor'
 import FirebaseService from '@/services/FirebaseService'
 
@@ -33,7 +30,6 @@ export default {
     }
   },
   components: {
-    ImgBanner,
     markdownEditor
   },
   mounted(){
