@@ -1,9 +1,9 @@
 <template>
   <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
-    <img :src="imageUrl" height="150" v-if="imageUrl"/>
+    <!-- <img :src="imageUrl" height="150" v-if="imageUrl"/> -->
     <img :src="imgurl" height="150" v-if="imgurl"/>
     <v-text-field label="Select Image" @click='pickFile' v-model='imageName' prepend-icon='attach_file'></v-text-field>
-    <input type="file" style="display: none"   ref="image" accept="image/*" @change="onFilePicked">
+    <input type="file" style="display: none"   ref="image" accept="image/*" @change="onImagePicked">
   </v-flex>
 </template>
 <script>
@@ -16,17 +16,54 @@ export default {
   data(){
     return{
       imageName: '',
-      // imageUrl: this.imgurl,
       imageUrl: '',
       imageFile: '',
       selectedFile: null,
+      afterImg:''
     }
   },
   methods:{
     pickFile () {
       this.$refs.image.click ()
     },
+    onImagePicked (e) {
+      //변경할 이미지
+      this.selectedFile = e.target.files
+      if(this.selectedFile.length){
+        this.imageName = this.selectedFile[0].name
+        console.log("Uploading file to Imgur..");
+
+        var apiUrl = 'https://api.imgur.com/3/image';
+        var apiKey = '36757703a6732ed';
+
+        var settings = {
+          async: false,
+          crossDomain: true,
+          processData: false,
+          contentType: false,
+          type: 'POST',
+          url: apiUrl,
+          headers: {
+            Authorization: 'Client-ID ' + apiKey,
+            Accept: 'application/json'
+          },
+          mimeType: 'multipart/form-data'
+        };
+
+        var formData = new FormData();
+        formData.append("image", this.selectedFile[0]);
+        settings.data = formData;
+        console.log(this.selectedFile[0])
+        $.ajax(settings).done(response => {
+            this.afterImg = JSON.parse(response).data.link;
+            console.log(this.afterImg)
+        });
+      }
+      this.$emit('changeImg',this.afterImg)
+    },
+
     onFilePicked (e) {
+      console.log("imgurl "+ this.imgurl )
       const files = e.target.files
       console.log(files[0])
       if(files[0] !== undefined) {
@@ -46,6 +83,9 @@ export default {
         this.imageFile = ''
         this.imageUrl = ''
       }
+      console.log(this.imageName)
+      console.log(this.imageFile)
+      console.log(this.imageUrl)
 
       this.selectedFile = e.target.files
       if(this.selectedFile.length){
@@ -71,7 +111,7 @@ export default {
         var formData = new FormData();
         formData.append("image", this.selectedFile[0]);
         settings.data = formData;
-
+        console.log(this.selectedFile[0])
         $.ajax(settings).done(response => {
             this.$store.state.inputimg = JSON.parse(response).data.link;
             console.log(this.$store.state.inputimg)
@@ -80,7 +120,6 @@ export default {
 
       this.$emit('changeImg',this.$store.state.inputimg)
     },
-
 
     onFileSelected(event){
       this.checkRandom=false;

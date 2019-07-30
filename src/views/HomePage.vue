@@ -35,8 +35,7 @@
       </div>
 
       <div v-else class="applyList" style="width:70%;height:100%;display:inline-block;text-align:center;padding-top:25px; overflow:auto;">
-        <div v-for="i in 10" style="background:white; height:120px; width:150px; margin-left:5px; display:inline-block;"></div>
-
+        <div v-for="i in 12" style="background:white; height:120px; width:150px; margin-left:5px; display:inline-block;"></div>
       </div>
 
     </div>

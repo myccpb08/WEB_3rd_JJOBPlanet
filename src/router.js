@@ -10,6 +10,10 @@ import PostWriter from './views/PostWriter.vue'
 import PostDetail from './views/PostDetail.vue'
 import PostUpdate from './views/PostUpdate.vue'
 import BackOffice from './views/BackOffice.vue'
+import BoardPage from './views/BoardPage.vue'
+import BoardWriter from './views/BoardWriter.vue'
+import BoardDetail from './views/BoardDetail.vue'
+import BoardUpdate from './views/BoardUpdate.vue'
 
 Vue.use(Router)
 
@@ -71,6 +75,29 @@ export default new Router({
          name: 'portfolioUpdate',
          component: PortfolioUpdate,
          props:true
+      },
+      {
+         path: '/board',
+         name: 'board',
+         component: BoardPage
+      },
+      {
+         path: '/boardwriter',
+         name: 'boardwriter',
+         component: BoardWriter
+      },
+      {
+         path: '/boardDetail/:boardId',
+         name: 'boardDetail',
+         component: BoardDetail,
+         props:true
+      },
+      {
+         path: '/boardUpdate/:boardId',
+         name: 'boardUpdate',
+         component: BoardUpdate,
+         props:true
       }
+
   ]
 })

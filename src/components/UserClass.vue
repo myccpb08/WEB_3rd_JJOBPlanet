@@ -1,12 +1,15 @@
 <template>
   <v-layout py-4 h-100>
     <v-flex row>
-      <v-card max-width="300px" min-width="300px">
+      <v-card max-width="200px" min-width="200px">
         <v-card-title primary-title>
-          <div>
-            <v-select v-on:change="updateUserClass" :items="items" label="class" :value="userClass"  style="width:100px; right:20px; position:absolute; display:inline-block"></v-select>
-            <span class="--text">Name : {{displayName}}</span><br>
-            <span class="--text">Email : {{email}}</span><br>
+          <div style="display:inline-block">
+
+              <div style="float-left">
+                <span class="--text">Name : {{displayName}}</span><br>
+                <span class="--text">Email : {{email}}</span><br>
+              </div>
+              Class : <v-select v-on:change="updateUserClass" :items="items" :value="userClass" style="width:100px; right:20px; position:static; display:inline-block"></v-select>
           </div>
         </v-card-title>
       </v-card>

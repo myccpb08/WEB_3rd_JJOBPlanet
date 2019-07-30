@@ -5,7 +5,7 @@
       <form>
         <v-text-field v-model="portfolio.title" placeholder="제목을 입력해주세요."></v-text-field>
 
-        <ImageInput :imgurl='portfolio.img'  v-on:changeImg="portfolio.img = $event"/>
+        <ImageInput :imgurl='portfolio.img' v-on:changeImg="portfolio.img = $event"/>
         <v-textarea solo v-model="portfolio.body"></v-textarea>
 
         <v-flex  xs12 text-xs-center round my-5>

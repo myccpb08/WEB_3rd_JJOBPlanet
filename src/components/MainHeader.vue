@@ -14,6 +14,9 @@
 
         <v-toolbar-items class="hidden-xs-only">
           <v-btn flat>
+            <router-link to="/board">Board</router-link>
+          </v-btn>
+          <v-btn flat>
             <router-link to="/portfolio">Portfolio</router-link>
           </v-btn>
           <v-btn flat>
@@ -21,7 +24,7 @@
           </v-btn>
 
           <!-- login SignUp Form -->
-          <v-dialog v-if="!$store.state.user" v-model="loginDialog" width="380">
+          <v-dialog v-if="!$store.state.user" v-model="loginDialog" width="360">
             <template v-slot:activator="{ on }">
               <v-btn flat v-on="on">
                 <router-link to="">login</router-link>
@@ -29,43 +32,51 @@
             </template>
 
             <v-card>
-              <v-img :src="getImgUrl('login_form.png')" style="width:100%">
+              <v-img :src="getImgUrl('login_form.png')" style="width:360px; height:500px">
 
                 <v-card-text style="margin-top:150px">
-                  <div class="notranslate" style="padding-left:50px; text-align:center;">
-                    <v-text-field v-model="loginEmail" label="Email" placeholder="이메일을 입력하세요." style="width:250px;"></v-text-field>
-                    <v-text-field v-model="loginPassword" label="Password" placeholder="비밀번호를 입력하세요." type="password" style="width:250px;"></v-text-field>
+                  <div style="padding-left:50px; text-align:center;">
+                    <v-text-field v-model="loginEmail" label="Email" placeholder="이메일을 입력하세요." style="width:230px;"></v-text-field>
+                    <v-text-field v-model="loginPassword" label="Password" placeholder="비밀번호를 입력하세요." style="width:230px;" type="password"></v-text-field>
                   </div>
-                  <div class="notranslate" style="width:150px; margin: 0 auto; margin-top: 20px; text-align:center">
-                    <v-btn flat icon round color="#20aa49" dark v-on:click="loginWithMail" style="width:25px;height:25px; opacity: 0.75;"><v-img :src="getImgUrl('gmail_icon.png')" style="width:100%"></v-img></v-btn>
-                    <v-btn flat icon round color="#df4a31" dark v-on:click="loginWithGoogle" style="width:25px;height:25px; opacity: 0.75;"><v-img :src="getImgUrl('google_logo.png')" style="width:100%"></v-img></v-btn>
-                    <v-btn flat icon round color="#4267B2" dark v-on:click="loginWithFacebook" style="width:25px;height:25px; opacity: 0.75;"><v-img :src="getImgUrl('facebook_logo.png')" style="width:100%"></v-img></v-btn>
-                    <br>
+                  <div style="width:150px; margin: 0 auto; margin-top: 20px; text-align:center">
 
-                    <v-dialog class="notranslate" v-model="signupDialog" width="385">
+
+                    <v-dialog v-model="signupDialog" width="360">
                       <template v-slot:activator="{ on }">
-                        <v-btn flat icon round dark v-on="on" style="height:35px; color:RGB(255,255,255,0.55)"><p style="margin-top: 20px; font-size:18px;">Sing Up</p></v-btn>
+                        <v-btn flat icon round color="#20aa49" dark v-on="on" style="width:25px;height:25px;"><v-img :src="getImgUrl('gmail_icon.png')" style="width:100%"></v-img></v-btn>
                       </template>
 
-                      <v-card class="notranslate">
-                        <v-card-title class="headline" style="color:RGB(255,255,255,0)" primary-title></v-card-title>
-                        <v-card-text>
-                          <form>
-                            <v-text-field v-model="signupEmail" style="width:300px; margin: 0 auto; margin-top: 50px; text-align:center" label="Email" placeholder="이메일을 입력하세요."></v-text-field>
-                            <v-text-field v-model="signupPassword" style="width:300px; margin: 0 auto; text-align:center" label="Password" placeholder="비밀번호를 입력하세요." type="password"></v-text-field>
-                          </form>
-                        </v-card-text>
-                        <v-divider style="width:300px; margin: 0 auto; text-align:center"></v-divider>
+                      <v-card style="height:100%">
+                        <v-img :src="getImgUrl('sing_up_form.png')" style="width:360px; height:500px">
 
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn flat v-on:click="signUp()" style="height:35px; color:RGB(255,255,255,0.55)">Sign Up</v-btn>
-                          <v-btn flat @click="signupDialog = false" style="height:35px; color:RGB(255,255,255,0.55)">Close</v-btn>
-                        </v-card-actions>
+                          <v-card-text style="margin-top:150px">
+                            <div style="padding-left:50px; text-align:center;">
+                              <v-text-field v-model="signupEmail" label="Email" placeholder="이메일을 입력하세요." style="width:230px;"></v-text-field>
+                              <v-text-field v-model="signupPassword" label="Password" placeholder="비밀번호를 입력하세요." style="width:230px;" type="password"></v-text-field>
+                            </div>
+                          </v-card-text>
+                          <v-divider style="width:300px; margin: 0 auto; margin-top:125px; text-align:center"></v-divider>
+
+                          <v-card-actions>
+
+                            <v-btn flat dark v-on:click="signUp()" style="width:168px; height:40px; color:#ffffff">Sign Up</v-btn>
+                            <v-btn flat dark @click="signupDialog = false" style="width:168px; height:40px; color:#ffffff;">Close</v-btn>
+                          </v-card-actions>
+                        </v-img>
                       </v-card>
 
                     </v-dialog>
-                    <p style="margin-top: 20px; font-size:12px; color:RGB(255,255,255,0.65)">@provided by HARMONY @2019.07.10 @git:lab.ssafy.com</p>
+
+
+                    <v-btn flat icon round color="#df4a31" dark v-on:click="loginWithGoogle" style="width:25px;height:25px;"><v-img :src="getImgUrl('google_logo.png')" style="width:100%"></v-img></v-btn>
+                    <v-btn flat icon round color="#4267B2" dark v-on:click="loginWithFacebook" style="width:25px;height:25px;"><v-img :src="getImgUrl('facebook_logo.png')" style="width:100%"></v-img></v-btn>
+                    <br>
+
+
+                    <v-btn flat icon round dark v-on:click="loginWithMail" style="height:35px; color:#7f7b76"><p style="margin-top: 20px; font-size:18px;">Login</p></v-btn>
+
+                    <p style="margin-top:50px; font-size:12px; color:RGB(255,255,255,0.65)">@provided by HARMONY @2019.07.10 @git:lab.ssafy.com</p>
                   </div>
                 </v-card-text>
               </v-img>
@@ -93,7 +104,7 @@
           <v-list-tile-content>{{ item.title }}</v-list-tile-content>
         </v-list-tile>
 
-        <v-dialog class="notranslate" v-model="m_loginDialog" max-width="300">
+        <v-dialog v-model="m_loginDialog" max-width="300">
           <template v-slot:activator="{ on }">
             <v-list-tile v-if="!$store.state.user" v-on="on">
               <v-list-tile-action>
@@ -110,43 +121,46 @@
           </template>
 
           <v-card>
-            <v-img :src="getImgUrl('mobile_login_form.png')" style="width:100%">
-              <!-- <v-card-title class="headline grey lighten-2 notranslate" primary-title>Login</v-card-title> -->
-              <v-card-text style="margin-top:110px">
-                <div class="notranslate" style="padding-left:40px; text-align:center;">
-                  <v-text-field v-model="loginEmail" label="Email" placeholder="이메일을 입력하세요." style="width:155px;"></v-text-field>
-                  <v-text-field v-model="loginPassword" label="Password" placeholder="비밀번호를 입력하세요." type="password" style="width:158px;"></v-text-field>
+            <v-img :src="getImgUrl('mobile_login_form.png')" style="width:300px; height:500px">
+              <v-card-text style="margin-top:140px">
+                <div style="padding-left:40px; text-align:center;">
+                  <v-text-field v-model="loginEmail" label="Email" placeholder="이메일을 입력하세요." style="width:200px;"></v-text-field>
+                  <v-text-field v-model="loginPassword" label="Password" placeholder="비밀번호를 입력하세요." style="width:200px;" type="password"></v-text-field>
                 </div>
-                <div class="notranslate" style="width:150px; margin: 0 auto; text-align:center">
-                  <v-btn flat icon round color="#20aa49" dark v-on:click="loginWithMail" style="width:25px;height:25px; opacity: 0.75;"><v-img :src="getImgUrl('gmail_icon.png')" style="width:100%"></v-img></v-btn>
+                <div style="width:150px; margin: 0 auto; margin-top:20px; text-align:center">
+
+
+                  <v-dialog v-model="m_signupDialog" width="300">
+                    <template v-slot:activator="{ on }">
+                      <v-btn flat icon round color="#20aa49" dark v-on="on" style="width:25px;height:25px; opacity: 0.75;"><v-img :src="getImgUrl('gmail_icon.png')" style="width:100%"></v-img></v-btn>
+                    </template>
+
+                    <v-card id="mobile_sign_up_form.png" style="width:300px;height:500px">
+                      <v-img :src="getImgUrl('mobile_login_form.png')" style="width:300px; height:500px">
+                        <v-card-text style="margin-top:140px">
+                          <div style="padding-left:40px; text-align:center;">
+                            <v-text-field v-model="signupEmail" label="Email" placeholder="이메일을 입력하세요." style="width:200px;"></v-text-field>
+                            <v-text-field v-model="signupPassword" label="Password" placeholder="비밀번호를 입력하세요." style="width:200px;" type="password"></v-text-field>
+                          </div style="padding-left:40px; text-align:center;">
+                        </v-card-text>
+
+                        <v-divider dark style="width:300px; margin: 0 auto; margin-top:140px; text-align:center"></v-divider>
+
+                        <v-card-actions>
+                          <v-btn flat dark v-on:click="signUp()" style="width:139px; height:35px;">Sign Up</v-btn>
+                          <v-btn flat dark @click="m_signupDialog = false" style="width:139px; height:35px;">Close</v-btn>
+                        </v-card-actions>
+                      </v-img>
+                    </v-card>
+                  </v-dialog>
+
                   <v-btn flat icon round color="#df4a31" dark v-on:click="loginWithGoogle" style="width:25px;height:25px; opacity: 0.75;"><v-img :src="getImgUrl('google_logo.png')" style="width:100%"></v-img></v-btn>
                   <v-btn flat icon round color="#4267B2" dark v-on:click="loginWithFacebook" style="width:25px;height:25px; opacity: 0.75;"><v-img :src="getImgUrl('facebook_logo.png')" style="width:100%"></v-img></v-btn>
                   <br>
 
-                  <v-dialog class="notranslate" v-model="m_signupDialog" width="385">
-                    <template v-slot:activator="{ on }">
-                      <v-btn flat icon round dark v-on="on" style="height:35px; color:RGB(255,255,255,0.55)"><p style="margin-top: 20px; font-size:18px;">Sing Up</p></v-btn>
-                    </template>
+                  <v-btn flat icon round dark v-on:click="loginWithMail" style="height:35px; color:RGB(255,255,255,0.55)"><p style="margin-top: 20px; font-size:18px;">Login</p></v-btn>
 
-                    <v-card class="notranslate" id="mobile_login_form">
-                      <v-card-title class="headline" style="color:RGB(255,255,255,0)" primary-title></v-card-title>
-                      <v-card-text>
-                        <form>
-                          <v-text-field v-model="signupEmail" style="width:300px; margin: 0 auto; margin-top: 50px; text-align:center" label="Email" placeholder="이메일을 입력하세요."></v-text-field>
-                          <v-text-field v-model="signupPassword" style="width:300px; margin: 0 auto; text-align:center" label="Password" placeholder="비밀번호를 입력하세요." type="password"></v-text-field>
-                        </form>
-                      </v-card-text>
-                      <v-divider style="width:300px; margin: 0 auto; text-align:center"></v-divider>
-
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn flat v-on:click="signUp()" style="height:35px; color:RGB(255,255,255,0.55)">Sign Up</v-btn>
-                        <v-btn flat @click="m_signupDialog = false" style="height:35px; color:RGB(255,255,255,0.55)">Close</v-btn>
-                      </v-card-actions>
-                    </v-card>
-
-                  </v-dialog>
-                  <p style="margin-top: 10px; font-size:12px; color:RGB(255,255,255,0.65)">@provided by HARMONY @2019.07.10 @git:lab.ssafy.com</p>
+                  <p style="margin-top: 50px; font-size:12px; color:RGB(255,255,255,0.65)">@provided by HARMONY @2019.07.10 @git:lab.ssafy.com</p>
                 </div>
               </v-card-text>
             </v-img>
@@ -301,8 +315,8 @@ export default {
   z-index: 6;
   background-color: white;
   width:100%;
-  min-height: 60px;
-  max-height: 60px;
+  min-height: 64px;
+  max-height: 64px;
   box-shadow: none;
 }
 
