@@ -6,7 +6,7 @@
       <form>
         <v-text-field v-model="title" placeholder="제목을 입력해주세요."></v-text-field>
 
-        <ImageInput/>
+          <ImageInput :imgurl='img' v-on:changeImg="img = $event"/>
 
         <v-textarea solo v-model="body"></v-textarea>
 
@@ -41,12 +41,12 @@ export default {
   },
   methods:{
     async postPortfolio(title, body, img){
+      console.log(img)
       if(title == ''){
         alert("제목을 입력해주세요")
       }else if(body == ''){
         alert("내용을 입력해주세요")
       }else{
-        img=this.$store.state.inputimg
         await FirebaseService.postPortfolio(title, body, img, this.$store.state.user)
         alert("portfolio가 작성되었습니다."+img)
         this.$router.replace('/portfolio')

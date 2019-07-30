@@ -261,6 +261,7 @@ export default {
        });
      },
      postPortfolio(title, body, img,user) {
+       console.log("service 안 " + img)
         return firestore.collection(PORTFOLIOS).add({
            title,
            body,
