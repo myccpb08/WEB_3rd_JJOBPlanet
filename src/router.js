@@ -14,6 +14,7 @@ import BoardPage from './views/BoardPage.vue'
 import BoardWriter from './views/BoardWriter.vue'
 import BoardDetail from './views/BoardDetail.vue'
 import BoardUpdate from './views/BoardUpdate.vue'
+import CalendarPage from './views/CalendarPage.vue'
 
 Vue.use(Router)
 
@@ -97,6 +98,11 @@ export default new Router({
          name: 'boardUpdate',
          component: BoardUpdate,
          props:true
+      },
+      {
+         path: '/calendar',
+         name: 'calendar',
+         component: CalendarPage
       }
 
   ]

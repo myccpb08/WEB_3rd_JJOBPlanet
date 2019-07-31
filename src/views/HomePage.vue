@@ -6,9 +6,9 @@
     <v-img :src="getImgUrl('Jjobplanet_banner.png')" style="width:100%;"></v-img>
 
     <!-- apply  -->
-    <div style="background:#3f4b5f;width:100%;height:300px;">
+    <div style="background:#3f4b5f;width:100%;height:320px;">
 
-      <div class="hidden-xs-only" style="width:30%;height:100%;display:inline-block;padding-left:10%;padding-top:30px;float:left">
+      <div class="hidden-xs-only" style="width:28%;height:100%;display:inline-block;padding-left:10%;padding-top:30px;float:left">
         <hr style="border:1px solid white; width:70px; margin-bottom:20px">
         <p>
           <font style="color:white;">
@@ -24,7 +24,7 @@
       <div class="hidden-sm-and-up" style="width:15%;height:100%;display:inline-block;float:left">
       </div>
 
-      <div v-if="$store.state.userApplyData" style="width:70%;height:100%;display:inline-block;text-align:center;padding-top:80px;">
+      <div v-if="$store.state.userApplyData" style="width:72%;height:100%;display:inline-block;text-align:center;padding-top:80px;">
         <p>
           <font style="color:white;font-size:30px;">
             Test님이 지원하신 공고가 없습니다.<br>
@@ -35,37 +35,86 @@
       </div>
 
       <div v-else class="applyList" style="width:70%;height:100%;display:inline-block;text-align:center;padding-top:25px; overflow:auto;">
-        <div v-for="i in 12" style="background:white; height:120px; width:150px; margin-left:5px; display:inline-block;"></div>
+        <div v-for="i in 12" style="background:white; height:130px; width:160px; margin-left:5px; margin-bottom:5px; display:inline-block;">
+          <div style="width:100%; height:50%; padding-top:10px;">
+            <v-img :src="getImgUrl('SSAFY.png')" style="width:40px; height:40px; margin:0 auto"></v-img>
+          </div>
+          <div style="width:100%;height:50%; margin-bottom:10px;">
+            <p>
+              <font><b>삼성청년SW아카데미</b></font><br>
+              <font style="color:gray">SSAFY</font><br>
+              <font style="color:orange">고용노동부 추천</font>
+            </p>
+          </div>
+        </div>
       </div>
 
     </div>
 
     <!-- Job Opening -->
     <div style="background:#f0f0f0; width:100%; text-align:center; padding:20px;">
+      <div class="JO" style="text-align:center">
 
-      <div class="JO">
         <!-- hot -->
-        <div class="JO" style="margin:8px">
+        <div class="JO" style="margin:8px;">
           <p style="padding-right:170px;">최근 게시판 인기공고</p>
-          <div style="background:#ffffff; width:260px; height:300px; display:inline-block">
-
+          <div style="background:#ffffff; width:260px; height:300px; padding:20px; display:inline-block">
+            <div v-for="i in 5" style="width:100%; height:50px; margin-bottom:2px;">
+              <div style="width:25%; padding:15px; float:left">
+                <font style="color:gray"><b>{{i}}</b></font>
+              </div>
+              <div style="width:75%; padding:5px; text-align:left">
+                <b>Lorem ipsum</b><br>
+                <font style="color:gray">20시간 남음 | 753명 작성</font>
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- Within 7 -->
-        <div class="JO" style="margin:8px">
+        <div class="JO" style="margin:8px;">
           <p style="padding-right:140px;">7일 내에 마감하는 인기공고</p>
-          <div style="background:#ffffff; width:260px; height:300px; display:inline-block">
-
+          <div style="background:#ffffff; width:260px; height:300px; padding:20px; display:inline-block">
+            <div v-for="i in 5" style="width:100%; height:50px; margin-bottom:2px;">
+              <div style="width:25%; padding:15px; float:left">
+                <font style="color:gray"><b>{{i}}</b></font>
+              </div>
+              <div style="width:75%; padding:5px; text-align:left">
+                <b>Lorem ipsum</b><br>
+                <font style="color:gray">20시간 남음 | 753명 작성</font>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!--  -->
-      <div class="JO hidden-xs-only" style="margin:8px">
-        <p style="padding-right:330px;">직무별 인기공고</p>
-        <div class="JO" style="background:#ffffff; width:400px; height:300px; display:inline-block">
+
+        <!--  -->
+        <div class="JO hidden-xs-only" style="margin:8px;">
+          <p style="padding-right:330px;">직무별 인기공고</p>
+          <div style="background:#ffffff; width:400px; height:300px; padding:20px; padding-left:0px; display:inline-block">
+
+            <div class="JO" style="width:35%; height:250px;">
+              <v-btn flat v-for="i in 7" style="width:120px; height:25px; margin:1;">
+                <font style="color:gray">IT/인터넷</font>
+              </v-btn>
+            </div>
+
+            <div class="JO" style="width:1px; height:240px; background:gray;"></div>
+
+            <div class="JO" style="width:64%;">
+              <div v-for="i in 5" style="width:100%; height:50px; margin-bottom:2px;">
+                <div style="width:25%; padding:15px; float:left">
+                  <font style="color:gray"><b>{{i}}</b></font>
+                </div>
+                <div style="width:75%; padding:5px; text-align:left">
+                  <b>Lorem ipsum</b><br>
+                  <font style="color:gray">20시간 남음 | 753명 작성</font>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
 
@@ -178,7 +227,9 @@ export default {
   },
   data(){
     return{
-      toggle_one : localStorage.getItem('langage')
+
+
+
     }
   },
   methods: {

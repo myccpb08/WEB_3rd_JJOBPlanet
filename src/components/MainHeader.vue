@@ -14,6 +14,9 @@
 
         <v-toolbar-items class="hidden-xs-only">
           <v-btn flat>
+            <router-link to="/calendar">Calendar</router-link>
+          </v-btn>
+          <v-btn flat>
             <router-link to="/board">Board</router-link>
           </v-btn>
           <v-btn flat>
