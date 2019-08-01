@@ -350,6 +350,40 @@ export default {
           })
           return num;
       },
+      async getDayListNum(board) {
+    const list = [0, 0, 0, 0, 0, 0, 0,0]
+    console.log(list)
+    const currentDay = new Date()
+    currentDay.setHours(0)
+    currentDay.setMinutes(0)
+    currentDay.setSeconds(0)
+    currentDay.setDate(currentDay.getDate() - 7-1)
+    console.log(currentDay)
+    return await firestore.collection(board)
+      .where("created_at", ">=", currentDay)
+      .orderBy('created_at', 'desc')
+      .get()
+      .then((docSnapshots) => {
+        docSnapshots.docs.map((doc) => {
+          // let data = doc.data()
+          let data_date = new Date(doc.data().created_at.toDate())
+          let startDay = new Date(currentDay)
+          let endDay = new Date(currentDay)
+          // console.log("c " + currentDay + "s " + startDay + "e " + endDay + "d " + data_date)
+          for(let i=0;i<8;i++){
+            startDay.setDate(startDay.getDate()+1)
+            endDay.setDate(startDay.getDate() + 1)
+            if(data_date >= startDay && data_date < endDay){
+              list[i]++
+              break;
+            }
+          }
+
+        })
+        // console.log(typeof(list))
+        return list
+      })
+  },
 //로그인
      loginWithGoogle() {
         let provider = new firebase.auth.GoogleAuthProvider()

@@ -10,6 +10,8 @@
     <back-to-top bottom="20px" right="10px">
       <v-btn flat icon type="button" class="btn btn-info btn-to-top notranslate"><v-icon>keyboard_arrow_up</v-icon></v-btn>
     </back-to-top>
+    <Advertisement/>
+    <div style="margin-top:46px;"></div>
     <MainFooter/>
   </div>
   </v-app>
@@ -19,6 +21,7 @@
 import store from './store'
 import MainHeader from './components/MainHeader'
 import MainFooter from './components/MainFooter'
+import Advertisement from './components/Advertisement'
 import Vue from 'vue'
 import BackToTop from 'vue-backtotop'
 
@@ -37,6 +40,7 @@ export default {
   components: {
     'MainHeader' : MainHeader,
     'MainFooter' : MainFooter,
+    'Advertisement' : Advertisement,
     BackToTop,
   }
 }

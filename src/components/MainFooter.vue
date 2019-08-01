@@ -15,6 +15,7 @@
         SSAFY 구미1기 6조 Final project<br>
         구미 삼성전자 2사업장입구 | busanteam_business@naver.com<br>
       </div>
+
     </v-layout>
   </v-footer>
 </template>

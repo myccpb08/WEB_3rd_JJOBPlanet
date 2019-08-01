@@ -114,17 +114,18 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
-    <!-- content -->
+    <div style="margin-top:40px;"></div>
+
+    <!-- contents -->
     <div style="width:100%; min-height:800px;">
-      <div style="width:80%; height:100%; margin:0 auto; padding:50px;">
+      <div style="width:70%; height:100%; margin:0 auto; padding:50px;">
 
         <div>
           <!-- text -->
-          <div style="width:75%; height:100%; display:inline-block;">
+          <div style="width:65%; height:100%; display:inline-block;">
             <p>
               <font style="font-size:24px;color:#ff6813">
                 <b>작성도구:</b><br>
@@ -135,11 +136,12 @@
                 원하는 공고만 클릭하면 자기소개서 문항을 바로 볼 수 있고<br>
                 맞춤법 검사의 글자 수도 확인 할 수 있어요.
               </font>
+              <br><br><br><br>
             </p>
           </div>
           <!-- img -->
-          <div class="hidden-xs-only" style="width:25%; height:100%; display:inline-block">
-            <v-img :src="getImgUrl('gmail_icon.png')" style="max-width:200px;"></v-img>
+          <div class="hidden-xs-only" style="width:35%; height:100%; display:inline-block">
+            <v-img :src="getImgUrl('contents_img1.png')" style="width:350px;"></v-img>
           </div>
         </div>
 
@@ -147,7 +149,7 @@
 
         <div>
           <!-- text -->
-          <div style="width:75%; height:100%; display:inline-block;">
+          <div style="width:65%; height:100%; display:inline-block;">
             <p>
               <font style="font-size:24px;color:#ff6813">
                 <b>취업자료:</b><br>
@@ -158,11 +160,12 @@
                 지원기업의 경쟁률이 궁금하다면? 실시간 지원자 분석!<br>
                 자기소개서 쓰기가 막막하다면? 자소서 연구소
               </font>
+              <br><br><br><br><br>
             </p>
           </div>
           <!-- img -->
-          <div class="hidden-xs-only" style="width:25%; height:100%; display:inline-block">
-            <v-img :src="getImgUrl('gmail_icon.png')" style="max-width:200px;"></v-img>
+          <div class="hidden-xs-only" style="width:35%; height:100%; display:inline-block">
+            <v-img :src="getImgUrl('contents_img2.png')" style="width:350px;"></v-img>
           </div>
         </div>
 
@@ -170,7 +173,7 @@
 
         <div>
           <!-- text -->
-          <div style="width:75%; height:100%; display:inline-block;">
+          <div style="width:65%; height:100%; display:inline-block;">
             <p>
               <font style="font-size:24px;color:#ff6813">
                 <b>정보공유:</b><br>
@@ -181,11 +184,12 @@
                 같은 기업에 지원하는 사람들의 실시간으로 만나보세요.<br>
                 유용한 정보와 대화를 주고받을 수 있어요.
               </font>
+              <br><br><br><br>
             </p>
           </div>
           <!-- img -->
-          <div class="hidden-xs-only" style="width:25%; height:100%; display:inline-block">
-            <v-img :src="getImgUrl('gmail_icon.png')" style="max-width:200px;"></v-img>
+          <div class="hidden-xs-only" style="width:35%; height:100%; display:inline-block">
+            <v-img :src="getImgUrl('contents_img1.png')" style="width:350px;"></v-img>
           </div>
         </div>
 
@@ -195,19 +199,6 @@
     <div style="margin-top:100px;"></div>
 
 
-    <!-- advertisement -->
-    <div style="background:#f0f0f0; width:100%; min-height:130px; padding-top:30px;padding-left:10%">
-      <div style="width:60%;height:100%;display:inline-block;float:left">
-        <p>
-          <font style="font-size:30px; color:#3f4b5f;">광고/채용공고 문의</font><br>
-          <font>함께 할 인재를 찾고 계신가요? Jjobplanet에서 찾으세요!</font>
-        </p>
-      </div>
-
-      <div class="hidden-xs-only" style="width:40%;height:100%;display:inline-block;">
-        <v-btn dark color="warning">기업회원 페이지 가기</v-btn>
-      </div>
-    </div>
 
   </div>
 </template>

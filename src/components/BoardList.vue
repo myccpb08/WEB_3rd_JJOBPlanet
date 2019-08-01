@@ -1,7 +1,7 @@
 <template>
   <div class="notranslate">
     <v-layout mt-5 wrap>
-      <v-flex v-for="i in boards.length > limits ? limits : boards.length"  xs12 sm6 md4 lg3>
+      <v-flex v-for="i in boards.length > limits ? limits : boards.length"  xs12 sm12 md12 lg12>
         <router-link :to="{ name: 'boardDetail', params: {boardId: boards[i-1].id} }">
         <Board class="ma-3"
         :date="boards[i - 1].created_at.toString()"
