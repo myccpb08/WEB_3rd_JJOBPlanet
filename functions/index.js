@@ -27,13 +27,14 @@ exports.dbPostWrite = functions.firestore.document('posts/{any}').onCreate( even
         snapshot.forEach(doc => {
             // console.log(doc.data()['test_token'])
 
-            if (doc.data.test_token) {
+            if (doc.data()['test_token']) {
+                console.log(doc.data()['test_token'])
                 admin.messaging().sendToDevice(doc.data()['test_token'], payload)
             }
         })
     })
   });
-//   (change, context)
+//
 
 exports.dbBoardWrite = functions.firestore.document('boards/{any}').onCreate( event => {
     // const beforeData = change.before.data(); // data before the write
@@ -51,11 +52,10 @@ exports.dbBoardWrite = functions.firestore.document('boards/{any}').onCreate( ev
 
     db.collection('users').get().then((snapshot)=> {
         snapshot.forEach(doc => {
-            // console.log(doc.data()['test_token'])
+            console.log(doc.data()['test_token'])
 
-            if (doc.data.test_token) {
+            if (doc.data()['test_token']) {
                 admin.messaging().sendToDevice(doc.data()['test_token'], payload)
             }
         })
     })
-  });
