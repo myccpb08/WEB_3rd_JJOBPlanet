@@ -1,50 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title class='notranslate'>JOBPLANET</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons">
 
-    <style type="text/css">
-      iframe.goog-te-banner-frame { display: none !important; }
-      body { position: static !important; top:0px !important; }
-    </style>
-  </head>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <title class='notranslate'>JOBPLANET</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons">
 
-  <body>
-    <script type="text/javascript" src="main.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.1.0/velocity.js"></script>
-  
+  <style type="text/css">
+    iframe.goog-te-banner-frame {
+      display: none !important;
+    }
 
-    <script type="text/javascript">
-      function googleTranslateElementInit() {
-        new google.translate.TranslateElement({pageLanguage: 'ko', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT}, 'google_translate_element');
+    body {
+      position: static !important;
+      top: 0px !important;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- chatbot -->
+  <div id="frogue-container" class="position-right-bottom" data-chatbot="cfdf2058-003f-463a-b9d4-1965e7d7b393" data-user="a01075135512@gmail.com" data-init-key="cfdf2058-003f-463a-b9d4-1965e7d7b393"></div>
+  <!-- data-init-식별키=값 으로 셋팅하면 챗플로우에 파라미터와 연동가능. 식별키는 소문자만 가능 -->
+  <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {
+        return;
       }
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https:\/\/danbee.ai/js/plugins/frogue-embed/frogue-embed.min.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'frogue-embed'));
+  </script>
 
-      function triggerHtmlEvent(element, eventName) {
-        var event;
-        if (document.createEvent) {
-          event = document.createEvent('HTMLEvents');
-          event.initEvent(eventName, true, true);
-          element.dispatchEvent(event);
-        } else {
-          event = document.createEventObject();
-          event.eventType = eventName;
-          element.fireEvent('on' + event.eventType, event);
-        }
+  <script type="text/javascript" src="main.js"></script>
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.1.0/velocity.js"></script>
+
+
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'ko',
+        layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT
+      }, 'google_translate_element');
+    }
+
+    function triggerHtmlEvent(element, eventName) {
+      var event;
+      if (document.createEvent) {
+        event = document.createEvent('HTMLEvents');
+        event.initEvent(eventName, true, true);
+        element.dispatchEvent(event);
+      } else {
+        event = document.createEventObject();
+        event.eventType = eventName;
+        element.fireEvent('on' + event.eventType, event);
       }
-    </script>
+    }
+  </script>
 
 
-    <noscript>
-      <strong>We're sorry but ssafy doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+  <noscript>
+    <strong>We're sorry but ssafy doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+  </noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+
 </html>

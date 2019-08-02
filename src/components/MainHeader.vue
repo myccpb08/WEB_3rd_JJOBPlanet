@@ -39,8 +39,8 @@
 
                 <v-card-text style="margin-top:150px">
                   <div style="padding-left:50px; text-align:center;">
-                    <v-text-field v-model="loginEmail" label="Email" placeholder="이메일을 입력하세요." style="width:230px;"></v-text-field>
-                    <v-text-field v-model="loginPassword" label="Password" placeholder="비밀번호를 입력하세요." style="width:230px;" type="password"></v-text-field>
+                    <v-text-field v-model="loginEmail" label="Email" @keyup.enter='loginWithMail' placeholder="이메일을 입력하세요." style="width:230px;"></v-text-field>
+                    <v-text-field v-model="loginPassword" label="Password" @keyup.enter='loginWithMail' placeholder="비밀번호를 입력하세요." style="width:230px;" type="password"></v-text-field>
                   </div>
                   <div style="width:150px; margin: 0 auto; margin-top: 20px; text-align:center">
 
@@ -214,9 +214,13 @@ export default {
         localStorage.setItem('accessToken', this.$store.state.accessToken)
         localStorage.setItem('user', JSON.stringify(user.user))
         alert(this.$store.state.user.email + "님 로그인 되었습니다")
+        this.loginEmail=''
+        this.loginPassword=''
         this.closeDialog()
         this.$router.replace('/')
         FirebaseService.addLog(this.$store.state.user.uid,"login with mail")
+
+        FirebaseService.gettingtoken(this.$store.state.user)
       })
       .catch((error)=>{
         alert(error)
@@ -233,6 +237,8 @@ export default {
       FirebaseService.addLog(this.$store.state.user.uid,"login with google")
       FirebaseService.initUserClass(result.user, "visitor")
       this.$router.replace('/')
+
+      FirebaseService.gettingtoken(this.$store.state.user)
     },
     async loginWithFacebook() {
       const result = await FirebaseService.loginWithFacebook()
@@ -245,6 +251,8 @@ export default {
       FirebaseService.addLog(this.$store.state.user.uid,"login with facebook")
       FirebaseService.initUserClass(result.user, "visitor")
       this.$router.replace('/')
+
+      FirebaseService.gettingtoken(this.$store.state.user)
     },
     signUp(){
       firebase.auth().createUserWithEmailAndPassword(this.signupEmail, this.signupPassword)
@@ -275,6 +283,7 @@ export default {
         firebase.auth().signOut().then(() => {
           FirebaseService.addLog(this.$store.state.user.uid,"logout");
           alert(this.$store.state.user.email + "님 로그아웃 되었습니다.");
+          FirebaseService.outtoken(this.$store.state.user)
           this.$store.state.accessToken = '';
           this.$store.state.user = '';
           localStorage.setItem('accessToken', this.$store.state.accessToken)

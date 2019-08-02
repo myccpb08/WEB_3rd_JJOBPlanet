@@ -12,7 +12,7 @@
       </v-flex>
       <v-flex xs12 text-xs-center round my-5 v-if="loadMore">
         <v-btn v-if="limits<posts.length" v-on:click="loadMorePosts" class="movebtn button2"><v-icon size="25" class="mr-2">fa-plus</v-icon>View more</v-btn>
-        <router-link to="/postwriter"><v-btn v-if="$store.state.user" class="movebtn button3">
+        <router-link to="/postwriter"><v-btn v-if="check" class="movebtn button3">
         <v-icon size="25" class="mr-2 notranslate">create</v-icon>Write</v-btn></router-link>
       </v-flex>
     </v-layout>
@@ -31,7 +31,8 @@ export default {
   data() {
     return {
       posts: [],
-      proplimit : this.limits
+      proplimit : this.limits,
+      check: false,
     }
   },
   components: {
@@ -39,6 +40,7 @@ export default {
   },
   mounted() {
     this.getPosts()
+    this.checkUserClass(this.$store.state.user.uid)
   },
   methods: {
     async getPosts() {
@@ -52,7 +54,15 @@ export default {
         console.log("proplimit : " + this.proplimit)
         this.$emit('loadMore',this.proplimit)
         // console.log(this.limits)
-    }
+    },
+    async checkUserClass(uid) {
+      this.userClass = await FirebaseService.getUserClass(uid).then((result) => {
+        return result;
+      })
+      if (this.userClass === 'master' || this.userClass === 'admin') {
+        this.check = true;
+      }
+    },
   }
 }
 </script>
