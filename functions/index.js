@@ -27,7 +27,7 @@ exports.dbPostWrite = functions.firestore.document('posts/{any}').onCreate( even
         snapshot.forEach(doc => {
             // console.log(doc.data()['test_token'])
 
-            if (doc.data()['test_token']) {
+            if (doc.data()['test_token'] !='' && doc.data()['test_token'] != undefined) {
                 console.log(doc.data()['test_token'])
                 admin.messaging().sendToDevice(doc.data()['test_token'], payload)
             }
@@ -52,10 +52,66 @@ exports.dbBoardWrite = functions.firestore.document('boards/{any}').onCreate( ev
 
     db.collection('users').get().then((snapshot)=> {
         snapshot.forEach(doc => {
-            console.log(doc.data()['test_token'])
 
-            if (doc.data()['test_token']) {
+
+            if (doc.data()['test_token'] !='' && doc.data()['test_token'] != undefined) {
+                console.log(doc.data()['test_token'])
                 admin.messaging().sendToDevice(doc.data()['test_token'], payload)
             }
         })
     })
+  });
+
+  exports.dbPostWriteComment = functions.firestore.document('posts/{any}/post-comments/{anyy}').onCreate( event => {
+    // const beforeData = change.before.data(); // data before the write
+    // const afterData = change.after.data(); // data after the write
+    // console.log(beforeData)
+    // console.log(afterData)
+
+    const payload = {
+        notification : {
+            title: '포스트게시글에 댓글 생성되었습니다',
+            body: '알림아 울려줘'
+        }
+    }
+    console.log('댓글생성')
+
+    db.collection('users').get().then((snapshot)=> {
+        snapshot.forEach(doc => {
+            // console.log(doc.data()['test_token'])
+
+            if (doc.data()['userClass'] == 'admin' && doc.data()['test_token']) {
+                console.log(doc.data()['test_token'])
+                admin.messaging().sendToDevice(doc.data()['test_token'], payload)
+            }
+        })
+    })
+  });
+
+  exports.dbBoardWriteComment = functions.firestore.document('boards/{any}/post-comments/{anyy}').onCreate( event => {
+    // const beforeData = change.before.data(); // data before the write
+    // const afterData = change.after.data(); // data after the write
+    // console.log(beforeData)
+    // console.log(afterData)
+
+    const payload = {
+        notification : {
+            title: '게시글에 댓글 생성되었습니다',
+            body: '알림아 울려줘'
+        }
+    }
+    console.log('댓글생성')
+
+    db.collection('users').get().then((snapshot)=> {
+        snapshot.forEach(doc => {
+            // console.log(doc.data()['test_token'])
+
+            if (doc.data()['userClass'] == 'admin' && doc.data()['test_token']) {
+                console.log(doc.data()['test_token'])
+                admin.messaging().sendToDevice(doc.data()['test_token'], payload)
+            }
+        })
+    })
+  });
+
+ 
