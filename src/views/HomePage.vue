@@ -35,15 +35,15 @@
       </div>
 
       <div v-else class="applyList" style="width:70%;height:100%;display:inline-block;text-align:center;padding-top:25px; overflow:auto;">
-        <div v-for="i in 12" style="background:white; height:130px; width:160px; margin-left:5px; margin-bottom:5px; display:inline-block;">
+        <div v-for="i in mainpagedata" style="background:white; height:130px; width:160px; margin-left:5px; margin-bottom:5px; display:inline-block;">
           <div style="width:100%; height:50%; padding-top:10px;">
-            <v-img :src="getImgUrl('SSAFY.png')" style="width:40px; height:40px; margin:0 auto"></v-img>
+            <v-img :src=i.logo style="width:40px; height:40px; margin:0 auto"></v-img>
           </div>
           <div style="width:100%;height:50%; margin-bottom:10px;">
             <p>
-              <font><b>삼성청년SW아카데미</b></font><br>
-              <font style="color:gray">SSAFY</font><br>
-              <font style="color:orange">고용노동부 추천</font>
+              <font><b>{{i.name}}</b></font><br>
+              <font style="color:gray; height: 20px; overflow:hidden">{{i.plus}}</font><br>
+              <font style="color:orange">{{i.job}}</font>
             </p>
           </div>
         </div>
@@ -59,13 +59,13 @@
         <div class="JO" style="margin:8px;">
           <p style="padding-right:170px;">최근 게시판 인기공고</p>
           <div style="background:#ffffff; width:260px; height:300px; padding:20px; display:inline-block">
-            <div v-for="i in 5" style="width:100%; height:50px; margin-bottom:2px;">
+            <div v-for="i in newdata" style="width:100%; height:50px; margin-bottom:2px;">
               <div style="width:25%; padding:15px; float:left">
-                <font style="color:gray"><b>{{i}}</b></font>
+                <!--<font style="color:gray"><b>{{i}}</b></font>-->
               </div>
               <div style="width:75%; padding:5px; text-align:left">
-                <b>Lorem ipsum</b><br>
-                <font style="color:gray">20시간 남음 | 753명 작성</font>
+                <b>{{i.name}}</b><br>
+                <font style="color:gray">{{i.dday}}</font>
               </div>
             </div>
           </div>
@@ -75,13 +75,13 @@
         <div class="JO" style="margin:8px;">
           <p style="padding-right:140px;">7일 내에 마감하는 인기공고</p>
           <div style="background:#ffffff; width:260px; height:300px; padding:20px; display:inline-block">
-            <div v-for="i in 5" style="width:100%; height:50px; margin-bottom:2px;">
+            <div v-for="i in weekdata" style="width:100%; height:50px; margin-bottom:2px;">
               <div style="width:25%; padding:15px; float:left">
-                <font style="color:gray"><b>{{i}}</b></font>
+                <!--<font style="color:gray"><b>{{i}}</b></font>-->
               </div>
               <div style="width:75%; padding:5px; text-align:left">
-                <b>Lorem ipsum</b><br>
-                <font style="color:gray">20시간 남음 | 753명 작성</font>
+                <b>{{i.name}}</b><br>
+                <font style="color:gray">{{i.dday}}</font>
               </div>
             </div>
           </div>
@@ -91,41 +91,41 @@
         <!--  -->
         <div class="JO hidden-xs-only" style="margin:8px;">
           <p style="padding-right:330px;">직무별 인기공고</p>
-          <div style="background:#ffffff; width:400px; height:300px; padding:20px; padding-left:0px; display:inline-block">
+          <div style="background:#ffffff; width:400px; height:450px; padding:20px; padding-left:0px; display:inline-block">
 
             <div class="JO" style="width:35%; height:250px;">
-              <v-btn flat v-for="i in 7" style="width:120px; height:25px; margin:1;">
-                <font style="color:gray">IT/인터넷</font>
+              <v-btn flat v-for="(value, key) in bygroup" style="width:120px; height:25px; margin:1;">
+                <font style="color:gray">{{key}}</font>
               </v-btn>
             </div>
-
-            <div class="JO" style="width:1px; height:240px; background:gray;"></div>
+            <div class="JO" style="width:1px; height:400px; background:gray;"></div>
 
             <div class="JO" style="width:64%;">
-              <div v-for="i in 5" style="width:100%; height:50px; margin-bottom:2px;">
-                <div style="width:25%; padding:15px; float:left">
-                  <font style="color:gray"><b>{{i}}</b></font>
+              <div v-for="i in group" style="width:100%; height:80px; margin-bottom:2px;">
+                <div style="width:30%; padding:15px; float:left">
+                  <font style="color:gray"><b>{{i.dday}}</b></font>
                 </div>
-                <div style="width:75%; padding:5px; text-align:left">
-                  <b>Lorem ipsum</b><br>
-                  <font style="color:gray">20시간 남음 | 753명 작성</font>
+                <div style="width:90%; padding:5px; text-align:left">
+                  <b>{{i.name}}</b><br>
+                  <b>{{i.job}}</b><br>
+                  <font style="color:gray"></font>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
+
       </div>
     </div>
 
-    <div style="margin-top:40px;"></div>
-
-    <!-- contents -->
+    <!-- content -->
     <div style="width:100%; min-height:800px;">
-      <div style="width:70%; height:100%; margin:0 auto; padding:50px;">
+      <div style="width:80%; height:100%; margin:0 auto; padding:50px;">
 
         <div>
           <!-- text -->
-          <div style="width:65%; height:100%; display:inline-block;">
+          <div style="width:75%; height:100%; display:inline-block;">
             <p>
               <font style="font-size:24px;color:#ff6813">
                 <b>작성도구:</b><br>
@@ -136,12 +136,11 @@
                 원하는 공고만 클릭하면 자기소개서 문항을 바로 볼 수 있고<br>
                 맞춤법 검사의 글자 수도 확인 할 수 있어요.
               </font>
-              <br><br><br><br>
             </p>
           </div>
           <!-- img -->
-          <div class="hidden-xs-only" style="width:35%; height:100%; display:inline-block">
-            <v-img :src="getImgUrl('contents_img1.png')" style="width:350px;"></v-img>
+          <div class="hidden-xs-only" style="width:25%; height:100%; display:inline-block">
+            <v-img :src="getImgUrl('gmail_icon.png')" style="max-width:200px;"></v-img>
           </div>
         </div>
 
@@ -149,7 +148,7 @@
 
         <div>
           <!-- text -->
-          <div style="width:65%; height:100%; display:inline-block;">
+          <div style="width:75%; height:100%; display:inline-block;">
             <p>
               <font style="font-size:24px;color:#ff6813">
                 <b>취업자료:</b><br>
@@ -160,12 +159,11 @@
                 지원기업의 경쟁률이 궁금하다면? 실시간 지원자 분석!<br>
                 자기소개서 쓰기가 막막하다면? 자소서 연구소
               </font>
-              <br><br><br><br><br>
             </p>
           </div>
           <!-- img -->
-          <div class="hidden-xs-only" style="width:35%; height:100%; display:inline-block">
-            <v-img :src="getImgUrl('contents_img2.png')" style="width:350px;"></v-img>
+          <div class="hidden-xs-only" style="width:25%; height:100%; display:inline-block">
+            <v-img :src="getImgUrl('gmail_icon.png')" style="max-width:200px;"></v-img>
           </div>
         </div>
 
@@ -173,7 +171,7 @@
 
         <div>
           <!-- text -->
-          <div style="width:65%; height:100%; display:inline-block;">
+          <div style="width:75%; height:100%; display:inline-block;">
             <p>
               <font style="font-size:24px;color:#ff6813">
                 <b>정보공유:</b><br>
@@ -184,12 +182,11 @@
                 같은 기업에 지원하는 사람들의 실시간으로 만나보세요.<br>
                 유용한 정보와 대화를 주고받을 수 있어요.
               </font>
-              <br><br><br><br>
             </p>
           </div>
           <!-- img -->
-          <div class="hidden-xs-only" style="width:35%; height:100%; display:inline-block">
-            <v-img :src="getImgUrl('contents_img1.png')" style="width:350px;"></v-img>
+          <div class="hidden-xs-only" style="width:25%; height:100%; display:inline-block">
+            <v-img :src="getImgUrl('gmail_icon.png')" style="max-width:200px;"></v-img>
           </div>
         </div>
 
@@ -199,6 +196,19 @@
     <div style="margin-top:100px;"></div>
 
 
+    <!-- advertisement -->
+    <div style="background:#f0f0f0; width:100%; min-height:130px; padding-top:30px;padding-left:10%">
+      <div style="width:60%;height:100%;display:inline-block;float:left">
+        <p>
+          <font style="font-size:30px; color:#3f4b5f;">광고/채용공고 문의</font><br>
+          <font>함께 할 인재를 찾고 계신가요? Jjobplanet에서 찾으세요!</font>
+        </p>
+      </div>
+
+      <div class="hidden-xs-only" style="width:40%;height:100%;display:inline-block;">
+        <v-btn dark color="warning">기업회원 페이지 가기</v-btn>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -208,6 +218,9 @@ import PortfolioList from '../components/PortfolioList'
 import PostList from '../components/PostList'
 import RepositoryList from '../components/RepositoryList'
 import firebase from 'firebase/app'
+import FirebaseService from '@/services/FirebaseService'
+import $ from 'jquery'
+import axios from 'axios'
 
 export default {
   name: 'HomePage',
@@ -216,21 +229,49 @@ export default {
     PostList,
     RepositoryList,
   },
-  data(){
-    return{
-
-
-
+  data: function () {
+    return {
+      mainpagedata: {},
+      newdata: {},
+      weekdata: {},
+      bygroup: {},
+      gruop:{},
     }
   },
+  created () {
+    var pathReference = FirebaseService.test();
+    var geturl;
+    geturl=pathReference.getDownloadURL()
+   .then((url) => {
+       console.log(url);
+   });
+console.log(geturl);
+  //    function(url) {
+      axios.get('https://firebasestorage.googleapis.com/v0/b/ssafy-245804.appspot.com/o/result.json?alt=media&token=345f144d-8c98-4c0e-b7d2-55c0010d1a9e')
+        .then(response => {
+          this.mainpagedata = response.data.banner
+          this.newdata=response.data.new
+          this.weekdata=response.data.week
+          this.bygroup=response.data.bygroup
+          this.group=response.data.bygroup["IT/인터넷"]
+        })
+        .catch(function(error) {
+          console.log(error)
+        })
+  //  })
+    console.log(this.mainpagedata)
+    },
   methods: {
     getImgUrl(img) {
       return require('../assets/team6/logo/' + img)
     },
+
+
   },
   mounted(){
     this.$store.state.langage = localStorage.getItem('langage');
   }
+
 }
 </script>
 

@@ -2,6 +2,7 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
 import 'firebase/messaging'
+import 'firebase/storage'
 
 const POSTS = 'posts'
 const PORTFOLIOS = 'portfolios'
@@ -46,6 +47,11 @@ firebase.firestore().enablePersistence()
   })
 
 export default {
+  test() {
+    var storage = firebase.storage()
+    var pathReference = storage.ref('result.json')
+    return pathReference;
+  },
   notificationcheck() {
     Notification.requestPermission().then(function(permission) {
       if (permission === 'granted') {
@@ -81,7 +87,7 @@ export default {
         console.log(test_token)
         // firestore.collection('tokens').doc(test_token).delete()
         firestore.collection('users').doc(user.uid).update({
-          test_token: firebase.firestore.FieldValue.delete()
+          test_token: ''
         })
       } else {
         console.log('No Instance ID token available. Request permission to generate one.'); // Show permission UI.
