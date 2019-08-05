@@ -13,18 +13,10 @@
         <v-spacer></v-spacer>
 
         <v-toolbar-items class="hidden-xs-only">
-          <v-btn flat>
-            <router-link to="/calendar">Calendar</router-link>
-          </v-btn>
-          <v-btn flat>
-            <router-link to="/board">Board</router-link>
-          </v-btn>
-          <v-btn flat>
-            <router-link to="/portfolio">Portfolio</router-link>
-          </v-btn>
-          <v-btn flat>
-            <router-link to="/post">Post</router-link>
-          </v-btn>
+          <v-btn flat to="/calendar">Calendar</v-btn>
+          <v-btn flat to="/board">Board</v-btn>
+          <v-btn flat to="/portfolio">Portfolio</v-btn>
+          <v-btn flat to="/post">Post</v-btn>
 
           <!-- login SignUp Form -->
           <v-dialog v-if="!$store.state.user" v-model="loginDialog" width="360">

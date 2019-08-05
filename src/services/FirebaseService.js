@@ -248,6 +248,21 @@ export default {
         })
       })
   },
+  getPersonalPosts(user) {
+    const postsCollection = firestore.collection(POSTS)
+    return postsCollection
+      .where("uid","==",user.uid)
+      .orderBy('created_at', 'desc')
+      .get()
+      .then((docSnapshots) => {
+        return docSnapshots.docs.map((doc) => {
+          let data = doc.data()
+          data.created_at = new Date(data.created_at.toDate())
+          data.id = doc.id
+          return data
+        })
+      })
+  },
   getPost(postId) {
     return firestore.collection(POSTS).doc(postId)
       .get()
