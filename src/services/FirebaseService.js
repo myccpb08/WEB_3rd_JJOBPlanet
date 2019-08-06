@@ -47,10 +47,10 @@ firebase.firestore().enablePersistence()
   })
 
 export default {
-  test() {
-    var storage = firebase.storage()
-    var pathReference = storage.ref('result.json')
-    return pathReference;
+  getstorage() {
+  var storage = firebase.storage()
+  var pathReference = storage.ref('result.json')
+  return pathReference;
   },
   notificationcheck() {
     Notification.requestPermission().then(function(permission) {

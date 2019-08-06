@@ -22,26 +22,24 @@
       </v-card>
       <br>
       <v-card min-width="260" max-width="750" class="mx-auto" style="padding:30px; padding-top:5px; padding-bottom:5px; padding-right:5px; margin-left:0px">
-        <v-text-field v-model="searchName" placeholder="Search title.."></v-text-field>
+        <!-- 검색 -->
+        <v-layout row wrap mw-700>
+          <v-text-field @keyup.enter='searchBtn()' style='width:50%' v-model="searchName" placeholder="Search title.."></v-text-field>
+          <v-btn falt color='info' @click='searchBtn()'>검색</v-btn>
+        </v-layout>
 
-        <!-- {{searchName}} -->
         <v-layout wrap mw-700 xs6 >
-          <template v-if='searchName===""'>
+
           <v-flex style="padding-bottom:0px;" v-for="i in userClasses.length">
             <UserClass :displayName="userClasses[i - 1].displayName" :email="userClasses[i - 1].email" :userClass="userClasses[i - 1].userClass" :uid="userClasses[i - 1].uid">
             </UserClass>
           </v-flex>
-        </template>
-        <template v-else>
-          <v-flex style="padding-bottom:0px;" v-for="i in userClasses.length">
-            <UserClass v-if='checkMember(i)' :displayName="userClasses[i - 1].displayName" :email="userClasses[i - 1].email" :userClass="userClasses[i - 1].userClass" :uid="userClasses[i - 1].uid">
-            </UserClass>
-          </v-flex>
-        </template>
+
         </v-layout>
       </v-card>
     </div>
   </div>
+  <div style="margin-top:25px;"></div>
 </div>
 </template>
 
@@ -59,6 +57,7 @@ export default {
   data() {
     return {
       searchName:'',
+      totalUserClasses:[],
       userClasses: [],
       userClass: {},
       postNum: 0,
@@ -78,21 +77,7 @@ export default {
     this.temp()
   },
   methods: {
-    checkMember(i){
-      if(this.userClasses[i-1].displayName !==null && this.userClasses[i-1].displayName.includes(this.searchName)){
-        return true
-      }
-      if(this.userClasses[i-1].body !==null && this.userClasses[i-1].body.includes(this.searchName)){
-        return true
-      }
-      if(this.userClasses[i-1].email !==null && this.userClasses[i-1].email.includes(this.searchName)){
-        return true
-      }
-      return false
-    },
     async temp() {
-      // await this.getUserClasses()
-      // console.log(this.$store.state.user)
       var val = await this.checkUserClass(this.$store.state.user.uid);
 
       if (val) {
@@ -118,6 +103,27 @@ export default {
       // console.log(typeof(ddList))
       // console.log(ddList)
     },
+    searchBtn(){
+      if(this.searchName === this.currentName){
+        return;
+      }
+      if(this.searchName ===""){
+        this.userClasses = this.totalUserClasses
+      }else{
+        this.getUsersByItem()
+      }
+      this.currentName=this.searchName
+
+    },
+    getUsersByItem(){
+      this.userClasses=[]
+      for(let i=1;i<this.totalUserClasses.length;i++){
+        if((this.totalUserClasses[i-1].displayName !== null && this.totalUserClasses[i-1].displayName.includes(this.searchName))
+        || (this.totalUserClasses[i-1].email !== null && this.totalUserClasses[i-1].email.includes(this.searchName)) ){
+          this.userClasses.push(this.totalUserClasses[i-1])
+        }
+      }
+    },
     async getListNum(board) {
       return await FirebaseService.getListNum(board)
     },
@@ -133,7 +139,8 @@ export default {
       return require('../assets/team6/logo/' + img)
     },
     async getUserClasses() {
-      this.userClasses = await FirebaseService.getUserClasses()
+      this.totalUserClasses = await FirebaseService.getUserClasses()
+      this.userClasses= this.totalUserClasses
     },
     async checkUserClass(uid) {
       if (uid == null) {

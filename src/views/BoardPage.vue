@@ -3,7 +3,8 @@
     <div style="margin-top:48px"></div>
 
     <v-container>
-
+      <h1>자유게시판</h1>
+      <p>채용공고나 스터디 등 자유롭게 이야기하세요</p>
       <!-- Board -->
       <v-layout>
         <v-flex xs12>

@@ -18,7 +18,7 @@
           </font>
         </p>
         <v-btn flat dark outline style="width:100px;">채용공고 보기</v-btn><br>
-        <v-btn flat dark outline style="width:100px;">자기소개서</v-btn>
+        <v-btn flat dark outline style="width:100px;" to="/post">자기소개서</v-btn>
       </div>
 
       <div class="hidden-sm-and-up" style="width:15%;height:100%;display:inline-block;float:left">
@@ -100,7 +100,7 @@
           <div style="background:#ffffff; width:400px; height:450px; padding:20px; padding-left:0px; display:inline-block">
 
             <div class="JO" style="width:35%; height:250px;">
-              <v-btn flat v-for="(value, key) in bygroup" style="width:120px; height:25px; margin:1;">
+              <v-btn flat v-for="(value, key) in bygroup" @click='getgroup(key)' style="width:120px; height:25px; margin:1;">
                 <font style="color:gray">{{key}}</font>
               </v-btn>
             </div>
@@ -228,37 +228,43 @@ export default {
       newdata: {},
       weekdata: {},
       bygroup: {},
-      gruop:{},
+      group:{},
+      myurl:'',
+      mygroup:'IT/인터넷',
     }
   },
   created () {
-    var pathReference = FirebaseService.test();
-    var geturl;
-    geturl=pathReference.getDownloadURL()
+    var pathReference = FirebaseService.getstorage();
+    pathReference.getDownloadURL()
    .then((url) => {
-       console.log(url);
+       this.geturl(url);
    });
-console.log(geturl);
-  //    function(url) {
-      axios.get('https://firebasestorage.googleapis.com/v0/b/ssafy-245804.appspot.com/o/result.json?alt=media&token=345f144d-8c98-4c0e-b7d2-55c0010d1a9e')
+    console.log(this.mainpagedata)
+  },
+  methods: {
+    getImgUrl(img) {
+      return require('../assets/team6/logo/' + img)
+    },
+    geturl(url){
+      this.myurl=url
+      console.log(this.myurl);
+      axios.get(this.myurl)
         .then(response => {
           this.mainpagedata = response.data.banner
           this.newdata=response.data.new
           this.weekdata=response.data.week
           this.bygroup=response.data.bygroup
-          this.group=response.data.bygroup["IT/인터넷"]
+          this.group=response.data.bygroup[IT/인터넷]
         })
         .catch(function(error) {
           console.log(error)
         })
-  //  })
-    console.log(this.mainpagedata)
     },
-  methods: {
-    getImgUrl(img) {
-      return require('../assets/team6/logo/' + img)
-    },
-
+    getgroup(key){
+      console.log(key);
+      this.group=this.bygroup[key];
+      console.log(this.group);
+    }
 
   },
   mounted(){
