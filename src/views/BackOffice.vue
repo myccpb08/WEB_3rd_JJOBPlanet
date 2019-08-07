@@ -9,16 +9,18 @@
       <v-card min-width="260" max-width="750" class="mx-auto" style="padding:30px; padding-top:5px; padding-bottom:5px; margin-left:0px">
         <v-layout wrap mw-700 xs6 column>
           <v-flex style="padding-bottom:0px; text-align:center" align-self-center>
-            <h1>Total 게시글 수</h1>
-            POST 게시글 총 수 : {{postNum}}<br>
-            Portfolio 게시글 총 수 : {{portfolioNum}}<br>
-            게시판 게시글 총 수 : {{boardNum}}
+            <h1>Bulletin Board Analysis</h1>
+            POST 게시판에 총 {{postNum}}개의 글이 게시되었습니다.<br>
+            BOARD 게시판에 총 {{boardNum}}개의 글이 게시되었습니다.
           </v-flex>
-          <v-flex>
-              <BarChart :isloaded="isloaded" :dataList = "chartList" :dataList2="chartList2" :dataList3='chartList3'></BarChart>
-              <!-- <BarChart :isloaded="isloaded" :dataList = "chartList2"></BarChart> -->
+          <div style="width:100%; height:5px;"></div>
+          <v-flex style="padding-bottom:0px; text-align:center" align-self-center>
+            <label style='font-size:medium'>7일간 새로 게시된 게시글</label>
+            <BarChart :isloaded="isloaded" :dataList="chartList" :dataList2="chartList2" ></BarChart>
           </v-flex>
+          <div style="width:100%; height:5px;"></div>
         </v-layout>
+        <br>
       </v-card>
       <br>
       <v-card min-width="260" max-width="750" class="mx-auto" style="padding:30px; padding-top:5px; padding-bottom:5px; padding-right:5px; margin-left:0px">
@@ -27,15 +29,14 @@
           <v-text-field @keyup.enter='searchBtn()' style='width:50%' v-model="searchName" placeholder="Search title.."></v-text-field>
           <v-btn falt color='info' @click='searchBtn()'>검색</v-btn>
         </v-layout>
-
+        <div class="list" style="height:600px; overflow:auto">
         <v-layout wrap mw-700 xs6 >
-
           <v-flex style="padding-bottom:0px;" v-for="i in userClasses.length">
             <UserClass :displayName="userClasses[i - 1].displayName" :email="userClasses[i - 1].email" :userClass="userClasses[i - 1].userClass" :uid="userClasses[i - 1].uid">
             </UserClass>
           </v-flex>
-
         </v-layout>
+      </div>
       </v-card>
     </div>
   </div>
@@ -56,16 +57,14 @@ export default {
   },
   data() {
     return {
-      searchName:'',
-      totalUserClasses:[],
+      searchName: '',
+      totalUserClasses: [],
       userClasses: [],
       userClass: {},
       postNum: 0,
-      portfolioNum: 0,
       boardNum: 0,
-      chartList:[],
-      chartList2:[],
-      chartList3:[],
+      chartList: [],
+      chartList2: [],
       isloaded: false,
     }
   },
@@ -78,49 +77,31 @@ export default {
   },
   methods: {
     async temp() {
-      var val = await this.checkUserClass(this.$store.state.user.uid);
+      await this.getUserClasses()
+      this.postNum = await this.getListNum('posts')
+      this.boardNum = await this.getListNum('boards')
 
-      if (val) {
-        console.log(this.$store.state.user)
-        await this.getUserClasses()
-        this.postNum = await this.getListNum('posts')
-        this.portfolioNum = await this.getListNum('portfolios')
-        this.boardNum = await this.getListNum('boards')
-      } else {
-        console.log(this.$store.state.user + "!!")
-        alert("you are not admin. please login admin account");
-        this.$router.replace('/')
-      }
-      console.log(this.chartList)
-
-      // this.chartList[0].logs = await this.getDayListNum('portfolios')
-
-      this.chartList = await this.getDayListNum('portfolios')
-      this.chartList2 = await this.getDayListNum('posts')
-      this.chartList3 = await this.getDayListNum('boards')
+      this.chartList = await this.getDayListNum('posts')
+      this.chartList2 = await this.getDayListNum('boards')
       this.isloaded = true
-      // const ddList = await this.getDayListNum('portfolios')
-      // console.log(typeof(ddList))
-      // console.log(ddList)
     },
-    searchBtn(){
-      if(this.searchName === this.currentName){
+    searchBtn() {
+      if (this.searchName === this.currentName) {
         return;
       }
-      if(this.searchName ===""){
+      if (this.searchName === "") {
         this.userClasses = this.totalUserClasses
-      }else{
+      } else {
         this.getUsersByItem()
       }
-      this.currentName=this.searchName
-
+      this.currentName = this.searchName
     },
-    getUsersByItem(){
-      this.userClasses=[]
-      for(let i=1;i<this.totalUserClasses.length;i++){
-        if((this.totalUserClasses[i-1].displayName !== null && this.totalUserClasses[i-1].displayName.includes(this.searchName))
-        || (this.totalUserClasses[i-1].email !== null && this.totalUserClasses[i-1].email.includes(this.searchName)) ){
-          this.userClasses.push(this.totalUserClasses[i-1])
+    getUsersByItem() {
+      this.userClasses = []
+      for (let i = 1; i < this.totalUserClasses.length; i++) {
+        if ((this.totalUserClasses[i - 1].displayName !== null && this.totalUserClasses[i - 1].displayName.includes(this.searchName)) ||
+          (this.totalUserClasses[i - 1].email !== null && this.totalUserClasses[i - 1].email.includes(this.searchName))) {
+          this.userClasses.push(this.totalUserClasses[i - 1])
         }
       }
     },
@@ -128,34 +109,20 @@ export default {
       return await FirebaseService.getListNum(board)
     },
     async getDayListNum(board) {
-      const ddlist = await FirebaseService.getDayListNum(board)
-      console.log(ddlist)
-      return ddlist
-      // this.chartList = await FirebaseService.getDayListNum(board)
-      // console.log(this.chartList)
-      // console.log(typeof(this.chartList))
+      return await FirebaseService.getDayListNum(board)
     },
     getImgUrl(img) {
       return require('../assets/team6/logo/' + img)
     },
     async getUserClasses() {
       this.totalUserClasses = await FirebaseService.getUserClasses()
-      this.userClasses= this.totalUserClasses
-    },
-    async checkUserClass(uid) {
-      if (uid == null) {
-        return false;
-      }
-      this.userClass = await FirebaseService.getUserClass(uid).then((result) => {
-        return result;
-      })
-      console.log(this.userClass)
-      if ('admin' === this.userClass) {
-        return true;
-      } else {
-        return false;
-      }
+      this.userClasses = this.totalUserClasses
     }
   }
 }
 </script>
+<style>
+.list::-webkit-scrollbar {
+  display:none;
+}
+</style>

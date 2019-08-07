@@ -57,7 +57,7 @@ export default {
 
 <style>
 @font-face {
-  font-family: 'Swagger';
+  font-family: 'Noto Sans KR', sans-serif;
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/Swagger.woff') format('woff');
   font-weight: normal;
   font-style: normal;

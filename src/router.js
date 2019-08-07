@@ -1,10 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomePage from './views/HomePage.vue'
-import PortfolioPage from './views/PortfolioPage.vue'
-import PortfolioWriter from './views/PortfolioWriter.vue'
-import PortfolioDetail from './views/PortfolioDetail.vue'
-import PortfolioUpdate from './views/PortfolioUpdate.vue'
 import PostPage from './views/PostPage.vue'
 import PostWriter from './views/PostWriter.vue'
 import PostDetail from './views/PostDetail.vue'
@@ -34,16 +30,6 @@ export default new Router({
          component: PostPage
       },
       {
-         path: '/portfolio',
-         name: 'portfolio',
-         component: PortfolioPage
-      },
-      {
-         path: '/portfoliowriter',
-         name: 'portfoliowriter',
-         component: PortfolioWriter
-      },
-      {
          path: '/postwriter',
          name: 'postwriter',
          component: PostWriter
@@ -64,18 +50,6 @@ export default new Router({
          path: '/backoffice',
          name: 'backoffice',
          component: BackOffice
-      },
-      {
-         path: '/portfolioDetail/:portfolioId',
-         name: 'portfolioDetail',
-         component: PortfolioDetail,
-         props:true
-      },
-      {
-         path: '/portfolioUpdate/:portfolioId',
-         name: 'portfolioUpdate',
-         component: PortfolioUpdate,
-         props:true
       },
       {
          path: '/board',

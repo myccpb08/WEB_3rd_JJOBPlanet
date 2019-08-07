@@ -3,11 +3,11 @@
     <v-layout justify-center row wrap>
 
       <div style="width:100%">
-        <v-btn small></v-btn>
-        <v-btn small></v-btn>
-        <v-btn small></v-btn>
-        <v-btn small></v-btn>
-        <v-btn small></v-btn>
+        <v-btn small to="">김영훈</v-btn>
+        <v-btn small to="">김유림</v-btn>
+        <v-btn small to="">석주연</v-btn>
+        <v-btn small to="">이수경</v-btn>
+        <v-btn small to="">지경민</v-btn>
       </div>
 
       <div style="width:100%; margin-top:20px;">

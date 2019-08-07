@@ -427,13 +427,12 @@ export default {
   },
   async getDayListNum(board) {
     const list = [0, 0, 0, 0, 0, 0, 0, 0]
-    console.log(list)
     const currentDay = new Date()
     currentDay.setHours(0)
     currentDay.setMinutes(0)
     currentDay.setSeconds(0)
     currentDay.setDate(currentDay.getDate() - 7 - 1)
-    console.log(currentDay)
+
     return await firestore.collection(board)
       .where("created_at", ">=", currentDay)
       .orderBy('created_at', 'desc')

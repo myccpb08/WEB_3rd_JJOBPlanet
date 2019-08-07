@@ -17,8 +17,8 @@
             입니다 <br><br>
           </font>
         </p>
-        <v-btn flat dark outline style="width:100px;">채용공고 보기</v-btn><br>
-        <v-btn flat dark outline style="width:100px;" to="/post">자기소개서</v-btn>
+        <v-btn flat dark outline style="width:110px;"><label style='font-size:14.5px'>채용공고 보기</label></v-btn><br>
+        <v-btn flat dark outline style="width:110px;" to="/post"><label style='font-size:14.5px'>자기소개서</label></v-btn>
       </div>
 
       <div class="hidden-sm-and-up" style="width:15%;height:100%;display:inline-block;float:left">
@@ -36,18 +36,19 @@
 
       <div v-else class="applyList" style="width:70%;height:100%;display:inline-block;text-align:center;padding-top:25px; overflow:auto;">
   <div v-for="i in mainpagedata" style="background:white; height:130px; width:160px; margin-left:5px; margin-bottom:5px; display:inline-block;">
-    <div style="width:50px; height:50px; padding-top:10px; margin:0 auto">
-      <v-img :src=i.logo style="height:auto; width:50px; margin:0 auto"></v-img>
+    <div style="width:50px; height:50px; padding-top:10px; margin:0 auto;">
+       <!-- style="height:auto; width:50px; margin:0 auto;  " -->
+      <v-img aspect-ratio=1 :src='i.logo' contain style="width:auto; height:50px;"></v-img>
     </div>
-    <div style="width:100%;height:50%; margin-bottom:10px;">
+    <div style="width:100%;height:70%; margin-bottom:10px;">
       <p>
         <div>
         <font><b>{{i.name}}</b></font><br>
       </div>
-      <div style="color:gray; height:15px; overflow:hidden">
+      <div style="color:gray; font-size:12px; height:15px; overflow:hidden">
         <font>{{i.plus}}</font><br>
       </div>
-      <div style="color:orange; height:15px; overflow:hidden">
+      <div style="color:orange; font-size:12px; height:15px; overflow:hidden">
         <font>{{i.job}}</font>
       </div>
       </p>
@@ -62,14 +63,12 @@
       <div class="JO" style="text-align:center">
 
         <!-- hot -->
-        <div class="JO" style="margin:8px;">
-          <p style="padding-right:170px;">최근 게시판 인기공고</p>
+        <div class="JO" style="margin:20px;">
+          <p style="padding-right:120px;">최근 게시판 인기공고</p>
           <div style="background:#ffffff; width:260px; height:450px; padding:20px; display:inline-block">
             <div v-for="i in newdata" style="width:100%; height:85px; margin-bottom:2px;">
-              <div style="width:25%; padding:15px; float:left">
-                <!--<font style="color:gray"><b>{{i}}</b></font>-->
-              </div>
-              <div style="width:75%; padding:5px; text-align:left">
+
+              <div style="width:75%; padding:5px; text-align:left; overflow:hidden">
                 <b>{{i.name}}</b><br>
                 <font style="color:gray">{{i.dday}}</font>
               </div>
@@ -78,14 +77,12 @@
         </div>
 
         <!-- Within 7 -->
-        <div class="JO" style="margin:8px;">
-          <p style="padding-right:140px;">7일 내에 마감하는 인기공고</p>
+        <div class="JO" style="margin:20px;">
+          <p style="padding-right:80px;">7일 내에 마감하는 인기공고</p>
           <div style="background:#ffffff; width:260px; height:450px; padding:20px; display:inline-block">
             <div v-for="i in weekdata" style="width:100%; height:85px; margin-bottom:2px;">
-              <div style="width:25%; padding:15px; float:left">
-                <!--<font style="color:gray"><b>{{i}}</b></font>-->
-              </div>
-              <div style="width:75%; padding:5px; text-align:left">
+
+              <div style="width:75%; padding:5px; text-align:left; overflow:hidden">
                 <b>{{i.name}}</b><br>
                 <font style="color:gray">{{i.dday}}</font>
               </div>
@@ -95,26 +92,26 @@
 
 
         <!--  -->
-        <div class="JO hidden-xs-only" style="margin:8px;">
-          <p style="padding-right:330px;">직무별 인기공고</p>
-          <div style="background:#ffffff; width:400px; height:450px; padding:8px; padding-left:0px; display:inline-block">
+        <div class="JO hidden-xs-only" style="margin:20px;">
+          <p style="padding-right:290px;">직무별 인기공고</p>
+          <div style="background:#ffffff; width:400px; height:450px; padding:20px; padding-left:0px; display:inline-block">
 
-            <div class="JO" style="width:35%; height:250px;">
-              <v-btn flat v-for="(value, key) in bygroup" @click='getgroup(key)' style="width:120px; height:25px; margin:1;">
-                <font style="color:gray">{{key}}</font>
+            <div class="JO" style="width:35%; height:250px; ">
+              <v-btn flat v-for="(value, key) in bygroup" @click='getgroup(key,$event)' style="width:120px; height:25px; margin:1;">
+                <font style="width:100%; color:gray; font-size: 14px;">{{key}}</font>
               </v-btn>
             </div>
             <div class="JO" style="width:1px; height:400px; background:gray;"></div>
 
+
             <div class="JO" style="width:64%;">
               <div v-for="i in group" style="width:100%; height:80px; margin-bottom:2px;">
-                <div style="width:30%; padding:15px; float:left">
-                  <font style="color:gray"><b>{{i.dday}}</b></font>
-                </div>
-                <div style="width:90%; padding:5px; text-align:left">
+                <div style="width:90%; padding:5px; text-align:left;">
                   <b>{{i.name}}</b><br>
-                  <b>{{i.job}}</b><br>
-                  <font style="color:gray"></font>
+                  <div style="height:20px; overflow:hidden;">
+                    <p>{{i.job}}</p>
+                  </div>
+                  <font style="color:gray">{{i.dday}}</font>
                 </div>
               </div>
             </div>
@@ -207,7 +204,6 @@
 </template>
 <script>
 
-import PortfolioList from '../components/PortfolioList'
 import PostList from '../components/PostList'
 import RepositoryList from '../components/RepositoryList'
 import firebase from 'firebase/app'
@@ -218,7 +214,6 @@ import axios from 'axios'
 export default {
   name: 'HomePage',
   components: {
-    PortfolioList,
     PostList,
     RepositoryList,
   },
@@ -231,6 +226,7 @@ export default {
       group:{},
       myurl:'',
       mygroup:'IT/인터넷',
+       prevBtn:null,
     }
   },
   created () {
@@ -260,11 +256,24 @@ export default {
           console.log(error)
         })
     },
-    getgroup(key){
-      console.log(key);
-      this.group=this.bygroup[key];
-      console.log(this.group);
-    }
+    getgroup(key, event){
+       console.log(key);
+       console.log(this.prevBtn)
+       if(this.preBtn === event.target){
+         return;
+       }
+       event.target.style.background="orange"
+       event.target.style.color="white"
+       // target 색을 바꿔주고
+       // prev 색을 이전 색으로 바꿔주고
+       this.group=this.bygroup[key];
+       console.log(this.group);
+       if(this.prevBtn !==null){
+         this.prevBtn.style.background="white"
+         this.prevBtn.style.color="gray"
+       }
+       this.prevBtn=event.target;
+     }
 
   },
   mounted(){

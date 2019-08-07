@@ -35,9 +35,6 @@
           </v-flex>
           <v-flex xs12 text-xs-center round my-5 v-if="loadMore">
             <v-btn flat v-if="limits<posts.length" v-on:click="loadMorePosts" class="movebtn button2"><v-icon size="25" class="mr-2">fa-plus</v-icon>더보기</v-btn>
-            <br>
-            <router-link to="/postwriter"><v-btn flat class="movebtn button3">
-            <v-icon size="25" class="mr-2 notranslate">create</v-icon>새로 작성하기</v-btn></router-link>
           </v-flex>
         </v-layout>
 
@@ -49,7 +46,9 @@
         <v-text-field v-model="title" label="Q."></v-text-field>
         <hr>
         <v-textarea v-on:keyup="count" v-model="body" :counter="maxCount" rows="23"></v-textarea>
-        <v-btn flat @click='updatePost'>수정</v-btn>
+        <router-link to="/postwriter"><v-btn flat class="movebtn button3">
+        <v-icon size="25" class="mr-2 notranslate">create</v-icon>새로 작성하기</v-btn></router-link>
+        <v-btn flat @click='updatePost'><v-icon size="25" class="mr-2 notranslate">create</v-icon>수정</v-btn>
         <!--<v-label>{{letter}} / {{maxCount}}</v-label>-->
 
       </div>

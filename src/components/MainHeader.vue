@@ -15,8 +15,8 @@
         <v-toolbar-items class="hidden-xs-only">
           <v-btn flat to="/calendar">Calendar</v-btn>
           <v-btn flat to="/board">Board</v-btn>
-          <v-btn flat to="/portfolio">Portfolio</v-btn>
           <v-btn flat to="/post">Post</v-btn>
+          <v-btn flat to="/backoffice" v-if='check'>BackOffice</v-btn>
 
           <!-- login SignUp Form -->
           <v-dialog v-if="!$store.state.user" v-model="loginDialog" width="360">
@@ -189,12 +189,28 @@ export default {
       accessToken: '',
       menuItems: [
         { icon: 'home', title: 'home', link: '/' },
-        { icon: 'portrait', title: 'Portfolio', link: '/portfolio' },
+        { icon: 'fa-calendar', title: 'Calendar', link: '/calendar' },
+        { icon: 'fa-edit', title: 'Board', link: '/board' },
         { icon: 'photo_filter', title: 'Post', link: '/post' }
-      ]
+      ],
+      check:false
     }
   },
   methods: {
+    async checkUserClass(uid) {
+      if (uid == null) {
+        return false;
+      }
+      this.userClass = await FirebaseService.getUserClass(uid).then((result) => {
+        return result;
+      })
+      console.log(this.userClass)
+      if ('admin' === this.userClass) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     getImgUrl(img) {
       return require('../assets/team6/logo/' + img)
     },
@@ -213,6 +229,8 @@ export default {
         FirebaseService.addLog(this.$store.state.user.uid,"login with mail")
 
         FirebaseService.gettingtoken(this.$store.state.user)
+
+        this.check = this.checkUserClass(this.$store.state.user.uid)
       })
       .catch((error)=>{
         alert(error)
@@ -231,6 +249,8 @@ export default {
       this.$router.replace('/')
 
       FirebaseService.gettingtoken(this.$store.state.user)
+
+      this.check = await this.checkUserClass(this.$store.state.user.uid)
     },
     async loginWithFacebook() {
       const result = await FirebaseService.loginWithFacebook()
@@ -245,6 +265,8 @@ export default {
       this.$router.replace('/')
 
       FirebaseService.gettingtoken(this.$store.state.user)
+
+      this.check = await this.checkUserClass(this.$store.state.user.uid)
     },
     signUp(){
       firebase.auth().createUserWithEmailAndPassword(this.signupEmail, this.signupPassword)
@@ -282,6 +304,8 @@ export default {
           localStorage.setItem('user', this.$store.state.user)
           this.closeDialog()
           this.$router.replace('/')
+
+          this.check =false
         }).catch(function(error) {
           alert(error);
         });
@@ -303,6 +327,8 @@ export default {
       this.$store.state.user = JSON.parse(localStorage.getItem("user") || "{}");
       this.$store.state.accessToken = localStorage.getItem('accessToken');
     }
+
+    this.check = this.checkUserClass(this.$store.state.user.uid)
   }
 }
 </script>
