@@ -64,8 +64,8 @@
         <!-- hot -->
         <div class="JO" style="margin:8px;">
           <p style="padding-right:170px;">최근 게시판 인기공고</p>
-          <div style="background:#ffffff; width:260px; height:300px; padding:20px; display:inline-block">
-            <div v-for="i in newdata" style="width:100%; height:50px; margin-bottom:2px;">
+          <div style="background:#ffffff; width:260px; height:450px; padding:20px; display:inline-block">
+            <div v-for="i in newdata" style="width:100%; height:85px; margin-bottom:2px;">
               <div style="width:25%; padding:15px; float:left">
                 <!--<font style="color:gray"><b>{{i}}</b></font>-->
               </div>
@@ -80,8 +80,8 @@
         <!-- Within 7 -->
         <div class="JO" style="margin:8px;">
           <p style="padding-right:140px;">7일 내에 마감하는 인기공고</p>
-          <div style="background:#ffffff; width:260px; height:300px; padding:20px; display:inline-block">
-            <div v-for="i in weekdata" style="width:100%; height:50px; margin-bottom:2px;">
+          <div style="background:#ffffff; width:260px; height:450px; padding:20px; display:inline-block">
+            <div v-for="i in weekdata" style="width:100%; height:85px; margin-bottom:2px;">
               <div style="width:25%; padding:15px; float:left">
                 <!--<font style="color:gray"><b>{{i}}</b></font>-->
               </div>
@@ -97,7 +97,7 @@
         <!--  -->
         <div class="JO hidden-xs-only" style="margin:8px;">
           <p style="padding-right:330px;">직무별 인기공고</p>
-          <div style="background:#ffffff; width:400px; height:450px; padding:20px; padding-left:0px; display:inline-block">
+          <div style="background:#ffffff; width:400px; height:450px; padding:8px; padding-left:0px; display:inline-block">
 
             <div class="JO" style="width:35%; height:250px;">
               <v-btn flat v-for="(value, key) in bygroup" @click='getgroup(key)' style="width:120px; height:25px; margin:1;">
@@ -254,7 +254,7 @@ export default {
           this.newdata=response.data.new
           this.weekdata=response.data.week
           this.bygroup=response.data.bygroup
-          this.group=response.data.bygroup[IT/인터넷]
+          this.group=response.data.bygroup['IT/인터넷']
         })
         .catch(function(error) {
           console.log(error)

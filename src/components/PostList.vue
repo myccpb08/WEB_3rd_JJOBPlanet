@@ -22,7 +22,7 @@
       <div class="list" style="width:30%; height:550px; float:left; overflow:auto">
         <v-layout row wrap mw-700>
           <v-flex style="text-align:center;" @click="postDetail(i)" v-for="i in posts.length > limits ? limits : posts.length" :class="'xs' + 12 / column" px-3>
-            <v-btn style="height:110px; width:100%;">
+            <v-btn color="ffffff" style="height:110px; width:100%; box-shadow: none;">
             <!--<router-link :to="{ name: 'postDetail', params: {postId: posts[i-1].id} }">-->
             <Post
             :date="posts[i - 1].created_at"
@@ -31,6 +31,7 @@
             <!--</router-link>-->
             <!-- <v-divider></v-divider> -->
             </v-btn>
+            <v-divider></v-divider>
           </v-flex>
           <v-flex xs12 text-xs-center round my-5 v-if="loadMore">
             <v-btn flat v-if="limits<posts.length" v-on:click="loadMorePosts" class="movebtn button2"><v-icon size="25" class="mr-2">fa-plus</v-icon>더보기</v-btn>
