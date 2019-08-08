@@ -10,7 +10,7 @@ const BANNER = 'banner'
 const USERS = 'users'
 const SNS = 'post-comments'
 const BOARDS = 'boards'
-
+const FAVORITES = 'favorites'
 // Setup Firebase
 const config = {
   projectId: 'ssafy-245804',
@@ -47,6 +47,30 @@ firebase.firestore().enablePersistence()
   })
 
 export default {
+  getfavorite(user){
+    const FavoritesCollection = firestore.collection(FAVORITES)
+    return FavoritesCollection
+      .where("uid","==",user.uid)
+      .orderBy('created_at', 'desc')
+      .get()
+      .then((docSnapshots) => {
+        return docSnapshots.docs.map((doc) => {
+          let data = doc.data()
+          data.created_at = new Date(data.created_at.toDate())
+          data.id = doc.id
+          return data
+        })
+      })
+  },
+  addfavorite(favorite,user){
+    return firestore.collection(FAVORITES).add({
+      favorite,
+      uid: user.uid,
+      displayName: user.displayName,
+      email: user.email,
+      created_at: firebase.firestore.FieldValue.serverTimestamp()
+    })
+  },
   getstorage() {
   var storage = firebase.storage()
   var pathReference = storage.ref('result.json')

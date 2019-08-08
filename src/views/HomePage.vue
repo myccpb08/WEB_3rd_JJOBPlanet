@@ -36,6 +36,7 @@
 
       <div v-else class="applyList" style="width:70%;height:100%;display:inline-block;text-align:center;padding-top:25px; overflow:auto;">
   <div v-for="i in mainpagedata" style="background:white; height:130px; width:160px; margin-left:5px; margin-bottom:5px; display:inline-block;">
+    <div class="containerbtn"  @click='openmodal(i)'>
     <div style="width:50px; height:50px; padding-top:10px; margin:0 auto;">
        <!-- style="height:auto; width:50px; margin:0 auto;  " -->
       <v-img aspect-ratio=1 :src='i.logo' contain style="width:auto; height:50px;"></v-img>
@@ -53,6 +54,7 @@
       </div>
       </p>
     </div>
+     </div>
   </div>
 </div>
 
@@ -70,7 +72,7 @@
 
               <div class="containerbtn"  @click='openmodal(i)' style="width:75%; padding:5px; text-align:left; overflow:hidden">
                 <b>{{i.name}}</b><br>
-                <font style="color:gray">{{i.dday}}</font>
+                <font style="color:gray">{{i.end}}</font>
               </div>
             </div>
           </div>
@@ -84,7 +86,7 @@
 
               <div class="containerbtn"  @click='openmodal(i)' style="width:75%; padding:5px; text-align:left; overflow:hidden">
                 <b>{{i.name}}</b><br>
-                <font style="color:gray">{{i.dday}}</font>
+                <font style="color:gray">{{i.end}}</font>
               </div>
             </div>
           </div>
@@ -111,7 +113,7 @@
                   <div style="height:20px; overflow:hidden;">
                     <p>{{i.job}}</p>
                   </div>
-                  <font style="color:gray">{{i.dday}}</font>
+                  <font style="color:gray">{{i.end}}</font>
                 </div>
               </div>
             </div>
@@ -131,7 +133,9 @@
         <div>
           <p v-if="endtime===undefined">채용시 마감</p>
           <p v-else>{{starttime}} ~ {{endtime}}</p>
-          <v-btn><v-icon>star</v-icon></v-btn>
+          <v-btn icon disable @click='favorite()'>
+              <v-icon color="orange">star</v-icon>
+            </v-btn>
         </div>
         <div v-for="i in detail" >
           <v-img :src=i style="height:auto; width:auto; margin:0 auto"></v-img>
@@ -249,7 +253,8 @@ export default {
       userName :'방문자',
       detail:'',
       starttime:'',
-      endtime:''
+      endtime:'',
+      tempfavorite:''
     }
   },
   created () {
@@ -258,7 +263,6 @@ export default {
    .then((url) => {
        this.geturl(url);
    });
-    console.log(this.mainpagedata)
   },
   methods: {
     getImgUrl(img) {
@@ -266,7 +270,6 @@ export default {
     },
     geturl(url){
       this.myurl=url
-      console.log(this.myurl);
       axios.get(this.myurl)
         .then(response => {
           this.mainpagedata = response.data.banner
@@ -280,10 +283,7 @@ export default {
         })
     },
     getgroup(key, idx){
-       console.log(key);
        this.group=this.bygroup[key];
-
-       console.log(idx);
        this.checkClickHot[this.currentIdx]=false;
        this.checkClickHot[idx]=true;
        this.currentIdx = idx;
@@ -294,10 +294,13 @@ export default {
       this.detail=input.detail;
       this.starttime=input.start;
       this.endtime=input.end;
-      console.log(this.endtime)
+      this.tempfavorite=input;
     },
     modalclose(){
       document.getElementById('myModal').style.display = "none"
+    },
+    favorite(input){
+      FirebaseService.addfavorite(this.tempfavorite,this.$store.state.user)
     }
 
 
