@@ -10,8 +10,8 @@
         <v-layout wrap mw-700 xs6 column>
           <v-flex style="padding-bottom:0px; text-align:center" align-self-center>
             <h1>Bulletin Board Analysis</h1>
-            POST 게시판에 총 {{postNum}}개의 글이 게시되었습니다.<br>
-            BOARD 게시판에 총 {{boardNum}}개의 글이 게시되었습니다.
+            POST 게시판에 총 <b>{{postNum}}</b>개의 글이 게시되었습니다.<br>
+            BOARD 게시판에 총 <b>{{boardNum}}</b>개의 글이 게시되었습니다.
           </v-flex>
           <div style="width:100%; height:5px;"></div>
           <v-flex style="padding-bottom:0px; text-align:center" align-self-center>
@@ -26,7 +26,7 @@
       <v-card min-width="260" max-width="750" class="mx-auto" style="padding:30px; padding-top:5px; padding-bottom:5px; padding-right:5px; margin-left:0px">
         <!-- 검색 -->
         <v-layout row wrap mw-700>
-          <v-text-field @keyup.enter='searchBtn()' style='width:50%' v-model="searchName" placeholder="Search title.."></v-text-field>
+          <v-text-field @keyup.enter='searchBtn()' style='width:50%' v-model="searchName" placeholder="Search name or email.."></v-text-field>
           <v-btn falt color='info' @click='searchBtn()'>검색</v-btn>
         </v-layout>
         <div class="list" style="height:600px; overflow:auto">
@@ -83,6 +83,7 @@ export default {
 
       this.chartList = await this.getDayListNum('posts')
       this.chartList2 = await this.getDayListNum('boards')
+
       this.isloaded = true
     },
     searchBtn() {

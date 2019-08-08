@@ -440,13 +440,15 @@ export default {
       .then((docSnapshots) => {
         docSnapshots.docs.map((doc) => {
           // let data = doc.data()
+          // console.log(new Date(doc.data().created_at.toDate()))
           let data_date = new Date(doc.data().created_at.toDate())
           let startDay = new Date(currentDay)
-          let endDay = new Date(currentDay)
-          // console.log("c " + currentDay + "s " + startDay + "e " + endDay + "d " + data_date)
+          let endDay = new Date(startDay)
+          endDay.setDate(endDay.getDate()+1)
           for (let i = 0; i < 8; i++) {
             startDay.setDate(startDay.getDate() + 1)
-            endDay.setDate(startDay.getDate() + 1)
+            endDay.setDate(endDay.getDate() + 1)
+
             if (data_date >= startDay && data_date < endDay) {
               list[i]++
               break;
@@ -454,7 +456,7 @@ export default {
           }
 
         })
-        // console.log(typeof(list))
+
         return list
       })
   },

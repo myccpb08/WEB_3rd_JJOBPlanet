@@ -12,12 +12,12 @@
         <hr style="border:1px solid white; width:70px; margin-bottom:20px">
         <p>
           <font style="color:white;">
-            Test님이 <br>
+            {{userName}}님이 <br>
             <b>지원하신 채용공고</b> <br>
             입니다 <br><br>
           </font>
         </p>
-        <v-btn flat dark outline style="width:110px;"><label style='font-size:14.5px'>채용공고 보기</label></v-btn><br>
+        <v-btn flat dark outline style="width:110px;" to="/calendar"><label style='font-size:14.5px'>채용공고 보기</label></v-btn><br>
         <v-btn flat dark outline style="width:110px;" to="/post"><label style='font-size:14.5px'>자기소개서</label></v-btn>
       </div>
 
@@ -27,7 +27,7 @@
       <div v-if="$store.state.userApplyData" style="width:72%;height:100%;display:inline-block;text-align:center;padding-top:80px;">
         <p>
           <font style="color:white;font-size:30px;">
-            Test님이 지원하신 공고가 없습니다.<br>
+            {{userName}}님이 지원하신 공고가 없습니다.<br>
             <router-link to="" style="color:white;font-size:30px"><b>전체 공고 보러가기</b></router-link>
             <hr style="border:1px solid white; width:150px; margin:0 auto">
           </font>
@@ -68,7 +68,7 @@
           <div style="background:#ffffff; width:260px; height:450px; padding:20px; display:inline-block">
             <div v-for="i in newdata" style="width:100%; height:85px; margin-bottom:2px;">
 
-              <div style="width:75%; padding:5px; text-align:left; overflow:hidden">
+              <div class="containerbtn"  @click='openmodal(i)' style="width:75%; padding:5px; text-align:left; overflow:hidden">
                 <b>{{i.name}}</b><br>
                 <font style="color:gray">{{i.dday}}</font>
               </div>
@@ -82,7 +82,7 @@
           <div style="background:#ffffff; width:260px; height:450px; padding:20px; display:inline-block">
             <div v-for="i in weekdata" style="width:100%; height:85px; margin-bottom:2px;">
 
-              <div style="width:75%; padding:5px; text-align:left; overflow:hidden">
+              <div class="containerbtn"  @click='openmodal(i)' style="width:75%; padding:5px; text-align:left; overflow:hidden">
                 <b>{{i.name}}</b><br>
                 <font style="color:gray">{{i.dday}}</font>
               </div>
@@ -97,7 +97,7 @@
           <div style="background:#ffffff; width:400px; height:450px; padding:20px; padding-left:0px; display:inline-block">
 
             <div class="JO" style="width:35%; height:250px; ">
-              <v-btn flat v-for="(value, key) in bygroup" @click='getgroup(key,$event)' style="width:120px; height:25px; margin:1;">
+              <v-btn flat v-for="(value, key,index) in bygroup" @click='getgroup(key,index)' :style="{background : checkClickHot[index]?'orange':'white'}" style="width:120px; height:25px; margin:1;">
                 <font style="width:100%; color:gray; font-size: 14px;">{{key}}</font>
               </v-btn>
             </div>
@@ -106,7 +106,7 @@
 
             <div class="JO" style="width:64%;">
               <div v-for="i in group" style="width:100%; height:80px; margin-bottom:2px;">
-                <div style="width:90%; padding:5px; text-align:left;">
+                <div class="containerbtn"  @click='openmodal(i)' style="width:90%; padding:5px; text-align:left;">
                   <b>{{i.name}}</b><br>
                   <div style="height:20px; overflow:hidden;">
                     <p>{{i.job}}</p>
@@ -120,6 +120,24 @@
         </div>
 
       </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal" @click='modalclose()'>
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close" @click='modalclose()'>&times;</span>
+        <div>
+          <p v-if="endtime===undefined">채용시 마감</p>
+          <p v-else>{{starttime}} ~ {{endtime}}</p>
+          <v-btn><v-icon>star</v-icon></v-btn>
+        </div>
+        <div v-for="i in detail" >
+          <v-img :src=i style="height:auto; width:auto; margin:0 auto"></v-img>
+        </div>
+      </div>
+
     </div>
 
     <!-- content -->
@@ -225,8 +243,13 @@ export default {
       bygroup: {},
       group:{},
       myurl:'',
-      mygroup:'IT/인터넷',
-       prevBtn:null,
+      prevBtn:null,
+      currentIdx : 0,
+      checkClickHot:[true,false,false,false,false,false,false,false,false,false,false],
+      userName :'방문자',
+      detail:'',
+      starttime:'',
+      endtime:''
     }
   },
   created () {
@@ -250,34 +273,46 @@ export default {
           this.newdata=response.data.new
           this.weekdata=response.data.week
           this.bygroup=response.data.bygroup
-          this.group=response.data.bygroup['IT/인터넷']
+          this.group=response.data.bygroup['경영/사무']
         })
         .catch(function(error) {
           console.log(error)
         })
     },
-    getgroup(key, event){
+    getgroup(key, idx){
        console.log(key);
-       console.log(this.prevBtn)
-       if(this.preBtn === event.target){
-         return;
-       }
-       event.target.style.background="orange"
-       event.target.style.color="white"
-       // target 색을 바꿔주고
-       // prev 색을 이전 색으로 바꿔주고
        this.group=this.bygroup[key];
-       console.log(this.group);
-       if(this.prevBtn !==null){
-         this.prevBtn.style.background="white"
-         this.prevBtn.style.color="gray"
-       }
-       this.prevBtn=event.target;
-     }
+
+       console.log(idx);
+       this.checkClickHot[this.currentIdx]=false;
+       this.checkClickHot[idx]=true;
+       this.currentIdx = idx;
+
+     },
+     openmodal(input){
+      document.getElementById('myModal').style.display = "block";
+      this.detail=input.detail;
+      this.starttime=input.start;
+      this.endtime=input.end;
+      console.log(this.endtime)
+    },
+    modalclose(){
+      document.getElementById('myModal').style.display = "none"
+    }
+
 
   },
   mounted(){
     this.$store.state.langage = localStorage.getItem('langage');
+    if(this.$store.state.user !== undefined){
+      if(this.$store.state.user.displayName === null){
+        this.userName = this.$store.state.user.email ;
+      }else{
+        this.userName = this.$store.state.user.displayName + '(' + this.$store.state.user.email + ')';
+      }
+    }else{
+      this.userName = '방문자'
+    }
   }
 
 }
@@ -301,6 +336,43 @@ hr{
 .applyList::-webkit-scrollbar {
   display:none;
 }
+/* The Modal (background) */
+ .modal {
+     display: none; /* Hidden by default */
+     position: fixed; /* Stay in place */
+     z-index: 1; /* Sit on top */
+     left: 0;
+     top: 0;
+     width: 100%; /* Full width */
+     height: 100%; /* Full height */
+     overflow: auto; /* Enable scroll if needed */
+     background-color: rgb(0,0,0); /* Fallback color */
+     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+ }
 
+ /* Modal Content/Box */
+ .modal-content {
+     background-color: #fefefe;
+     margin: 15% auto; /* 15% from the top and centered */
+     padding: 20px;
+     border: 1px solid #888;
+     width: 50%; /* Could be more or less, depending on screen size */
+ }
+ /* The Close Button */
+ .close {
+     color: #aaa;
+     float: right;
+     font-size: 28px;
+     font-weight: bold;
+ }
+ .close:hover,
+ .close:focus {
+     color: black;
+     text-decoration: none;
+     cursor: pointer;
+ }
+ .containerbtn:hover{
+   background: #eee;
+ }
 
 </style>

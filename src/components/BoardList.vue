@@ -2,18 +2,16 @@
   <div class="notranslate">
 
     <v-layout mt-5 wrap>
-      <v-select style='width:30%'
+      <v-select
             v-model="selectedItem"
             :items="searchItem"
-            label="Select"
-            persistent-hint
             return-object
             single-line
           ></v-select>
-      <v-text-field @keyup.enter='searchBtn()' style='width:50%' v-model="searchName" placeholder="Search title.."></v-text-field>
-      <v-btn falt color='info' @click='searchBtn()'>검색</v-btn>
-      <router-link to="/boardwriter"><v-btn v-if="check" class="movebtn button2">
-        <v-icon size="25" class="mr-2">create</v-icon>Write</v-btn></router-link>
+      <v-text-field @keyup.enter='searchBtn()' style='width:20%; padding-left:5px;' v-model="searchName" placeholder="Search"></v-text-field>
+      <button style="padding-top:15px; width:30px; height:40px; padding-left:5px;" color='white' @click='searchBtn()'><v-icon color="lightgray">fa-search</v-icon></button>
+      <router-link to="/boardwriter"><v-btn flat style="padding-top:5px; padding-right:5px;" v-if="check" class="movebtn button2">
+      <v-icon size="25" class="mr-1">create</v-icon>작성</v-btn></router-link>
 
       <v-flex v-for="i in boards.length > limits ? limits : boards.length"  xs12 sm12 md12 lg12>
         <router-link :to="{ name: 'boardDetail', params: {boardId: boards[i-1].id} }">
@@ -27,7 +25,12 @@
         ></Board>
         </router-link>
       </v-flex>
-      <v-select style='width:30%'
+      <v-flex xs12 text-xs-center round my-5 v-if="loadMore">
+      <v-btn flat v-if="limits<boards.length" v-on:click="loadMoreBoards" class="movebtn button1"><v-icon size="25" class="mr-2">fa-plus</v-icon>View more</v-btn>
+
+        </v-flex>
+      <v-layout row wrap mw-700>
+      <v-select style='width:20%; overflow:auto; padding-left:5px;'
             v-model="selectedItem"
             :items="searchItem"
             label="Select"
@@ -35,14 +38,14 @@
             return-object
             single-line
           ></v-select>
-          <v-text-field style='width:50%' v-model="searchName" placeholder="Search title.."></v-text-field>
-          <v-btn falt color='info' @click='searchBtn()'>검색</v-btn>
-      <v-flex xs12 text-xs-center round my-5 v-if="loadMore">
-      <v-btn v-if="limits<boards.length" v-on:click="loadMoreBoards" class="movebtn button1"><v-icon size="25" class="mr-2">fa-plus</v-icon>View more</v-btn>
-        <router-link to="/boardwriter"><v-btn v-if="check" class="movebtn button2">
-          <v-icon size="25" class="mr-2">create</v-icon>Write</v-btn></router-link>
-        </v-flex>
+          </v-layout>
+          <v-text-field style='width:20%; padding-left:5px;' v-model="searchName" placeholder="Search"></v-text-field>
+          <button style="padding-top:15px; padding-left:15px; width:30px; height:40px;" color='white' @click='searchBtn()'><v-icon color="lightgray">fa-search</v-icon></button>
+          <router-link to="/boardwriter"><v-btn flat v-if="check" class="movebtn button2">
+            <v-icon size="25" class="mr-1">create</v-icon>작성</v-btn></router-link>
+
       </v-layout>
+      <br><br><br>
     </div>
   </template>
   <script>

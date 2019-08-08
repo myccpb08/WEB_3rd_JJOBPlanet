@@ -5,7 +5,7 @@
     props:{
       dataList:{type:Array},
       dataList2:{type:Array},
-      // dataList3:{type:Array},
+
       isloaded:{type:Boolean},
     },
     data () {
@@ -64,11 +64,8 @@
     },
     watch: {
         isloaded:function(){
-
-          // console.log(this.dataList.slice())
           this.datacollection.datasets[0].data = this.dataList
           this.datacollection.datasets[1].data = this.dataList2
-          // this.datacollection.datasets[2].data = this.dataList3
 
           this.renderChart(this.datacollection, this.options)
         }

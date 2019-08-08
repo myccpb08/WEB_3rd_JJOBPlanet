@@ -14,19 +14,13 @@
                     <br>
                     <div style="height:1px; width:100%; background:lightgray;"></div>
                   </div>
-
+                  <br>
                   <div style='text-align:right'>
                     <div>작성일 : {{formatedDate(board.created_at)}}</div>
-
-                    <div>작성자 {{board.displayName}} | {{board.email}}</div>
+                    <div>작성자 : <template v-if='board.displayName !==null'>{{board.displayName}} | </template>{{board.email}}</div>
 
                   </div>
-                  <br><br>
-
-                  내용 : <br>
-                  <template v-if='board.img!==""'>
-                    <br><hr><br>
-                  </template>
+                  <br><hr><br>
                   <v-img style="width:72%; margin:0 auto;" :src="board.img"></v-img>
                   <br>
                   <template v-if='board.img!==""'>
@@ -36,6 +30,7 @@
                 </div>
               </v-flex>
               <v-flex  xs12 text-xs-center round my-5>
+                <div style="height:1px; width:100%; background:lightgray;"></div>
                 <router-link :to="{ name: 'boardUpdate', params: {boardId: boardId} }">
                   <v-btn color="info" v-if="check" class="movebtn">update</v-btn>
                 </router-link>

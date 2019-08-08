@@ -136,7 +136,7 @@
                           <div style="padding-left:40px; text-align:center;">
                             <v-text-field v-model="signupEmail" label="Email" placeholder="이메일을 입력하세요." style="width:200px;"></v-text-field>
                             <v-text-field v-model="signupPassword" label="Password" placeholder="비밀번호를 입력하세요." style="width:200px;" type="password"></v-text-field>
-                          </div style="padding-left:40px; text-align:center;">
+                          </div>
                         </v-card-text>
 
                         <v-divider dark style="width:300px; margin: 0 auto; margin-top:140px; text-align:center"></v-divider>
