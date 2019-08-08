@@ -14,13 +14,18 @@
                     <br>
                     <div style="height:1px; width:100%; background:lightgray;"></div>
                   </div>
-                  <br>
+
                   <div style='text-align:right'>
                     <div>작성일 : {{formatedDate(board.created_at)}}</div>
-                    <div>작성자 : <template v-if='board.displayName !==null'>{{board.displayName}} | </template>{{board.email}}</div>
+
+                    <div>작성자 {{board.displayName}} | {{board.email}}</div>
 
                   </div>
-                  <br><hr><br>
+                  <br>
+
+                  <template v-if='board.img!==""'>
+                    <br><hr><br>
+                  </template>
                   <v-img style="width:72%; margin:0 auto;" :src="board.img"></v-img>
                   <br>
                   <template v-if='board.img!==""'>
@@ -30,15 +35,14 @@
                 </div>
               </v-flex>
               <v-flex  xs12 text-xs-center round my-5>
-                <div style="height:1px; width:100%; background:lightgray;"></div>
                 <router-link :to="{ name: 'boardUpdate', params: {boardId: boardId} }">
-                  <v-btn color="info" v-if="check" class="movebtn">update</v-btn>
+                  <v-btn flat color="gray" v-if="check" class="movebtn">update</v-btn>
                 </router-link>
-                <v-btn color="info" @click='deleteBoard()' v-if="check" class="movebtn">delete</v-btn>
-                <v-btn color="info" @click='$router.go(-1)' class="movebtn">back</v-btn>
+                <v-btn flat color="gray" @click='deleteBoard()' v-if="check" class="movebtn">delete</v-btn>
+                <v-btn flat color="gray" @click='$router.go(-1)' class="movebtn">back</v-btn>
               </v-flex>
             </v-layout>
-
+<hr>
             <!-- 댓글 테스트 -->
             <v-layout column style="text-align:left">
               <v-flex xs12>
@@ -79,7 +83,7 @@
                       </form>
                     </v-flex>
                     <v-flex shrink pa-1>
-                      <v-btn small outlined rounded color="info" v-on:click="postComment(boardId, content)" class="movebtn">submit</v-btn>
+                      <v-btn style="padding-top:5px;" small outlined rounded flat color="gray" v-on:click="postComment(boardId, content)" class="movebtn">submit</v-btn>
                     </v-flex>
                   </v-layout>
                 </div>
