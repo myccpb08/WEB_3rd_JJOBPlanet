@@ -3,7 +3,8 @@ import 'firebase/firestore'
 import 'firebase/auth'
 import 'firebase/messaging'
 import 'firebase/storage'
-
+import Swal from 'sweetalert2'
+const Swal2 = require('sweetalert2')
 const POSTS = 'posts'
 const PORTFOLIOS = 'portfolios'
 const BANNER = 'banner'
@@ -41,16 +42,64 @@ firebase.firestore().enablePersistence()
       // ...
     }
   });
-  // onmessage handling
-  messaging.onMessage((payload) => {
-    alert('Message received ' + payload.notification.title)
-  })
+// onmessage handling
+messaging.onMessage((payload) => {
+  alert('Message received ' + payload.notification.title)
+})
 
 export default {
-  getfavorite(user){
+  async deadline(alarmlist) {
+    console.log(alarmlist.length)
+    console.log(alarmlist)
+    const howmany = alarmlist.length
+    var sentence = ''
+    for (var idx = 0; idx < howmany; idx++) {
+      var part = alarmlist[idx].name + '/ '
+      sentence += part
+    }
+    Swal2.fire({
+      title: '내일마감 공고' + alarmlist.length + '개',
+      text: sentence,
+      type: 'info',
+      confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+    })
+  },
+  async alarmfavorite(user) {
+    const alarmlist = []
+    const today = new Date().getTime()
+    const FavoritesCollection = firestore.collection(FAVORITES) // favorits 컬렉션 가 져왔음    
+    return FavoritesCollection
+      .where("uid", "==", user.uid) // uid 필드가 현재 로그인한 애인 사람들 docs 만 가져옴    
+      .get()
+      .then((docSnapshots) => {
+        docSnapshots.docs.map((doc) => {
+          let data = doc.data()
+          data.created_at = new Date(data.created_at.toDate())
+          data.id = doc.id
+          const recruit_info = data.favorite
+          if (recruit_info.end) { // 마감날짜가 존재하면            
+            const day = new Date(recruit_info.end.split(' ')[0])
+            const gap = Math.ceil((day.getTime() - today) / 1000 / 60 / 60 / 24)
+            console.log(gap)
+            if (gap <= 5) { // 마감 일이 내일이면, 알람울릴 list 에 추가
+              alarmlist.push({
+                'name': recruit_info.name,
+                'end': recruit_info.end
+              })
+            }
+          } // 마감날짜있는지 테스트 끝       
+        })
+        return alarmlist
+      })
+      .then((result) => {
+        this.deadline(alarmlist)
+      })
+  },
+
+  getfavorite(user) {
     const FavoritesCollection = firestore.collection(FAVORITES)
     return FavoritesCollection
-      .where("uid","==",user.uid)
+      .where("uid", "==", user.uid)
       .orderBy('created_at', 'desc')
       .get()
       .then((docSnapshots) => {
@@ -62,8 +111,8 @@ export default {
         })
       })
   },
-  addfavorite(favorite,user){
-    return firestore.collection(FAVORITES).add({
+  addfavorite(favorite, user) {
+    return firestore.collection(FAVORITES).doc(user.uid + favorite.name).set({
       favorite,
       uid: user.uid,
       displayName: user.displayName,
@@ -72,9 +121,9 @@ export default {
     })
   },
   getstorage() {
-  var storage = firebase.storage()
-  var pathReference = storage.ref('result.json')
-  return pathReference;
+    var storage = firebase.storage()
+    var pathReference = storage.ref('result.json')
+    return pathReference;
   },
   notificationcheck() {
     Notification.requestPermission().then(function(permission) {
@@ -275,7 +324,7 @@ export default {
   getPersonalPosts(user) {
     const postsCollection = firestore.collection(POSTS)
     return postsCollection
-      .where("uid","==",user.uid)
+      .where("uid", "==", user.uid)
       .orderBy('created_at', 'desc')
       .get()
       .then((docSnapshots) => {
@@ -468,7 +517,7 @@ export default {
           let data_date = new Date(doc.data().created_at.toDate())
           let startDay = new Date(currentDay)
           let endDay = new Date(startDay)
-          endDay.setDate(endDay.getDate()+1)
+          endDay.setDate(endDay.getDate() + 1)
           for (let i = 0; i < 8; i++) {
             startDay.setDate(startDay.getDate() + 1)
             endDay.setDate(endDay.getDate() + 1)

@@ -2,7 +2,8 @@
   <div class="notranslate">
 
     <v-layout mt-5 wrap>
-      <v-select
+
+      <v-select style='width:5%'
             v-model="selectedItem"
             :items="searchItem"
             return-object
@@ -30,21 +31,19 @@
 
         </v-flex>
       <v-layout row wrap mw-700>
-      <v-select style='width:20%; overflow:auto; padding-left:5px;'
-            v-model="selectedItem"
-            :items="searchItem"
-            label="Select"
-            persistent-hint
-            return-object
-            single-line
-          ></v-select>
-          </v-layout>
-          <v-text-field style='width:20%; padding-left:5px;' v-model="searchName" placeholder="Search"></v-text-field>
-          <button style="padding-top:15px; padding-left:15px; width:30px; height:40px;" color='white' @click='searchBtn()'><v-icon color="lightgray">fa-search</v-icon></button>
-          <router-link to="/boardwriter"><v-btn flat v-if="check" class="movebtn button2">
-            <v-icon size="25" class="mr-1">create</v-icon>작성</v-btn></router-link>
+        <v-select style='width:5%'
+              v-model="selectedItem"
+              :items="searchItem"
+              return-object
+              single-line
+            ></v-select>
+        <v-text-field @keyup.enter='searchBtn()' style='width:20%; padding-left:5px;' v-model="searchName" placeholder="Search"></v-text-field>
+        <button style="padding-top:15px; width:30px; height:40px; padding-left:5px;" color='white' @click='searchBtn()'><v-icon color="lightgray">fa-search</v-icon></button>
+        <router-link to="/boardwriter"><v-btn flat style="padding-top:5px; padding-right:5px;" v-if="check" class="movebtn button2">
+        <v-icon size="25" class="mr-1">create</v-icon>작성</v-btn></router-link>
 
       </v-layout>
+    </v-layout>
       <br><br><br>
     </div>
   </template>
@@ -148,5 +147,13 @@
   .mw-700 {
     max-width: 700px;
     margin: auto;
+  }
+  .mobBr{
+    display:none;
+  }
+  .mobBr.mobile {
+    display:inline-block;
+    text-align:center;
+    align:center;
   }
   </style>

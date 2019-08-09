@@ -25,12 +25,16 @@
       <br>
       <v-card min-width="260" max-width="750" class="mx-auto" style="padding:30px; padding-top:5px; padding-bottom:5px; padding-right:5px; margin-left:0px">
         <!-- 검색 -->
-        <v-layout row wrap mw-700>
-          <v-text-field @keyup.enter='searchBtn()' style='width:50%' v-model="searchName" placeholder="Search name or email.."></v-text-field>
-          <v-btn falt color='info' @click='searchBtn()'>검색</v-btn>
+        <v-layout row wrap mw-700 align-center justify-center>
+          <v-flex xs6 sm6>
+          <v-text-field @keyup.enter='searchBtn()' v-model="searchName" placeholder="Search name or email.."></v-text-field>
+          </v-flex>
+          <!-- <v-btn falt color='gray' @click='searchBtn()'>검색</v-btn> -->
+          <button style="padding-top:15px;padding-left:15px;width:30px; height:40px;" color='white' @click='searchBtn()'><v-icon color="lightgray">fa-search</v-icon></button>
+
         </v-layout>
         <div class="list" style="height:600px; overflow:auto">
-        <v-layout wrap mw-700 xs6 >
+        <v-layout wrap mw-700 xs6 justify-start>
           <v-flex style="padding-bottom:0px;" v-for="i in userClasses.length">
             <UserClass :displayName="userClasses[i - 1].displayName" :email="userClasses[i - 1].email" :userClass="userClasses[i - 1].userClass" :uid="userClasses[i - 1].uid">
             </UserClass>

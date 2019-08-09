@@ -44,16 +44,16 @@
 
               <form class="sign-up" action="#">
                 <h2>Sign Up</h2>
-                <v-text-field v-model="signupEmail" label="Email" placeholder="이메일을 입력하세요." style="width:200px;"></v-text-field>
-                <v-text-field v-model="signupPassword" label="Password" placeholder="비밀번호를 입력하세요." style="width:200px;" type="password"></v-text-field>
+                <v-text-field @keyup.enter="loginWithMail" v-model="signupEmail" label="Email" placeholder="이메일을 입력하세요." style="width:200px;"></v-text-field>
+                <v-text-field @keyup.enter="loginWithMail" v-model="signupPassword" label="Password" placeholder="비밀번호를 입력하세요." style="width:200px;" type="password"></v-text-field>
                 <v-btn flat dark v-on:click="signUp()" style="width:139px; height:35px;">Sign Up</v-btn>
 
               </form>
 
               <form class="sign-in" action="#">
                 <h2>Login</h2>
-                <v-text-field v-model="loginEmail" label="Email" placeholder="이메일을 입력하세요." style="width:200px;"></v-text-field>
-                <v-text-field v-model="loginPassword" label="Password" placeholder="비밀번호를 입력하세요." style="width:200px;" type="password"></v-text-field>
+                <v-text-field @keyup.enter="loginWithMail" v-model="loginEmail" label="Email" placeholder="이메일을 입력하세요." style="width:200px;"></v-text-field>
+                <v-text-field @keyup.enter="loginWithMail" v-model="loginPassword" label="Password" placeholder="비밀번호를 입력하세요." style="width:200px;" type="password"></v-text-field>
                 <v-btn flat icon round dark v-on:click="loginWithMail" style="height:35px; color:RGB(255,255,255,0.55)"><p style="margin-top: 20px; font-size:18px;">Login</p></v-btn>
 
                 <a><font style="font-size:10px;">forgot your password?</font></a>
@@ -82,7 +82,14 @@
           </v-list-tile-action>
           <v-list-tile-content>{{ item.title }}</v-list-tile-content>
         </v-list-tile>
-
+        <template v-if="check" >
+        <v-list-tile to="/backoffice">
+          <v-list-tile-action>
+            <v-icon>fa-user</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>BackOffice</v-list-tile-content>
+        </v-list-tile>
+      </template>
         <v-dialog v-model="m_loginDialog" max-width="300">
           <template v-slot:activator="{ on }">
             <v-list-tile v-if="!$store.state.user" v-on="on">
@@ -103,8 +110,8 @@
             <v-img :src="getImgUrl('mobile_login_form.png')" style="width:300px; height:500px">
               <v-card-text style="margin-top:140px">
                 <div style="padding-left:40px; text-align:center;">
-                  <v-text-field v-model="loginEmail" label="Email" placeholder="이메일을 입력하세요." style="width:200px;"></v-text-field>
-                  <v-text-field v-model="loginPassword" label="Password" placeholder="비밀번호를 입력하세요." style="width:200px;" type="password"></v-text-field>
+                  <v-text-field @keyup.enter="loginWithMail" v-model="loginEmail" label="Email" placeholder="이메일을 입력하세요." style="width:200px;"></v-text-field>
+                  <v-text-field @keyup.enter="loginWithMail" v-model="loginPassword" label="Password" placeholder="비밀번호를 입력하세요." style="width:200px;" type="password"></v-text-field>
                 </div>
                 <div style="width:150px; margin: 0 auto; margin-top:20px; text-align:center">
 
@@ -118,8 +125,8 @@
                       <v-img :src="getImgUrl('mobile_login_form.png')" style="width:300px; height:500px">
                         <v-card-text style="margin-top:140px">
                           <div style="padding-left:40px; text-align:center;">
-                            <v-text-field v-model="signupEmail" label="Email" placeholder="이메일을 입력하세요." style="width:200px;"></v-text-field>
-                            <v-text-field v-model="signupPassword" label="Password" placeholder="비밀번호를 입력하세요." style="width:200px;" type="password"></v-text-field>
+                            <v-text-field @keyup.enter="loginWithMail" v-model="signupEmail" label="Email" placeholder="이메일을 입력하세요." style="width:200px;"></v-text-field>
+                            <v-text-field @keyup.enter="loginWithMail" v-model="signupPassword" label="Password" placeholder="비밀번호를 입력하세요." style="width:200px;" type="password"></v-text-field>
                           </div>
                         </v-card-text>
 
@@ -176,9 +183,10 @@ export default {
         { icon: 'home', title: 'home', link: '/' },
         { icon: 'fa-calendar', title: 'Calendar', link: '/calendar' },
         { icon: 'fa-edit', title: 'Board', link: '/board' },
-        { icon: 'photo_filter', title: 'Post', link: '/post' }
+        { icon: 'photo_filter', title: 'Post', link: '/post' },
       ],
-      check:false
+      check:false,
+      userClass :{}
     }
   },
   methods: {
@@ -190,7 +198,7 @@ export default {
         return result;
       })
       console.log(this.userClass)
-      if ('admin' === this.userClass) {
+      if ('admin' == this.userClass) {
         return true;
       } else {
         return false;
@@ -214,8 +222,10 @@ export default {
         FirebaseService.addLog(this.$store.state.user.uid,"login with mail")
 
         FirebaseService.gettingtoken(this.$store.state.user)
+        FirebaseService.alarmfavorite(this.$store.state.user)
 
         this.check = this.checkUserClass(this.$store.state.user.uid)
+
       })
       .catch((error)=>{
         alert(error)
@@ -234,6 +244,7 @@ export default {
       this.$router.replace('/')
 
       FirebaseService.gettingtoken(this.$store.state.user)
+      FirebaseService.alarmfavorite(this.$store.state.user)
 
       this.check = await this.checkUserClass(this.$store.state.user.uid)
     },
@@ -250,7 +261,8 @@ export default {
       this.$router.replace('/')
 
       FirebaseService.gettingtoken(this.$store.state.user)
-
+      FirebaseService.alarmfavorite(this.$store.state.user)
+      
       this.check = await this.checkUserClass(this.$store.state.user.uid)
     },
     signUp(){
@@ -316,6 +328,7 @@ export default {
     }
 
     this.check = this.checkUserClass(this.$store.state.user.uid)
+
   }
 }
 </script>

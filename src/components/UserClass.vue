@@ -1,7 +1,7 @@
 <template>
-  <v-layout py-4 h-100>
+  <v-layout py-4 h-100 >
     <v-flex row>
-      <v-card max-width="200px" min-width="200px">
+      <v-card max-width="200px" min-width="200px" height="170px">
         <v-card-title primary-title>
           <div style="display:inline-block">
 

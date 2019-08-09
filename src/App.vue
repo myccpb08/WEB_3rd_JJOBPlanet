@@ -66,7 +66,9 @@ export default {
 * {
   font-family: Swagger;
 }
-
+a {
+  text-decoration: none;
+}
 #bannerTitle {
   z-index: 1;
   /* background: linear-gradient(90deg, rgba(240,20,30,5) 0%, rgba(150,120,220,1) 46%, rgba(250,240,0,5) 100%); */

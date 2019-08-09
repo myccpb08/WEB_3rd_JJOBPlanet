@@ -11,8 +11,10 @@
         <v-textarea solo v-model="body"></v-textarea>
 
         <v-flex  xs12 text-xs-center round my-5>
-          <v-btn color="info" v-on:click="postBoard(title, body, img)" class="movebtn button1">submit</v-btn>
-          <v-btn color="info" @click='$router.go(-1)' class="movebtn button2">back</v-btn>
+          <!-- <v-btn color="info" v-on:click="postBoard(title, body, img)" class="movebtn button1">submit</v-btn> -->
+          <!-- <v-btn color="info" @click='$router.go(-1)' class="movebtn button2">back</v-btn> -->
+          <v-btn flat color="gray" v-on:click="postBoard(title, body, img)" class="movebtn">submit</v-btn>
+          <v-btn flat color="gray" @click='$router.go(-1)' class="movebtn">back</v-btn>
         </v-flex>
 
       </form>
@@ -45,7 +47,7 @@ export default {
         alert("내용을 입력해주세요")
       }else{
         await FirebaseService.postBoard(title, body, img, this.$store.state.user)
-        alert("Board가 작성되었습니다."+img)
+        alert("Board가 작성되었습니다.")
         this.$router.replace('/board')
       }
     }

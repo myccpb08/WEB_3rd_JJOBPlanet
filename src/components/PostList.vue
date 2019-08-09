@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="margin-top:50px;"></div>
-    <div style="width:100%;height:650px;border:1px solid #dddddd;">
+    <div style="width:100%;height:670px;border:1px solid #dddddd;">
       <!-- title -->
       <div style="width:100%;height:55px;background:#f2f2f2">
         <v-layout row wrap mw-700>
@@ -61,14 +61,18 @@
               <v-alert v-if='i===choicePost' :value="alert" color="white" dark border="top" icon="mdi-home" transition="scale-transition">
 
                 <!-- moblie content -->
-                <div style="width:100%;height:550px;padding:20px;text-align:center;float:left">
+                <div style="width:100%;padding:20px;text-align:center;float:left">
 
                   <v-text-field v-model="title" label="Q."></v-text-field>
                   <hr>
                   <v-textarea v-on:keyup="count" v-model="body" :counter="maxCount" rows="23"></v-textarea>
                   <!-- <router-link to="/postwriter"><v-btn flat class="movebtn button3">
                   <v-icon size="25" class="mr-2 notranslate">create</v-icon>새로 작성하기</v-btn></router-link> -->
+
+                  <v-btn flat @click='checkPost(body)'><v-icon size="25" class="mr-2 notranslate" color="red">check</v-icon>맞춤법검사</v-btn>
                   <v-btn flat @click='updatePost'><v-icon size="25" class="mr-2 notranslate">create</v-icon>수정</v-btn>
+                  <v-btn flat @click='deletePost'><v-icon size="25" class="mr-2 notranslate">delete</v-icon>삭제</v-btn>
+                  <br>
                   <!--<v-label>{{letter}} / {{maxCount}}</v-label>-->
                 </div>
 
@@ -83,18 +87,20 @@
       </div>
 
       <!-- content -->
-      <div style="width:70%;height:550px;padding:20px;text-align:center;float:left" class="hidden-xs-only">
+      <div style="width:70%;height:700px;padding:20px;text-align:center;float:left" class="hidden-xs-only">
 
         <v-text-field v-model="title" label="Q."></v-text-field>
         <hr>
-        <v-textarea v-on:keyup="count" v-model="body" :counter="maxCount" rows="23"></v-textarea>
+        <v-textarea v-on:keyup="count" v-model="body" :counter="maxCount" rows="23" ></v-textarea>
         <!-- <router-link to="/postwriter"><v-btn flat class="movebtn button3">
         <v-icon size="25" class="mr-2 notranslate">create</v-icon>새로 작성하기</v-btn></router-link> -->
+        <v-btn flat @click='checkPost(body)'><v-icon size="25" class="mr-2 notranslate" color="red">check</v-icon>맞춤법검사</v-btn>
         <v-btn flat @click='updatePost'><v-icon size="25" class="mr-2 notranslate">create</v-icon>수정</v-btn>
         <v-btn flat @click='deletePost'><v-icon size="25" class="mr-2 notranslate">delete</v-icon>삭제</v-btn>
+        <br>
         <!--<v-label>{{letter}} / {{maxCount}}</v-label>-->
-
       </div>
+
     </div>
 
     <div style="margin-top:150px;"></div>
@@ -104,6 +110,7 @@
 <script>
 import Post from '@/components/Post'
 import FirebaseService from '@/services/FirebaseService'
+import axios from 'axios'
 export default {
   name: 'PostList',
   props: {
@@ -139,6 +146,17 @@ export default {
     this.getPersonalPosts()
   },
   methods: {
+      checkPost(sentence){
+       const formData = new FormData();
+       formData.append('sentence', sentence);
+       console.log('맞춤법검사버튼눌렀음')
+       axios.post('http://localhost:8000/posts/test/', formData)
+       .then(response => {
+           console.log(response.data)
+           this.body = response.data
+         }
+       )
+     },
     searchBtn(){
       if(this.selectedItem === this.currentItem && this.searchName === this.currentName){
         return;

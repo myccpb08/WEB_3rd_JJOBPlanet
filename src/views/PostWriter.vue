@@ -9,8 +9,9 @@
         <markdown-editor v-model="body" ref="markdownEditor"></markdown-editor>
 
         <v-flex  xs12 text-xs-center round my-5>
-          <v-btn color="info" v-on:click="postPost(title, body)" class="movebtn button2">submit</v-btn>
-          <v-btn color="info" @click='$router.go(-1)' class="movebtn button3">back</v-btn>
+          <v-btn flat @click='checkPost(body)'><v-icon size="25" class="mr-2 notranslate" color="red">check</v-icon>맞춤법검사</v-btn>
+          <v-btn flat color="gray" v-on:click="postPost(title, body)" class="movebtn">submit</v-btn>
+          <v-btn flat color="gray" @click='$router.go(-1)' class="movebtn">back</v-btn>
         </v-flex>
       </form>
     </v-container>
@@ -20,7 +21,7 @@
 <script>
 import markdownEditor from 'vue-simplemde/src/markdown-editor'
 import FirebaseService from '@/services/FirebaseService'
-
+import axios from 'axios'
 export default {
   name: 'PostWriter',
   data(){
@@ -36,6 +37,17 @@ export default {
 
   },
   methods:{
+    checkPost(sentence){
+     const formData = new FormData();
+     formData.append('sentence', sentence);
+     console.log('맞춤법검사버튼눌렀음')
+     axios.post('http://localhost:8000/posts/test/', formData)
+     .then(response => {
+         console.log(response.data)
+         this.body = response.data
+       }
+     )
+   },
     async postPost(title, body){
       if(title == ''){
         alert("제목을 입력해주세요")

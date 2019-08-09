@@ -35,9 +35,7 @@
                 </div>
               </v-flex>
               <v-flex  xs12 text-xs-center round my-5>
-                <router-link :to="{ name: 'boardUpdate', params: {boardId: boardId} }">
-                  <v-btn flat color="gray" v-if="check" class="movebtn">update</v-btn>
-                </router-link>
+                <v-btn :to="{ name: 'boardUpdate', params: {boardId: boardId} }" flat color="gray" v-if="check" class="movebtn">update</v-btn>
                 <v-btn flat color="gray" @click='deleteBoard()' v-if="check" class="movebtn">delete</v-btn>
                 <v-btn flat color="gray" @click='$router.go(-1)' class="movebtn">back</v-btn>
               </v-flex>

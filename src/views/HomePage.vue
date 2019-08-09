@@ -20,7 +20,7 @@
             </p>
           </font>
         </p>
-        
+
         <v-btn flat dark outline style="width:110px;" to="/calendar"><label style='font-size:14.5px'>채용공고 보기</label></v-btn><br>
         <v-btn flat dark outline style="width:110px;" to="/post"><label style='font-size:14.5px'>자기소개서</label></v-btn>
       </div>
@@ -306,7 +306,6 @@ export default {
     favorite(input){
       FirebaseService.addfavorite(this.tempfavorite,this.$store.state.user)
     }
-
 
   },
   mounted(){
