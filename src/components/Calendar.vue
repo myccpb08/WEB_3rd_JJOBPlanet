@@ -19,6 +19,7 @@
     </v-menu>
 
 
+
     <v-menu ref="nowMenu" v-model="nowMenu" :close-on-content-click="false" :nudge-right="40" :return-value.sync="now" transition="scale-transition" min-width="290px" offset-y full-width>
       <template v-slot:activator="{ on }">
         <v-text-field v-model="now" label="Today" prepend-icon="event" readonly v-on="on"></v-text-field>
@@ -49,76 +50,88 @@
         :show-interval-label="showIntervalLabel" :short-intervals="true" :short-months="true" :short-weekdays="true" :color="color">
 
         <template v-slot:day="day">
-          <v-sheet v-if="day.day % 6 === 0" :color="color" class="white--text pa-1">
-            day slot<br> {{ day.date }}
-          </v-sheet>
-        </template>
+        <div v-for="i in totalfavorite">
+         <v-sheet v-if="day.date===drawstart(i)" :color="color" class="calendarmsg white--text pa-1">
+           {{ i.favorite.name }}
+         </v-sheet>
+         <v-sheet v-else-if="day.date===drawend(i)" :color="color" class="calendarmsg white--text pa-1">
+           {{ i.favorite.name}}
+         </v-sheet>
+        </div>
+       </template>
 
       </v-calendar>
       <div style="width:100%; height:70px; padding:15px; text-align:center">
         <v-btn small dark color="#7f7b76" @click="viewToday()">today</v-btn>
       </div>
     </v-sheet>
-    <br>
-    <hr>
-    <br>
-    <v-card class="mx-auto" max-width="830">
+<br>
+<hr>
+<br>
+      <v-card class="mx-auto" max-width="830">
 
-      <v-toolbar color="#6BBCDC" dark>
+        <v-toolbar color="#6BBCDC" dark>
+          <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-        <v-toolbar-title>내가 추가한 기업</v-toolbar-title>
+          <v-toolbar-title>내가 추가한 기업</v-toolbar-title>
 
-        <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
-      </v-toolbar>
-      <br>
-      <v-container fluid grid-list-md pa-2>
-        <v-layout wrap>
-          <v-flex style="text-align:center;" v-for="i in totalfavorite">
-            <v-btn class="favoriteBtn" :class = "$mq" color="white" style="box-shadow: 4px 4px 4px 4px gray;" @click='openmodal(i.favorite)'>
-              <v-img aspect-ratio=1 :src='i.favorite.logo' contain style="max-width:100px; height:80px;"></v-img>
-              <div>
-                {{i.favorite.name}}<br>
-                <p style="font-size:17px; color:gray; padding-left:20px;" v-if="i.favorite.end===undefined">채용시 마감</p>
-                <p style="font-size:17px; color:gray; padding-left:20px;" v-else>{{i.favorite.start}} ~ {{i.favorite.end}}
+        </v-toolbar>
+<br>
+        <v-container fluid grid-list-md pa-2>
+          <v-layout wrap>
+            <v-flex style="text-align:center;" v-for="i in totalfavorite">
+              <!-- <div v-if="drawcalender(i)"></div> -->
+              <v-btn color="white" style="height:110px; width:500px; box-shadow: 4px 4px 4px 4px gray;" @click='openmodal(i.favorite)'>
+                <v-img aspect-ratio=1 :src='i.favorite.logo' contain style="max-width:100px; height:80px;"></v-img>
+                <div>
+                  {{i.favorite.name}}<br>
+                  <p style="font-size:17px; color:gray; padding-left:20px;" v-if="i.favorite.end===undefined">채용시 마감</p>
+                  <p style="font-size:17px; color:gray; padding-left:20px;" v-else>{{i.favorite.start}} ~ {{i.favorite.end}}
                   <!-- <v-btn class="ma-1" v-if="comment.uid == $store.state.user.uid" text icon @click="deleteComment(comment.id)"> -->
-                  <v-icon small color="red" style="padding-bottom:20px; padding-left:20px;">delete</v-icon>
+                    <v-icon small color="red" style="padding-bottom:20px; padding-left:20px;">delete</v-icon>
                   <!-- </v-btn> -->
-                </p>
-              </div>
+                  </p>
+
+                </div>
+              </v-btn>
+            </v-flex>
+
+          </v-layout>
+        </v-container>
+        <br>
+      </v-card>
+
+
+    </v-flex>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal" @click='modalclose()'>
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close" @click='modalclose()'>&times;</span>
+        <div>
+          <p v-if="endtime===undefined">채용시 마감</p>
+          <p v-else>{{starttime}} ~ {{endtime}}</p>
+          <v-btn icon disable @click='favorite()'>
+              <v-icon color="orange">star</v-icon>
             </v-btn>
-          </v-flex>
-
-        </v-layout>
-      </v-container>
-      <br>
-    </v-card>
-
-
-  </v-flex>
-
-  <!-- The Modal -->
-  <div id="myModal" class="modal" @click='modalclose()'>
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close" @click='modalclose()'>&times;</span>
-      <div>
-        <p v-if="endtime===undefined">채용시 마감</p>
-        <p v-else>{{starttime}} ~ {{endtime}}</p>
-        <v-btn icon disable @click='favorite()'>
-          <v-icon color="orange">star</v-icon>
-        </v-btn>
+        </div>
+        <div v-for="i in detail" >
+          <v-img :src=i style="height:auto; width:auto; margin:0 auto"></v-img>
+        </div>
       </div>
-      <div v-for="i in detail">
-        <v-img :src=i style="height:auto; width:auto; margin:0 auto"></v-img>
-      </div>
-    </div>
   </div>
-</v-layout>
+  </v-layout>
+
+
+
 </template>
 
 <script>
 import FirebaseService from '@/services/FirebaseService'
+import moment from 'moment'
 const weekdaysDefault = [0, 1, 2, 3, 4, 5, 6]
 const intervalsDefault = {
   first: 0,
@@ -134,8 +147,8 @@ const stylings = {
 }
 export default {
   data: () => ({
-    start: '1993-05-31',
-    now: '1993-05-31',
+    start: moment().format('YYYY.MM.dd'),
+    now: moment().format('YYYY.MM.dd'),
     startMenu: false,
     endMenu: false,
     nowMenu: false,
@@ -177,8 +190,8 @@ export default {
     if (month < 10) month = '0' + month;
     if (day < 10) day = '0' + day;
 
-    this.start = year + '-' + month + '-' + day;
-    this.now = year + '-' + month + '-' + day;
+    this.start = year + '.' + month + '.' + day;
+    this.now = year + '.' + month + '.' + day;
 
   },
   methods: {
@@ -201,6 +214,21 @@ export default {
     modalclose() {
       document.getElementById('myModal').style.display = "none"
     },
+    checktime(now,time){
+      console.log(time+" "+now+"?")
+      if(time.includes(now))return true;
+      else return false;
+    },
+    drawstart(input){
+      var temp=JSON.stringify(input.favorite.start).replace(/[.]/g,'-').split(' ')[0];
+      var output=temp.replace(/[@"]/gi,'');
+      return output;
+    },
+    drawend(input){
+      var temp=JSON.stringify(input.favorite.end).replace(/[.]/g,'-').split(' ')[0];
+      var output=temp.replace(/[@"]/gi,'');
+      return output;
+    }
   },
   mounted() {
     this.getfavorite()
@@ -212,14 +240,7 @@ export default {
 .controls {
   position: relative;
 }
-.favoriteBtn{
-  height:110px;
-  width:500px;
-}
-.favoriteBtn.mobile{
-  height:200px;
-  width:220px;
-}
+
 .modal {
   display: none;
   /* Hidden by default */
@@ -265,5 +286,10 @@ export default {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+.calendarmsg{
+  width: 90px;
+  height: 28px;
+  overflow: hidden;
 }
 </style>
