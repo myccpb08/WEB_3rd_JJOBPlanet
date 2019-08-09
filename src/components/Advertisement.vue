@@ -1,5 +1,5 @@
 <template>
-  <v-footer>
+  <v-footer class="list hidden-xs-only">
     <v-layout>
 
       <!-- advertisement -->
@@ -9,7 +9,9 @@
           <v-img :src="getImgUrl('loudspeaker.png')" style="width:50px; float:left"></v-img>
           <p>
             <font style="font-size:30px; color:#3f4b5f;">광고/채용공고 문의</font><br>
-            <font>함께 할 인재를 찾고 계신가요? Jjobplanet에서 찾으세요!</font>
+            <font>함께 할 인재를 찾고 계신가요?</font>
+            <br>
+            <font style="padding-left:51px;">Ssobplanet에서 찾으세요!</font>
           </p>
         </div>
 

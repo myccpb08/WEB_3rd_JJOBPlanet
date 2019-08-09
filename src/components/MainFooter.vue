@@ -1,13 +1,13 @@
 <template>
   <v-footer style="height:200px; color:white; background:#3f4b5f; text-align:center">
     <v-layout justify-center row wrap>
-
-      <div style="width:100%">
-        <v-btn small to="">김영훈</v-btn>
-        <v-btn small to="">김유림</v-btn>
-        <v-btn small to="">석주연</v-btn>
-        <v-btn small to="">이수경</v-btn>
-        <v-btn small to="">지경민</v-btn>
+      <div class="list hidden-xs-only" style="margin-top:20px; width:90%;">
+        <div style="align:center">About Us</div>
+        <v-btn flat small to=""><p style="color:lightgray">김영훈</p></v-btn>
+        <v-btn flat small to=""><p style="color:lightgray">김유림</p></v-btn>
+        <v-btn flat small to=""><p style="color:lightgray">석주연</p></v-btn>
+        <v-btn flat small to=""><p style="color:lightgray">이수경</p></v-btn>
+        <v-btn flat small to=""><p style="color:lightgray">지경민</p></v-btn>
       </div>
 
       <div style="width:100%; margin-top:20px;">

@@ -121,11 +121,44 @@
           <v-btn small dark color="#7f7b76" @click="viewToday()">today</v-btn>
         </div>
       </v-sheet>
+      <v-flex style="text-align:center;" v-for="i in totalfavorite">
+        <v-btn color="ffffff" style="height:110px; width:500px; box-shadow: none;"   @click='openmodal(i.favorite)'>
+          <v-img aspect-ratio=1 :src='i.favorite.logo' contain style="max-width:100px; height:80px;"></v-img>
+        <div>
+          {{i.favorite.name}}<br>
+          <p v-if="i.favorite.end===undefined">채용시 마감</p>
+          <p v-else>{{i.favorite.start}} ~ {{i.favorite.end}}</p>
+        </div>
+        </v-btn>
+      </v-flex>
     </v-flex>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal" @click='modalclose()'>
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close" @click='modalclose()'>&times;</span>
+        <div>
+          <p v-if="endtime===undefined">채용시 마감</p>
+          <p v-else>{{starttime}} ~ {{endtime}}</p>
+          <v-btn icon disable @click='favorite()'>
+              <v-icon color="orange">star</v-icon>
+            </v-btn>
+        </div>
+        <div v-for="i in detail" >
+          <v-img :src=i style="height:auto; width:auto; margin:0 auto"></v-img>
+        </div>
+      </div>
+  </div>
   </v-layout>
+
+
+
 </template>
 
 <script>
+
+import FirebaseService from '@/services/FirebaseService'
   const weekdaysDefault = [0, 1, 2, 3, 4, 5, 6]
   const intervalsDefault = {
     first: 0,
@@ -156,6 +189,10 @@
       intervals: intervalsDefault,
       styleInterval: 'default',
       color: '#6BBCDC',
+        totalfavorite:[],
+        detail:'',
+        starttime:'',
+        endtime:'',
     }),
     computed: {
       intervalStyle () {
@@ -174,6 +211,7 @@
 
       this.start = year + '-' + month + '-' + day;
       this.now = year + '-' + month + '-' + day;
+
     },
     methods: {
       viewToday () {
@@ -182,6 +220,22 @@
       showIntervalLabel (interval) {
         return interval.minute === 0
       },
+      async getfavorite(){
+        this.totalfavorite = await FirebaseService.getfavorite(this.$store.state.user);
+      },
+      openmodal(input){
+       document.getElementById('myModal').style.display = "block";
+       this.detail=input.detail;
+       this.starttime=input.start;
+       this.endtime=input.end;
+       this.tempfavorite=input;
+     },
+     modalclose(){
+       document.getElementById('myModal').style.display = "none"
+     },
+    },
+    mounted() {
+      this.getfavorite()
     },
   }
 </script>
@@ -189,5 +243,39 @@
 <style scoped>
 .controls {
   position: relative;
+}
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+}
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 </style>

@@ -19,70 +19,54 @@
           <v-btn flat to="/backoffice" v-if='check'>BackOffice</v-btn>
 
           <!-- login SignUp Form -->
-          <v-dialog v-if="!$store.state.user" v-model="loginDialog" width="360">
+          <v-dialog v-if="!$store.state.user" v-model="loginDialog" max-width="500">
             <template v-slot:activator="{ on }">
               <v-btn flat v-on="on">
                 <router-link to="">login</router-link>
               </v-btn>
             </template>
 
-            <v-card>
-              <v-img :src="getImgUrl('login_form.png')" style="width:360px; height:500px">
-
-                <v-card-text style="margin-top:150px">
-                  <div style="padding-left:50px; text-align:center;">
-                    <v-text-field v-model="loginEmail" label="Email" @keyup.enter='loginWithMail' placeholder="이메일을 입력하세요." style="width:230px;"></v-text-field>
-                    <v-text-field v-model="loginPassword" label="Password" @keyup.enter='loginWithMail' placeholder="비밀번호를 입력하세요." style="width:230px;" type="password"></v-text-field>
+            <div class="container" :class="{'sign-up-active' : signUpAni}">
+              <div class="overlay-container">
+                <div class="overlay">
+                  <div class="overlay-left">
+                    <h2>Lorem Ipsum</h2>
+                    <p>Lorem Ipsum is simply dummy text of the printing</p>
+                    <v-btn dark small flat class="invert" id="signIn" @click="signUpAni = !signUpAni">Login In</v-btn>
                   </div>
-                  <div style="width:150px; margin: 0 auto; margin-top: 20px; text-align:center">
-
-
-                    <v-dialog v-model="signupDialog" width="360">
-                      <template v-slot:activator="{ on }">
-                        <v-btn flat icon round color="#20aa49" dark v-on="on" style="width:25px;height:25px;"><v-img :src="getImgUrl('gmail_icon.png')" style="width:100%"></v-img></v-btn>
-                      </template>
-
-                      <v-card style="height:100%">
-                        <v-img :src="getImgUrl('sing_up_form.png')" style="width:360px; height:500px">
-
-                          <v-card-text style="margin-top:150px">
-                            <div style="padding-left:50px; text-align:center;">
-                              <v-text-field v-model="signupEmail" label="Email" placeholder="이메일을 입력하세요." style="width:230px;"></v-text-field>
-                              <v-text-field v-model="signupPassword" label="Password" placeholder="비밀번호를 입력하세요." style="width:230px;" type="password"></v-text-field>
-                            </div>
-                          </v-card-text>
-                          <v-divider style="width:300px; margin: 0 auto; margin-top:125px; text-align:center"></v-divider>
-
-                          <v-card-actions>
-
-                            <v-btn flat dark v-on:click="signUp()" style="width:168px; height:40px; color:#ffffff">Sign Up</v-btn>
-                            <v-btn flat dark @click="signupDialog = false" style="width:168px; height:40px; color:#ffffff;">Close</v-btn>
-                          </v-card-actions>
-                        </v-img>
-                      </v-card>
-
-                    </v-dialog>
-
-
-                    <v-btn flat icon round color="#df4a31" dark v-on:click="loginWithGoogle" style="width:25px;height:25px;"><v-img :src="getImgUrl('google_logo.png')" style="width:100%"></v-img></v-btn>
-                    <v-btn flat icon round color="#4267B2" dark v-on:click="loginWithFacebook" style="width:25px;height:25px;"><v-img :src="getImgUrl('facebook_logo.png')" style="width:100%"></v-img></v-btn>
-                    <br>
-
-
-                    <v-btn flat icon round dark v-on:click="loginWithMail" style="height:35px; color:#7f7b76"><p style="margin-top: 20px; font-size:18px;">Login</p></v-btn>
-
-                    <p style="margin-top:50px; font-size:12px; color:RGB(255,255,255,0.65)">@provided by HARMONY @2019.07.10 @git:lab.ssafy.com</p>
+                  <div class="overlay-right">
+                    <h2>Lorem Ipsum</h2>
+                    <p>Lorem Ipsum is simply dummy text of the printing</p>
+                    <v-btn dark small flat class="invert" id="signUp" @click="signUpAni = !signUpAni">Sign Up</v-btn>
                   </div>
-                </v-card-text>
-              </v-img>
-            </v-card>
+                </div>
+              </div>
+
+              <form class="sign-up" action="#">
+                <h2>Sign Up</h2>
+                <v-text-field v-model="signupEmail" label="Email" placeholder="이메일을 입력하세요." style="width:200px;"></v-text-field>
+                <v-text-field v-model="signupPassword" label="Password" placeholder="비밀번호를 입력하세요." style="width:200px;" type="password"></v-text-field>
+                <v-btn flat dark v-on:click="signUp()" style="width:139px; height:35px;">Sign Up</v-btn>
+
+              </form>
+
+              <form class="sign-in" action="#">
+                <h2>Login</h2>
+                <v-text-field v-model="loginEmail" label="Email" placeholder="이메일을 입력하세요." style="width:200px;"></v-text-field>
+                <v-text-field v-model="loginPassword" label="Password" placeholder="비밀번호를 입력하세요." style="width:200px;" type="password"></v-text-field>
+                <v-btn flat icon round dark v-on:click="loginWithMail" style="height:35px; color:RGB(255,255,255,0.55)"><p style="margin-top: 20px; font-size:18px;">Login</p></v-btn>
+
+                <a><font style="font-size:10px;">forgot your password?</font></a>
+
+                <v-btn flat icon round color="#df4a31" dark v-on:click="loginWithGoogle" style="width:25px;height:25px; opacity: 0.75;"><v-img :src="getImgUrl('google_logo.png')" style="width:100%"></v-img></v-btn>
+                <v-btn flat icon round color="#4267B2" dark v-on:click="loginWithFacebook" style="width:25px;height:25px; opacity: 0.75;"><v-img :src="getImgUrl('facebook_logo.png')" style="width:100%"></v-img></v-btn>
+              </form>
+
+            </div>
 
           </v-dialog>
 
           <v-btn v-else flat v-on:click="logout"><router-link to="/login">logout</router-link></v-btn>
-
-
-
         </v-toolbar-items>
       </v-toolbar>
     </div>
@@ -176,6 +160,7 @@ export default {
   name: 'MainHeader',
   data () {
     return{
+      signUpAni: false,
       loginEmail: '',
       loginPassword: '',
       signupEmail: '',
@@ -278,6 +263,8 @@ export default {
         FirebaseService.addLog(user.user.uid, "singup")
         FirebaseService.initUserClass(user.user, "visitor")
         this.$router.replace('/')
+        this.signupEmail = '';
+        this.signupPassword = '';
       })
       .catch((error)=>{
         alert(error)
@@ -334,7 +321,7 @@ export default {
 </script>
 
 
-<style>
+<style lang="scss" scoped>
 #breadth_logo{
   width: 140px;
   display: block;
@@ -357,6 +344,154 @@ a{
 
 #header a{
   color: #555 !important;
+}
+
+
+
+
+.container{
+  position: relative;
+  width: 500px;
+  height: 340px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, .2),
+              0 10px 10px rgba(0, 0, 0, .2);
+  background: linear-gradient(to bottom, #efefef, #ccc);
+}
+
+.overlay-container{
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform .5s ease-in-out;
+  z-index: 100;
+}
+
+.overlay{
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  background: linear-gradient(to bottom right, #6bbcdc, #3f4b5f);
+  color: #fff;
+  transform: translateX(0);
+  transition: transform .5s ease-in-out;
+}
+
+
+@mixin overlays($property) {
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  padding: 70px 40px;
+  width: calc(50% - 80px);
+  height: calc(100% - 140px);
+  text-align: center;
+  transform: translateX($property);
+  transition: transform .5s ease-in-out;
+}
+
+.overlay-left{
+  @include overlays(-20%);
+  top: 50px;
+  left: 30px;
+}
+
+.overlay-right{
+  @include overlays(0);
+  top: 50px;
+  right: 30px;
+}
+
+
+form{
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    padding: 90px 60px;
+    width: calc(50%);
+    height: calc(100%);
+    text-align: center;
+    background: linear-gradient(to bottom, #efefef, #ccc);
+    transition: all .5s ease-in-out;
+}
+
+
+
+input{
+  background-color: #eee;
+  border: none;
+  padding: 8px 15px;
+  margin: 6px 0;
+  width: calc(100% - 30px);
+  border-radius: 15px;
+  border-bottom: 1px solid #ddd;
+  overflow: hidden;
+}
+
+.sign-in {
+  left: 0;
+  z-index: 2;
+}
+
+.sign-up {
+  left: 0;
+  z-index: 1;
+  opacity: 0;
+}
+
+.sign-up-active {
+  .sign-in{
+    transform: translateX(100%);
+
+  }
+  .sign-up{
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: show .5s;
+  }
+
+  .overlay-container {
+    transform: translateX(-100%);
+  }
+
+  .overlay{
+    transform: translateX(50%);
+  }
+
+  .overlay-left {
+    transform: translateX(0);
+  }
+
+  .overlay-right {
+    transform: translateX(20%);
+  }
+}
+
+@keyframes show {
+  0%{
+    opacity: 0;
+    z-index: 1;
+  }
+  49% {
+    opacity: 0;
+    z-index: 1;
+  }
+  50% {
+    opacity: 1;
+    z-index: 10;
+  }
 }
 
 </style>

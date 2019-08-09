@@ -272,10 +272,7 @@ export default {
       .v-btn__content{
         font-size: 20px;
       }
-      .v-dialog{
-        height: 500px;
-        overflow: hidden;
-      }
+
       .v-card{
 
       }
