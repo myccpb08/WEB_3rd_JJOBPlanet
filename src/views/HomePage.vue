@@ -12,9 +12,12 @@
         <hr style="border:1px solid white; width:70px; margin-bottom:20px">
         <p>
           <font style="color:white;">
+            <p v-if="userName===undefined">추천 채용공고</p>
+            <p v-else>
             {{userName}}님이 <br>
             <b>지원하신 채용공고</b> <br>
             입니다 <br><br>
+            </p>
           </font>
         </p>
         <v-btn flat dark outline style="width:110px;" to="/calendar"><label style='font-size:14.5px'>채용공고 보기</label></v-btn><br>
@@ -307,14 +310,15 @@ export default {
   },
   mounted(){
     this.$store.state.langage = localStorage.getItem('langage');
-    if(this.$store.state.user !== undefined){
-      if(this.$store.state.user.displayName === null){
+    if(this.$store.state.user !== undefined && this.$store.state.user !== null){
+      if(this.$store.state.user.displayName === null || this.$store.state.user.displayName === undefined){
         this.userName = this.$store.state.user.email ;
       }else{
         this.userName = this.$store.state.user.displayName + '(' + this.$store.state.user.email + ')';
       }
+      console.log(this.userName+"!!")
     }else{
-      this.userName = '방문자'
+      console.log(this.userName)
     }
   }
 
