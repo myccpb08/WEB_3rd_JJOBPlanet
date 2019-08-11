@@ -95,7 +95,14 @@ export default {
         this.deadline(alarmlist)
       })
   },
-
+  deletefavorite(favorite, user) {
+    const comment = firestore.collection(FAVORITES).doc(user.uid + favorite.name)
+    comment.delete().then(function() {
+      alert('즐겨찾기가 삭제되었습니다');
+    }).catch(function(error) {
+      console.error('즐겨찾기 삭제에 실패했습니다', error);
+    })
+  },
   getfavorite(user) {
     const FavoritesCollection = firestore.collection(FAVORITES)
     return FavoritesCollection

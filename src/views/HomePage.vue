@@ -130,23 +130,23 @@
 
     <!-- The Modal -->
     <div id="myModal" class="modal" @click='modalclose()'>
-
       <!-- Modal content -->
       <div class="modal-content">
         <span class="close" @click='modalclose()'>&times;</span>
-        <div>
-          <p v-if="endtime===undefined">채용시 마감</p>
-          <p v-else>{{starttime}} ~ {{endtime}}</p>
+        <div style="height: 100px;">
+          <h1>{{modalfavorite.name}}</h1>
+          <p v-if="modalfavorite.end===undefined" style="float: left; padding-top: 15px;">채용시 마감</p>
+          <p v-else style="float: left; padding-top: 15px;">{{modalfavorite.start}} ~ {{modalfavorite.end}}</p>
           <v-btn icon disable @click='favorite()'>
-              <v-icon color="orange">star</v-icon>
-            </v-btn>
+             <v-icon small color="red" style="float: left;">star</v-icon>
+          </v-btn>
         </div>
-        <div v-for="i in detail" >
+        <hr>
+        <div v-for="i in modalfavorite.detail" >
           <v-img :src=i style="height:auto; width:auto; margin:0 auto"></v-img>
         </div>
       </div>
-
-    </div>
+  </div>
 
     <!-- content -->
     <div style="width:100%; min-height:800px;">
@@ -258,7 +258,7 @@ export default {
       detail:'',
       starttime:'',
       endtime:'',
-      tempfavorite:''
+      modalfavorite:''
     }
   },
   created () {
@@ -293,18 +293,15 @@ export default {
        this.currentIdx = idx;
 
      },
-     openmodal(input){
-      document.getElementById('myModal').style.display = "block";
-      this.detail=input.detail;
-      this.starttime=input.start;
-      this.endtime=input.end;
-      this.tempfavorite=input;
-    },
+     openmodal(input) {
+       document.getElementById('myModal').style.display = "block";
+       this.modalfavorite = input;
+     },
     modalclose(){
       document.getElementById('myModal').style.display = "none"
     },
     favorite(input){
-      FirebaseService.addfavorite(this.tempfavorite,this.$store.state.user)
+      FirebaseService.addfavorite(this.modalfavorite,this.$store.state.user)
     }
 
   },

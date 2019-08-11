@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="margin-top:48px"></div>
+    <div style="margin-top:68px"></div>
     <v-container>
       <v-card>
         <v-flex xs8 offset-xs2>
@@ -10,7 +10,7 @@
                 <div>
                 <br>
                   <div style='min-width:20px; text-align:center;'>
-                    <strong class="display-1" style="display:inline-block;">{{board.title}}</strong>
+                    <strong class="display-1" style="display:inline-block; margin-top: 15px;">{{board.title}}</strong>
                     <br>
                     <div style="height:1px; width:100%; background:lightgray;"></div>
                   </div>

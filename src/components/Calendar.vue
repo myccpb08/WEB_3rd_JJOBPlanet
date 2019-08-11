@@ -6,7 +6,7 @@
     <br><br><br>
     <v-select v-model="type" :items="typeOptions" label="Type"></v-select>
 
-
+<!--
     <v-menu ref="startMenu" v-model="startMenu" :close-on-content-click="false" :nudge-right="40" :return-value.sync="start" transition="scale-transition" min-width="290px" offset-y full-width>
       <template v-slot:activator="{ on }">
         <v-text-field v-model="start" label="Start Date" prepend-icon="event" readonly v-on="on"></v-text-field>
@@ -29,7 +29,7 @@
         <v-btn text dark :color="color" @click="nowMenu = false">Cancel</v-btn>
         <v-btn text dark :color="color" @click="$refs.nowMenu.save(now)">OK</v-btn>
       </v-date-picker>
-    </v-menu>
+    </v-menu> -->
 
   </v-flex>
 
@@ -46,19 +46,27 @@
         </v-btn>
       </div>
 
-      <v-calendar ref="calendar" v-model="start" :type="type" :start="start" :now="now" :first-interval="intervals.first" :interval-minutes="intervals.minutes" :interval-count="intervals.count" :interval-height="intervals.height"
-        :show-interval-label="showIntervalLabel" :short-intervals="true" :short-months="true" :short-weekdays="true" :color="color">
+      <v-calendar ref="calendar" v-model="start" :type="type" :start="start" :first-interval="intervals.first" :interval-minutes="intervals.minutes" :interval-count="intervals.count" :interval-height="intervals.height"
+        :show-interval-label="showIntervalLabel" :short-intervals="true" :short-months="true" :short-weekdays="true" :color="color" >
 
         <template v-slot:day="day">
-        <div v-for="i in totalfavorite">
-         <v-sheet v-if="day.date===drawstart(i)" :color="color" class="calendarmsg white--text pa-1">
+        <div v-for="(i,j) in totalfavorite">
+         <v-sheet v-if="day.date===drawstart(i)" :color="getcolor(j)" class="calendarmsg white--text pa-1" @click='openmodal(i.favorite)'>
+           <v-img :src="getImgUrl('start_icon.png')" style="height:15px; width:15px; float:left;"></v-img>
            {{ i.favorite.name }}
          </v-sheet>
-         <v-sheet v-else-if="day.date===drawend(i)" :color="color" class="calendarmsg white--text pa-1">
+         <v-sheet v-else-if="day.date===drawend(i)" :color="getcolor(j)" class="calendarmsg white--text pa-1" @click='openmodal(i.favorite)'>
+           <v-img :src="getImgUrl('end_icon.png')" style="height:15px; width:15px; float:left; "></v-img>
            {{ i.favorite.name}}
          </v-sheet>
         </div>
-       </template>
+      </template>
+
+      <template v-slot:day-header="date">
+       <v-sheet  :color="color" class="calendarmsg white--text pa-1">
+         <!--주간사일간어떻게 넣슴까-->
+       </v-sheet>
+      </template>
 
       </v-calendar>
       <div style="width:100%; height:70px; padding:15px; text-align:center">
@@ -80,22 +88,23 @@
         </v-toolbar>
 <br>
         <v-container fluid grid-list-md pa-2>
-          <v-layout wrap>
-            <v-flex style="text-align:center;" v-for="i in totalfavorite">
+          <v-layout wrap style="width:80%; margin-left:10%;">
+            <v-flex style="text-align:center; width:100%;" v-for="i in totalfavorite">
               <!-- <div v-if="drawcalender(i)"></div> -->
-              <v-btn color="white" style="height:110px; width:500px; box-shadow: 4px 4px 4px 4px gray;" @click='openmodal(i.favorite)'>
-                <v-img aspect-ratio=1 :src='i.favorite.logo' contain style="max-width:100px; height:80px;"></v-img>
-                <div>
+              <div color="white" style="min-height:110px; width:100%; box-shadow: 4px 4px 4px 4px gray;">
+                <v-btn @click='openmodal(i.favorite)' style="width:80%; box-shadow:none; min-height:110px; ">
+                <v-img aspect-ratio=1 :src='i.favorite.logo' contain style="width:10%; margin-left:5%; "></v-img>
+                <div style="width:80%; ">
                   {{i.favorite.name}}<br>
-                  <p style="font-size:17px; color:gray; padding-left:20px;" v-if="i.favorite.end===undefined">채용시 마감</p>
-                  <p style="font-size:17px; color:gray; padding-left:20px;" v-else>{{i.favorite.start}} ~ {{i.favorite.end}}
-                  <!-- <v-btn class="ma-1" v-if="comment.uid == $store.state.user.uid" text icon @click="deleteComment(comment.id)"> -->
-                    <v-icon small color="red" style="padding-bottom:20px; padding-left:20px;">delete</v-icon>
-                  <!-- </v-btn> -->
+                  <p style="font-size:17px; color:gray; padding-left:20px; overflow:auto;" v-if="i.favorite.end===undefined">채용시 마감</p>
+                  <p style="font-size:17px; color:gray; padding-left:20px; overflow:auto;" v-else>{{i.favorite.start}} ~ {{i.favorite.end}}
                   </p>
-
                 </div>
-              </v-btn>
+                </v-btn>
+                <!-- <v-btn class="ma-1" v-if="comment.uid == $store.state.user.uid" text icon @click="deleteComment(comment.id)"> -->
+                  <v-icon  color="red" style="width:5%;"  @click='delfavorite(i.favorite)'>delete</v-icon>
+                <!-- </v-btn> -->
+              </div>
             </v-flex>
 
           </v-layout>
@@ -111,21 +120,21 @@
       <!-- Modal content -->
       <div class="modal-content">
         <span class="close" @click='modalclose()'>&times;</span>
-        <div>
-          <p v-if="endtime===undefined">채용시 마감</p>
-          <p v-else>{{starttime}} ~ {{endtime}}</p>
-          <v-btn icon disable @click='favorite()'>
-              <v-icon color="orange">star</v-icon>
-            </v-btn>
+        <div style="height: 100px;">
+          <h1>{{modalfavorite.name}}</h1>
+          <p v-if="modalfavorite.end===undefined" style="float: left; padding-top: 15px;">채용시 마감</p>
+          <p v-else style="float: left; padding-top: 15px;">{{modalfavorite.start}} ~ {{modalfavorite.end}}</p>
+          <v-btn icon disable @click='delfavorite(modalfavorite)'>
+             <v-icon small color="red" style="float: left;">delete</v-icon>
+          </v-btn>
         </div>
-        <div v-for="i in detail" >
+        <hr>
+        <div v-for="i in modalfavorite.detail" >
           <v-img :src=i style="height:auto; width:auto; margin:0 auto"></v-img>
         </div>
       </div>
   </div>
   </v-layout>
-
-
 
 </template>
 
@@ -148,7 +157,7 @@ const stylings = {
 export default {
   data: () => ({
     start: moment().format('YYYY.MM.dd'),
-    now: moment().format('YYYY.MM.dd'),
+    today: moment().format('YYYY.MM.dd'),
     startMenu: false,
     endMenu: false,
     nowMenu: false,
@@ -166,14 +175,13 @@ export default {
         value: 'month'
       }
     ],
-
     intervals: intervalsDefault,
     styleInterval: 'default',
     color: '#6BBCDC',
+    colors: ['#6BBCDC','#78BACD','#84B9BE','#91B7AE','#9DB69F','#AAB490','#B6B381','#C3B172','#CFB063','#DCAE53','#E8AD44','#F5AB35'],
+    coloridx: 0,
     totalfavorite: [],
-    detail: '',
-    starttime: '',
-    endtime: '',
+    modalfavorite: '',
   }),
   computed: {
     intervalStyle() {
@@ -191,12 +199,16 @@ export default {
     if (day < 10) day = '0' + day;
 
     this.start = year + '.' + month + '.' + day;
-    this.now = year + '.' + month + '.' + day;
+    this.today = year + '.' + month + '.' + day;
 
+    this.getfavorite();
   },
   methods: {
+    getImgUrl(img) {
+      return require('../assets/team6/logo/' + img)
+    },
     viewToday() {
-      this.start = this.now
+      this.start = this.today
     },
     showIntervalLabel(interval) {
       return interval.minute === 0
@@ -204,34 +216,33 @@ export default {
     async getfavorite() {
       this.totalfavorite = await FirebaseService.getfavorite(this.$store.state.user);
     },
+    async delfavorite(input){
+      FirebaseService.deletefavorite(input,this.$store.state.user);
+      this.totalfavorite = await FirebaseService.getfavorite(this.$store.state.user);
+    },
     openmodal(input) {
       document.getElementById('myModal').style.display = "block";
-      this.detail = input.detail;
-      this.starttime = input.start;
-      this.endtime = input.end;
-      this.tempfavorite = input;
+      this.modalfavorite = input;
     },
     modalclose() {
       document.getElementById('myModal').style.display = "none"
     },
-    checktime(now,time){
-      console.log(time+" "+now+"?")
-      if(time.includes(now))return true;
-      else return false;
-    },
     drawstart(input){
+      if(input.favorite.start===undefined)return '';
       var temp=JSON.stringify(input.favorite.start).replace(/[.]/g,'-').split(' ')[0];
       var output=temp.replace(/[@"]/gi,'');
+      //console.log(JSON.stringify(input.favorite.start).replace(/[.]/g,'-'))
       return output;
     },
     drawend(input){
+      if(input.favorite.end===undefined)return '';
       var temp=JSON.stringify(input.favorite.end).replace(/[.]/g,'-').split(' ')[0];
       var output=temp.replace(/[@"]/gi,'');
-      return output;
+       return output;
+    },
+    getcolor(input){
+      return this.colors[input%10];
     }
-  },
-  mounted() {
-    this.getfavorite()
   },
 }
 </script>
@@ -288,8 +299,8 @@ export default {
   cursor: pointer;
 }
 .calendarmsg{
-  width: 90px;
-  height: 28px;
-  overflow: hidden;
+  width: 90%;
+  height: 25px;
+  font-size: 13px;
 }
 </style>
