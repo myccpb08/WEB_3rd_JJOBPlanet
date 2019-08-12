@@ -104,7 +104,34 @@
         </v-list-tile-action>
         <v-list-tile-content>{{ item.title }}</v-list-tile-content>
       </v-list-tile>
+      <v-list-group
+          prepend-icon="account_circle"
+          no-action
+      >
+      <v-list-tile slot="activator">
+        <v-list-tile-content>
+          <v-list-tile-title>Board</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
 
+      <v-list-tile to="/board">
+        <v-list-title-content>
+          <v-list-tile-title>Healing</v-list-tile-title>
+        </v-list-title-content>
+      </v-list-tile>
+
+      <v-list-tile to="/notice">
+        <v-list-title-content>
+          <v-list-tile-title>Notice</v-list-tile-title>
+        </v-list-title-content>
+      </v-list-tile>
+
+      <v-list-tile to="/mentor">
+        <v-list-title-content>
+          <v-list-tile-title>Mentor</v-list-tile-title>
+        </v-list-title-content>
+      </v-list-tile>
+    </v-list-group>
       <!-- <v-list-group prepend-icon="account_circle" value="true">
         <template v-slot:activator>
           <v-list-item-content>
