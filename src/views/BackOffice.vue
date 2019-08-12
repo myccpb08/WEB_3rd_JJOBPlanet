@@ -11,7 +11,7 @@
           <v-flex style="padding-bottom:0px; text-align:center" align-self-center>
             <h1>Bulletin Board Analysis</h1>
             POST 게시판에 총 <b>{{postNum}}</b>개의 글이 게시되었습니다.<br>
-            BOARD 게시판에 총 <b>{{boardNum}}</b>개의 글이 게시되었습니다.
+            HEALING 게시판에 총 <b>{{boardNum}}</b>개의 글이 게시되었습니다.
           </v-flex>
           <div style="width:100%; height:5px;"></div>
           <v-flex style="padding-bottom:0px; text-align:center" align-self-center>
@@ -29,7 +29,7 @@
           <v-flex xs6 sm6>
           <v-text-field @keyup.enter='searchBtn()' v-model="searchName" placeholder="Search name or email.."></v-text-field>
           </v-flex>
-          <!-- <v-btn falt color='gray' @click='searchBtn()'>검색</v-btn> -->
+
           <button style="padding-top:15px;padding-left:15px;width:30px; height:40px;" color='white' @click='searchBtn()'><v-icon color="lightgray">fa-search</v-icon></button>
 
         </v-layout>

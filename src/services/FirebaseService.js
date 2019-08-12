@@ -3,7 +3,7 @@ import 'firebase/firestore'
 import 'firebase/auth'
 import 'firebase/messaging'
 import 'firebase/storage'
-import Swal from 'sweetalert2'
+
 const Swal2 = require('sweetalert2')
 const POSTS = 'posts'
 const PORTFOLIOS = 'portfolios'
@@ -11,7 +11,10 @@ const BANNER = 'banner'
 const USERS = 'users'
 const SNS = 'post-comments'
 const BOARDS = 'boards'
+const NOTICES = 'notices'
+const MENTORS = 'mentors'
 const FAVORITES = 'favorites'
+
 // Setup Firebase
 const config = {
   projectId: 'ssafy-245804',
@@ -23,12 +26,10 @@ const config = {
   appId: "1:452889627202:web:b22e00319bd3559b"
 }
 
-
 firebase.initializeApp(config)
 const firestore = firebase.firestore()
 const messaging = firebase.messaging()
 messaging.usePublicVapidKey('BH4H7pKz2nJHRkzwWzgUtSna-zCJzPM-KeR_MemZjinDVVuEzd6FulRn_P4zIxZFObFkE_mvIOnKHrrBING55ZE')
-
 
 firebase.firestore().enablePersistence()
   .catch(function(err) {
@@ -42,11 +43,11 @@ firebase.firestore().enablePersistence()
       // ...
     }
   });
-// onmessage handling
-messaging.onMessage((payload) => {
-  alert('Message received ' + payload.notification.title)
-})
 
+  // onmessage handling
+  messaging.onMessage((payload) => {
+    alert("다른 회원님의" + payload.notification.title,)
+  })
 export default {
   async deadline(alarmlist) {
     console.log(alarmlist.length)
@@ -58,41 +59,50 @@ export default {
       sentence += part
     }
     Swal2.fire({
-      title: '내일마감 공고' + alarmlist.length + '개',
+      title: '내일 마감 공고' + alarmlist.length + '개',
       text: sentence,
       type: 'info',
-      confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+      confirmButtonText: '<i class="fa fa-thumbs-up"></i> Lucky!',
+      animation: false,
+      customClass: {
+        popup: 'animated tada'
+      },
     })
   },
+
+  //favorite
   async alarmfavorite(user) {
     const alarmlist = []
     const today = new Date().getTime()
-    const FavoritesCollection = firestore.collection(FAVORITES) // favorits 컬렉션 가 져왔음    
+    const FavoritesCollection = firestore.collection(FAVORITES) // favorits 컬렉션 가져왔음
     return FavoritesCollection
-      .where("uid", "==", user.uid) // uid 필드가 현재 로그인한 애인 사람들 docs 만 가져옴    
+      .where("uid", "==", user.uid) // uid 필드가 현재 로그인한 애인 사람들 docs 만 가져옴
       .get()
       .then((docSnapshots) => {
         docSnapshots.docs.map((doc) => {
           let data = doc.data()
-          data.created_at = new Date(data.created_at.toDate())
-          data.id = doc.id
+
           const recruit_info = data.favorite
-          if (recruit_info.end) { // 마감날짜가 존재하면            
+
+          if (recruit_info.end) { // 마감날짜가 존재하면
             const day = new Date(recruit_info.end.split(' ')[0])
             const gap = Math.ceil((day.getTime() - today) / 1000 / 60 / 60 / 24)
             console.log(gap)
-            if (gap <= 5) { // 마감 일이 내일이면, 알람울릴 list 에 추가
+
+            if (gap <= 3) { // 마감 일이 내일이면, 알람울릴 list 에 추가
               alarmlist.push({
                 'name': recruit_info.name,
                 'end': recruit_info.end
               })
             }
-          } // 마감날짜있는지 테스트 끝       
+          } // 마감날짜있는지 테스트 끝
         })
         return alarmlist
       })
       .then((result) => {
-        this.deadline(alarmlist)
+        if (result.length > 0) {
+          this.deadline(alarmlist)
+        }
       })
   },
   deletefavorite(favorite, user) {
@@ -146,10 +156,6 @@ export default {
     messaging.getToken().then(function(currentToken) {
       if (currentToken) {
         var test_token = currentToken
-        console.log(test_token)
-        // firestore.collection('tokens').doc(test_token).set({
-        //   test_token : test_token
-        // })
         firestore.collection('users').doc(user.uid).update({
           test_token: test_token
         })
@@ -179,14 +185,12 @@ export default {
   //post 댓글
   getComments(postId) {
     const commentCollection = firestore.collection(POSTS).doc(postId).collection(SNS)
-    // console.log(commentCollection)
     return commentCollection
       .orderBy('created_at')
       .get()
       .then((docSnapshots) => {
         return docSnapshots.docs.map((doc) => {
           let data = doc.data()
-          // data.created_at = new Date(data.created_at.toDate())
           data.id = doc.id
           return data
         })
@@ -226,14 +230,12 @@ export default {
   //portfolio 댓글
   getPortfolioComments(portfolioId) {
     const commentCollection = firestore.collection(PORTFOLIOS).doc(portfolioId).collection(SNS)
-    // console.log(commentCollection)
     return commentCollection
       .orderBy('created_at')
       .get()
       .then((docSnapshots) => {
         return docSnapshots.docs.map((doc) => {
           let data = doc.data()
-          // data.created_at = new Date(data.created_at.toDate())
           data.id = doc.id
           return data
         })
@@ -271,14 +273,12 @@ export default {
   //게시글 댓글
   getBoardComments(boardId) {
     const commentCollection = firestore.collection(BOARDS).doc(boardId).collection(SNS)
-    // console.log(commentCollection)
     return commentCollection
       .orderBy('created_at')
       .get()
       .then((docSnapshots) => {
         return docSnapshots.docs.map((doc) => {
           let data = doc.data()
-          // data.created_at = new Date(data.created_at.toDate())
           data.id = doc.id
           return data
         })
@@ -313,6 +313,95 @@ export default {
       console.error('댓글 삭제에 실패했습니다', error);
     })
   },
+  //공지사항 댓글
+  getNoticeComments(noticeId) {
+    const commentCollection = firestore.collection(NOTICES).doc(noticeId).collection(SNS)
+
+    return commentCollection
+      .orderBy('created_at')
+      .get()
+      .then((docSnapshots) => {
+        return docSnapshots.docs.map((doc) => {
+          let data = doc.data()
+          data.id = doc.id
+          return data
+        })
+      })
+  },
+  postNoticeComment(noticeId, content, user) {
+    return firestore.collection(NOTICES).doc(noticeId).collection(SNS).add({
+      contents: content,
+      created_at: firebase.firestore.FieldValue.serverTimestamp(),
+      uid: user.uid,
+      email: user.email,
+      edit: false
+    })
+  },
+  editNoticeComment(noticeId, update_content, commentId) {
+    const comment = firestore.collection(NOTICES).doc(noticeId).collection(SNS).doc(commentId)
+    comment.update({
+        contents: update_content,
+        edit: false,
+      })
+      .then(function() {
+        alert('해당 댓글이 수정되었습니다');
+      }).catch(function(error) {
+        console.error('댓글 수정에 실패했습니다', error);
+      })
+  },
+  deleteNoticeComment(noticeId, commentId) {
+    const comment = firestore.collection(NOTICES).doc(noticeId).collection(SNS).doc(commentId)
+    comment.delete().then(function() {
+      alert('해당 댓글이 삭제되었습니다');
+    }).catch(function(error) {
+      console.error('댓글 삭제에 실패했습니다', error);
+    })
+  },
+  //취업자게시판 댓글
+  getMentorComments(mentorId) {
+    const commentCollection = firestore.collection(MENTORS).doc(mentorId).collection(SNS)
+
+    return commentCollection
+      .orderBy('created_at')
+      .get()
+      .then((docSnapshots) => {
+        return docSnapshots.docs.map((doc) => {
+          let data = doc.data()
+          data.id = doc.id
+          return data
+        })
+      })
+  },
+  postMentorComment(mentorId, content, user) {
+    return firestore.collection(MENTORS).doc(mentorId).collection(SNS).add({
+      contents: content,
+      created_at: firebase.firestore.FieldValue.serverTimestamp(),
+      uid: user.uid,
+      email: user.email,
+      edit: false
+    })
+  },
+  editMentorComment(mentorId, update_content, commentId) {
+    const comment = firestore.collection(MENTORS).doc(mentorId).collection(SNS).doc(commentId)
+    comment.update({
+        contents: update_content,
+        edit: false,
+      })
+      .then(function() {
+        alert('해당 댓글이 수정되었습니다');
+      }).catch(function(error) {
+        console.error('댓글 수정에 실패했습니다', error);
+      })
+  },
+  deleteMentorComment(mentorId, commentId) {
+    const comment = firestore.collection(MENTORS).doc(mentorId).collection(SNS).doc(commentId)
+    comment.delete().then(function() {
+      alert('해당 댓글이 삭제되었습니다');
+    }).catch(function(error) {
+      console.error('댓글 삭제에 실패했습니다', error);
+    })
+  },
+
   //포스트
   getPosts() {
     const postsCollection = firestore.collection(POSTS)
@@ -498,6 +587,120 @@ export default {
       created_at: firebase.firestore.FieldValue.serverTimestamp()
     })
   },
+  //공지사항
+  getNotices() {
+    const noticesCollection = firestore.collection(NOTICES)
+    return noticesCollection
+      .orderBy('created_at', 'desc')
+      .get()
+      .then((docSnapshots) => {
+        return docSnapshots.docs.map((doc) => {
+          let data = doc.data()
+          data.created_at = new Date(data.created_at.toDate())
+          data.id = doc.id
+          return data
+        })
+      })
+  },
+  getNotice(noticeId) {
+    return firestore.collection(NOTICES).doc(noticeId)
+      .get()
+      .then((doc) => {
+        let data = doc.data()
+        data.created_at = new Date(data.created_at.toDate())
+        return data
+      })
+  },
+  deleteNotice(noticeId) {
+    const notice = firestore.collection(NOTICES).doc(noticeId)
+    notice.delete().then(function() {
+      console.log("해당 notice가 삭제되었습니다.");
+    }).catch(function(error) {
+      console.error("삭제에 실패했습니다 ", error);
+    })
+  },
+  updateNotice(noticeId, title, body, img, uid) {
+    return firestore.collection(NOTICES).doc(noticeId).update({
+        title: title,
+        body: body,
+        img: img,
+        created_at: firebase.firestore.FieldValue.serverTimestamp()
+      })
+      .then(function() {
+        console.log("게시글이 수정되었습니다.");
+      })
+      .catch(function(error) {
+        console.error("수정 실패: ", error);
+      });
+  },
+  postNotice(title, body, img, user) {
+    return firestore.collection(NOTICES).add({
+      title,
+      body,
+      img,
+      uid: user.uid,
+      displayName: user.displayName,
+      email: user.email,
+      created_at: firebase.firestore.FieldValue.serverTimestamp()
+    })
+  },
+  //공지사항
+  getMentors() {
+    const mentorsCollection = firestore.collection(MENTORS)
+    return mentorsCollection
+      .orderBy('created_at', 'desc')
+      .get()
+      .then((docSnapshots) => {
+        return docSnapshots.docs.map((doc) => {
+          let data = doc.data()
+          data.created_at = new Date(data.created_at.toDate())
+          data.id = doc.id
+          return data
+        })
+      })
+  },
+  getMentor(mentorId) {
+    return firestore.collection(MENTORS).doc(mentorId)
+      .get()
+      .then((doc) => {
+        let data = doc.data()
+        data.created_at = new Date(data.created_at.toDate())
+        return data
+      })
+  },
+  deleteMentor(mentorId) {
+    const mentor = firestore.collection(MENTORS).doc(mentorId)
+    mentor.delete().then(function() {
+      console.log("해당 mentor가 삭제되었습니다.");
+    }).catch(function(error) {
+      console.error("삭제에 실패했습니다 ", error);
+    })
+  },
+  updateMentor(mentorId, title, body, img, uid) {
+    return firestore.collection(MENTORS).doc(mentorId).update({
+        title: title,
+        body: body,
+        img: img,
+        created_at: firebase.firestore.FieldValue.serverTimestamp()
+      })
+      .then(function() {
+        console.log("게시글이 수정되었습니다.");
+      })
+      .catch(function(error) {
+        console.error("수정 실패: ", error);
+      });
+  },
+  postMentor(title, body, img, user) {
+    return firestore.collection(MENTORS).add({
+      title,
+      body,
+      img,
+      uid: user.uid,
+      displayName: user.displayName,
+      email: user.email,
+      created_at: firebase.firestore.FieldValue.serverTimestamp()
+    })
+  },
   //게시글수
   getListNum(board) {
     const num = firestore.collection(board).get().then(querySnapshot => {
@@ -519,8 +722,6 @@ export default {
       .get()
       .then((docSnapshots) => {
         docSnapshots.docs.map((doc) => {
-          // let data = doc.data()
-          // console.log(new Date(doc.data().created_at.toDate()))
           let data_date = new Date(doc.data().created_at.toDate())
           let startDay = new Date(currentDay)
           let endDay = new Date(startDay)
@@ -536,7 +737,6 @@ export default {
           }
 
         })
-
         return list
       })
   },
@@ -561,7 +761,6 @@ export default {
       console.error('[Facebook Login Error]', error)
     })
   },
-
   getBanner() {
     const postsCollection = firestore.collection(BANNER)
     return postsCollection

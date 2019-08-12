@@ -7,11 +7,11 @@
       <router-view />
     </v-content>
 
-    <back-to-top bottom="20px" right="10px">
-      <v-btn flat icon type="button" class="btn btn-info btn-to-top notranslate">
-        <v-icon>keyboard_arrow_up</v-icon>
-      </v-btn>
-    </back-to-top>
+    <back-to-top bottom="80px" right="25px">
+     <v-btn flat icon type="button" class="btn btn-info btn-to-top notranslate">
+       <v-icon>keyboard_arrow_up</v-icon>
+     </v-btn>
+   </back-to-top>
     <Advertisement />
     <div style="margin-top:46px;"></div>
     <MainFooter />

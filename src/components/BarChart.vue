@@ -23,7 +23,7 @@
               data: [2,2,2]
             },
             {
-              label: 'Board',
+              label: 'Healing',
               backgroundColor: 'rgba(0,0,0,0)',
               borderColor: "#6BBCDC",
               pointBackgroundColor: "#6BBCDC",

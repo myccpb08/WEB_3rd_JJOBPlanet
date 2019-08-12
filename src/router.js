@@ -10,6 +10,14 @@ import BoardPage from './views/BoardPage.vue'
 import BoardWriter from './views/BoardWriter.vue'
 import BoardDetail from './views/BoardDetail.vue'
 import BoardUpdate from './views/BoardUpdate.vue'
+import NoticePage from './views/NoticePage.vue'
+import NoticeWriter from './views/NoticeWriter.vue'
+import NoticeDetail from './views/NoticeDetail.vue'
+import NoticeUpdate from './views/NoticeUpdate.vue'
+import MentorPage from './views/MentorPage.vue'
+import MentorWriter from './views/MentorWriter.vue'
+import MentorDetail from './views/MentorDetail.vue'
+import MentorUpdate from './views/MentorUpdate.vue'
 import CalendarPage from './views/CalendarPage.vue'
 
 Vue.use(Router)
@@ -71,6 +79,50 @@ export default new Router({
          path: '/boardUpdate/:boardId',
          name: 'boardUpdate',
          component: BoardUpdate,
+         props:true
+      },
+      {
+         path: '/notice',
+         name: 'notice',
+         component: NoticePage
+      },
+      {
+         path: '/noticewriter',
+         name: 'noticewriter',
+         component: NoticeWriter
+      },
+      {
+         path: '/noticeDetail/:noticeId',
+         name: 'noticeDetail',
+         component: NoticeDetail,
+         props:true
+      },
+      {
+         path: '/noticeUpdate/:noticeId',
+         name: 'noticeUpdate',
+         component: NoticeUpdate,
+         props:true
+      },
+      {
+         path: '/mentor',
+         name: 'mentor',
+         component: MentorPage
+      },
+      {
+         path: '/mentorwriter',
+         name: 'mentorwriter',
+         component: MentorWriter
+      },
+      {
+         path: '/mentorDetail/:mentorId',
+         name: 'mentorDetail',
+         component: MentorDetail,
+         props:true
+      },
+      {
+         path: '/mentorUpdate/:mentorId',
+         name: 'mentorUpdate',
+         component: MentorUpdate,
          props:true
       },
       {

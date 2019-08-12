@@ -1,8 +1,8 @@
 <template>
   <v-card style="padding-bottom:20px; height:80px;">
 
-    <v-card-title primary-title style="float:left; width:70%; overflow: hidden;">
-        <div class="headline" v-line-clamp:20="1"><font>{{title}}</font></div><br>
+    <v-card-title primary-title style="float:left; width:70%; height:100%; overflow: hidden;">
+        <div class="boardtitle" v-line-clamp:20="1"><font>{{title}}</font></div><br>
     </v-card-title>
     <!-- <v-img aspect-ratio=3 :src="imgSrc" contain ></v-img> -->
     <v-card-text style="float:left;  width:30%; text-align:right;">
@@ -23,19 +23,26 @@ Vue.use(lineClamp, {
   // plugin options
 })
 export default {
-	name: 'Board',
-	props: {
-		date: {type: String},
-		title: {type: String},
-		body: {type: String},
-		imgSrc: {type: String},
+   name: 'Board',
+   props: {
+      date: {type: String},
+      title: {type: String},
+      body: {type: String},
+      imgSrc: {type: String},
     email:{type:String},
     displayName:{type:String}
-	},
-	data() {
-		return {
-			//
-		}
-	}
+   },
+   data() {
+      return {
+         //
+      }
+   }
 }
 </script>
+<style>
+.boardtitle{
+  font-size: 20px!important;
+  font-weight: bold;
+  overflow: hidden;
+}
+</style>
