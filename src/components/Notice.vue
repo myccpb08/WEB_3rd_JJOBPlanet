@@ -1,10 +1,10 @@
 <template>
-  <v-card style="padding-bottom:20px; height:80px;">
+  <v-card style="padding-bottom:10px; height:70px;">
 
-    <v-card-title primary-title style="float:left; width:70%; overflow: hidden;">
-        <div class="headline" v-line-clamp:20="1"><font>{{title}}</font></div><br>
+    <v-card-title primary-title style="float:left; width:60%; overflow: hidden;">
+        <div class="noticeTitle" v-line-clamp:20="1"><font>{{title}}</font></div><br>
     </v-card-title>
-    <v-card-text style="float:left;  width:30%; text-align:right;">
+    <v-card-text style="float:left;  width:40%; text-align:right;">
       <span class="grey--text" v-line-clamp:20="4">{{displayName}}</span>
       <span class="grey--text" v-line-clamp:20="4" v-if='displayName===null'>{{email}}</span>
       <span class="grey--text" v-line-clamp:20="4">{{date.substring(4,15)}}</span>

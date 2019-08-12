@@ -2,7 +2,11 @@
 <v-layout wrap justify-center>
 
   <v-flex xs12 sm12 lg12 class="mb-4 controls" style="text-align:center">
-    <br><br><br>
+    <br>
+    <p v-if="this.$store.state.user.email===undefined">
+      <font><h1>로그인하고<br> 내 채용 달력보기</h1></font>
+    </p>
+    <br><br>
     <v-select v-model="type" :items="typeOptions" label="Type"></v-select>
 
     <!--

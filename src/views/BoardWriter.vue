@@ -1,6 +1,6 @@
 <template>
   <div class="notranslate">
-    <div style="margin-top:48px"></div>
+    <div style="margin-top:108px"></div>
 
     <v-container>
       <form>
@@ -8,9 +8,9 @@
 
           <ImageInput :imgurl='img' v-on:changeImg="img = $event"/>
 
-        <v-textarea solo v-model="body"></v-textarea>
+        <v-textarea rows="15" solo v-model="body"></v-textarea>
 
-        <v-flex  xs12 text-xs-center round my-5>
+        <v-flex xs12 text-xs-center round my-5>
           <!-- <v-btn color="info" v-on:click="postBoard(title, body, img)" class="movebtn button1">submit</v-btn> -->
           <!-- <v-btn color="info" @click='$router.go(-1)' class="movebtn button2">back</v-btn> -->
           <v-btn flat color="gray" v-on:click="postBoard(title, body, img)" class="movebtn">submit</v-btn>
@@ -19,6 +19,7 @@
 
       </form>
     </v-container>
+    <div style="margin-top:78px"></div>
   </div>
 </template>
 

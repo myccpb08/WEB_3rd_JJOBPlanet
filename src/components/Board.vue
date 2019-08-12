@@ -1,5 +1,5 @@
 <template>
-  <v-card style="padding-bottom:20px; height:80px;">
+  <v-card style="padding-bottom:10px; height:70px;">
 
     <v-card-title primary-title style="float:left; width:70%; height:100%; overflow: hidden;">
         <div class="boardtitle" v-line-clamp:20="1"><font>{{title}}</font></div><br>
@@ -39,10 +39,3 @@ export default {
    }
 }
 </script>
-<style>
-.boardtitle{
-  font-size: 20px!important;
-  font-weight: bold;
-  overflow: hidden;
-}
-</style>

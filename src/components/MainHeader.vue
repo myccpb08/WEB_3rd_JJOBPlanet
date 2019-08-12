@@ -322,20 +322,21 @@ export default {
           FirebaseService.gettingtoken(this.$store.state.user)
           FirebaseService.alarmfavorite(this.$store.state.user)
 
-          // Swal2.fire({
-          //   text: this.$store.state.user.email + "님 로그인 되었습니다",
-          //   type: "success",
-          //   confirmButtonText: '<i class="fa fa-thumbs-up"></i> OK!',
-          //   animation: false,
-          //   customClass: {
-          //     popup: "animated rollIn"
-          //   }
-          // }).then(result => {
-          //   if (result.value) {
-          //     FirebaseService.alarmfavorite(this.$store.state.user);
-          //   }
-          // });
+          Swal2.fire({
+            text: this.$store.state.user.email + "님 로그인 되었습니다",
+            type: "success",
+            confirmButtonText: '<i class="fa fa-thumbs-up"></i> OK!',
+            animation: false,
+            customClass: {
+              popup: "animated rollIn"
+            }
+          }).then(result => {
+            if (result.value) {
+              FirebaseService.alarmfavorite(this.$store.state.user);
+            }
+          });
           this.check = this.checkUserClass(this.$store.state.user.uid)
+          this.$router.replace('/')
         })
         .catch((error) => {
           alert(error)
@@ -357,6 +358,7 @@ export default {
       FirebaseService.alarmfavorite(this.$store.state.user)
 
       this.check = await this.checkUserClass(this.$store.state.user.uid)
+      this.$router.replace('/')
     },
     async loginWithFacebook() {
       const result = await FirebaseService.loginWithFacebook()
@@ -374,6 +376,7 @@ export default {
       FirebaseService.alarmfavorite(this.$store.state.user)
 
       this.check = await this.checkUserClass(this.$store.state.user.uid)
+      this.$router.replace('/')
     },
     signUp() {
       firebase.auth().createUserWithEmailAndPassword(this.signupEmail, this.signupPassword)

@@ -6,7 +6,7 @@
     <v-img :src="getImgUrl('Jjobplanet_banner.png')" style="width:100%;"></v-img>
 
     <!-- apply  -->
-    <div style="background:#3f4b5f;width:100%;height:320px;">
+    <!-- <div style="background:#3f4b5f;width:100%;height:320px;">
 
       <div class="hidden-xs-only" style="width:28%;height:100%;display:inline-block;padding-left:10%;padding-top:30px;float:left">
         <hr style="border:1px solid white; width:70px; margin-bottom:20px">
@@ -31,7 +31,6 @@
         <p>
           <font style="color:white;font-size:30px;">
             {{userName}}님이 지원하신 공고가 없습니다.<br>
-            <!-- <router-link to="" style="color:white;font-size:30px"><b>전체 공고 보러가기</b></router-link> -->
             <hr style="border:1px solid white; width:150px; margin:0 auto">
           </font>
         </p>
@@ -41,7 +40,6 @@
           <v-flex style="background:white; height:130px; width:160px; margin-left:5px; margin-bottom:5px; display:inline-block;" v-for="i in totalfavorite">
             <div class="containerbtn"  @click='openmodal(i.favorite)'>
               <div style="width:50px; height:50px; padding-top:10px; margin:0 auto;">
-                <!-- style="height:auto; width:50px; margin:0 auto;  " -->
                 <v-img aspect-ratio=1 :src='i.favorite.logo' contain style="width:auto; height:50px;"></v-img>
               </div>
               <div style="width:100%;height:70%; margin-bottom:10px;">
@@ -62,18 +60,24 @@
         </v-layout>
       </div>
 
-    </div>
+    </div> -->
 
     <!-- apply  -->
     <div style="background:#3f4b5f;width:100%;height:320px;">
 
       <div class="hidden-xs-only" style="width:28%;height:100%;display:inline-block;padding-left:10%;padding-top:30px;float:left">
         <hr style="border:1px solid white; width:70px; margin-bottom:20px">
-        <p>
+        <p v-if="userName===undefined">
+          <font style="color:white;">로그인 해주세요</font>
+        </p>
+        <p v-else>
           <font style="color:white;">
+            {{userName}}<br>
             <p>추천 채용공고</p>
           </font>
         </p>
+        <v-btn flat dark outline style="width:110px;" to="/post"><label style='font-size:14.5px'>자기소개서</label></v-btn>
+        <v-btn flat dark outline style="width:110px;" to="/calendar"><label style='font-size:14.5px'>내 채용달력</label></v-btn>
 
       </div>
 
@@ -192,46 +196,86 @@
 
     <hr>
 
-    <div style="background:#f0f0f0; width:100%; text-align:center; padding:20px; display: inline-block;">
-    <div style="margin-left:30px; width: 50%; float: left;">
-        <h3 style="margin-left:30px;">공지사항</h3>
-<div class="homeboard">
-    <v-flex v-for="i in 3"  xs12 sm12 md12 lg12>
-      <router-link :to="{ name: 'boardDetail', params: {boardId: boards[i-1].id} }">
-      <Board class="ma-3"
-      :date="boards[i - 1].created_at.toString()"
-      :title="boards[i - 1].title"
-      :body="boards[i - 1].body"
-      :imgSrc='boards[i-1].img===""?"http://placehold.it/150x150/FFFFFF?text=No+Image":boards[i - 1].img'
-      :email='boards[i-1].email'
-      :displayName='boards[i-1].displayName'
-      ></Board>
-      </router-link>
-    </v-flex>
-    <v-btn flat to="/board"><v-icon size="15" class="mr-2">fa-plus</v-icon>View more</v-btn>
-</div>
-</div>
 
-<div style="margin-left:30px; width: 40%; float: left;">
-    <h3 style="margin-left:30px;">점심메뉴</h3>
-<v-layout class="applyList" style="width: 100%; display:inline-block;text-align:center;padding-top:25px; overflow:auto;">
-  <v-flex style="background:white; width: 100%;height:130px;  margin-left:5px; margin-bottom:5px; display:inline-block;" v-for="i in lunch">
-        <v-img aspect-ratio=1 :src='i.img' contain style="width:30%; height:auto; float: left;"></v-img>
-      <div style="width:70%;height:70%; margin-bottom:10px;float: left;">
-            <font><pre><br><b>{{i.menu}}</b></pre></font>
+
+    <div style="background:#f0f0f0; width:100%; text-align:center; padding:20px; display: inline-block;">
+
+      <!-- section1 -->
+      <div style="width:50%;height:600px; float:left">
+
+      <div style="margin-left:30px;height:300px; width: 90%; float: left;">
+        <h3 style="margin-left:30px;">공지사항</h3>
+        <div class="homeboard">
+          <v-flex v-for="i in notices.length > limits ? limits : notices.length"  xs12 sm12 md12 lg12>
+            <router-link :to="{ name: 'noticeDetail', params: {noticeId: notices[i-1].id} }">
+              <Notice class="ma-3"
+              :date="notices[i - 1].created_at.toString()"
+              :title="notices[i - 1].title"
+              :body="notices[i - 1].body"
+              :imgSrc='notices[i-1].img===""?"http://placehold.it/150x150/FFFFFF?text=No+Image":notices[i - 1].img'
+              :email='notices[i-1].email'
+              :displayName='notices[i-1].displayName'
+              ></Notice>
+            </router-link>
+          </v-flex>
+          <v-btn flat to="/notice"><v-icon size="15" class="mr-2">fa-plus</v-icon>View more</v-btn>
+        </div>
       </div>
 
-  </v-flex>
-</v-layout>
-</div>
-</div>
+
+      <div style="width:90%;height:1px;background: RGB(155, 155, 155, 0.2); margin:20px; float:left"></div>
+
+      <div style="margin-left:30px;height:300px; width: 90%; float: left;">
+        <h3 style="margin-left:30px;">취업자게시판</h3>
+        <div class="homeboard">
+          <v-flex v-for="i in  mentors.length > limits ? limits : mentors.length"  xs12 sm12 md12 lg12>
+            <router-link :to="{ name: 'mentorDetail', params: {mentorId: mentors[i-1].id} }">
+              <Mentor class="ma-3"
+              :date="mentors[i - 1].created_at.toString()"
+              :title="mentors[i - 1].title"
+              :body="mentors[i - 1].body"
+              :imgSrc='mentors[i-1].img===""?"http://placehold.it/150x150/FFFFFF?text=No+Image":mentors[i - 1].img'
+              :email='mentors[i-1].email'
+              :displayName='mentors[i-1].displayName'
+              ></Mentor>
+            </router-link>
+          </v-flex>
+          <v-btn flat to="/mentor"><v-icon size="15" class="mr-2">fa-plus</v-icon>View more</v-btn>
+        </div>
+      </div>
+
+      </div>
+
+
+      <div style="width:1px; height:600px; background: RGB(155, 155, 155, 0.2); float:left"></div>
+
+      <!-- section2 -->
+      <div style="width:49%; height:500px; float:left">
+
+      <div style="margin-left:30px; width: 90%; float: left;">
+        <h3 style="margin-left:30px;">점심메뉴</h3>
+        <v-layout class="applyList" style="width: 100%; display:inline-block;text-align:center;padding-top:25px; overflow:auto;">
+          <v-flex style="background:white; width: 100%;height:130px;  margin-left:5px; margin-bottom:5px; display:inline-block;" v-for="i in lunch">
+            <v-img aspect-ratio=1 :src='i.img' contain style="width:30%; height:auto; float: left;"></v-img>
+            <div style="width:70%;height:70%; margin-bottom:10px;float: left;">
+              <font><pre><br><b>{{i.menu}}</b></pre></font>
+            </div>
+
+          </v-flex>
+        </v-layout>
+      </div>
+      </div>
+
+
+    </div>
 
     <div style="margin-top:100px; clear: both;"></div>
 
   </div>
 </template>
 <script>
-import Board from '@/components/Board'
+import Notice from '@/components/Notice'
+import Mentor from '@/components/Mentor'
 import PostList from '../components/PostList'
 import RepositoryList from '../components/RepositoryList'
 import firebase from 'firebase/app'
@@ -244,6 +288,8 @@ export default {
   components: {
     PostList,
     RepositoryList,
+    Notice,
+    Mentor
   },
   data: function () {
     return {
@@ -262,12 +308,10 @@ export default {
       endtime:'',
       modalfavorite:'',
       totalfavorite: [],
-      boards: [],
+      notices: [],
+      mentors:[],
       lunch:[]
     }
-  },
-  components: {
-    Board
   },
   created () {
     var pathReference = FirebaseService.getstorage();
@@ -316,8 +360,11 @@ export default {
     async getfavorite() {
       this.totalfavorite = await FirebaseService.getfavorite(this.$store.state.user);
     },
-    async getBoards() {
-      this.boards = await FirebaseService.getBoards()
+    async getNotices() {
+      this.notices = await FirebaseService.getNotices()
+    },
+    async getMentors() {
+      this.mentors = await FirebaseService.getMentors()
     },
   },
   mounted(){
@@ -333,12 +380,16 @@ export default {
       console.log(this.userName)
     }
     this.getfavorite();
-    this.getBoards()
+    this.getNotices();
+    this.getMentors();
   },
   computed: {
     gettest : function(){
       this.totalfavorite = FirebaseService.getfavorite(this.$store.state.user);
     }
+  },
+  props: {
+    limits: {type: Number, default: 4}
   },
 }
 </script>
@@ -415,6 +466,9 @@ hr{
   height: 50px!important;
 }
 .homeboard .v-btn__content {
-     font-size: 14px;
+  font-size: 14px;
+}
+span.grey--text{
+  overflow: hidden;
 }
 </style>
