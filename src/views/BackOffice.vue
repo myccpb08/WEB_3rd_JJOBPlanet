@@ -9,14 +9,38 @@
       <v-card min-width="260" max-width="750" class="mx-auto" style="padding:30px; padding-top:5px; padding-bottom:5px; margin-left:0px">
         <v-layout wrap mw-700 xs6 column>
           <v-flex style="padding-bottom:0px; text-align:center" align-self-center>
-            <h1>Bulletin Board Analysis</h1>
-            POST 게시판에 총 <b>{{postNum}}</b>개의 글이 게시되었습니다.<br>
-            HEALING 게시판에 총 <b>{{boardNum}}</b>개의 글이 게시되었습니다.
-          </v-flex>
+            <h1>Bulletin Board Analysis</h1><br />
+            <table>
+              <thead>
+                <tr>
+                  <th class="text-left">게시판</th>
+                  <th class="text-left">num</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class='text-left tTitle'>Post</td>
+                  <td class='text-left num'>{{postNum}}</td>
+                </tr>
+                <tr>
+                  <td class='text-left tTitle'>HEALING</td>
+                  <td class='text-left num'>{{boardNum}}</td>
+                </tr>
+                <tr>
+                  <td class='text-left tTitle'>NOTICE</td>
+                  <td class='text-left num'>{{noticeNum}}</td>
+                </tr>
+                <tr>
+                  <td class='text-left tTitle'>MENTOR</td>
+                  <td class='text-left num'>{{mentorNum}}</td>
+                </tr>
+              </tbody>
+            </table>
+            </v-flex>
           <div style="width:100%; height:5px;"></div>
-          <v-flex style="padding-bottom:0px; text-align:center" align-self-center>
-            <label style='font-size:medium'>7일간 새로 게시된 게시글</label>
-            <BarChart :isloaded="isloaded" :dataList="chartList" :dataList2="chartList2" ></BarChart>
+          <v-flex style="padding-bottom:0px; padding-top:15px; text-align:center" align-self-center>
+            <h2 style='font-size:medium'>7일간 새로 게시된 게시글</h2>
+            <BarChart :isloaded="isloaded" :dataList="chartList" :dataList2="chartList2" :dataList3="chartList3" :dataList4="chartList4" ></BarChart>
           </v-flex>
           <div style="width:100%; height:5px;"></div>
         </v-layout>
@@ -25,14 +49,19 @@
       <br>
       <v-card min-width="260" max-width="750" class="mx-auto" style="padding:30px; padding-top:5px; padding-bottom:5px; padding-right:5px; margin-left:0px">
         <!-- 검색 -->
-        <v-layout row wrap mw-700 align-center justify-center>
-          <v-flex xs6 sm6>
-          <v-text-field @keyup.enter='searchBtn()' v-model="searchName" placeholder="Search name or email.."></v-text-field>
-          </v-flex>
+        <v-flex style="padding-top:5px;padding-bottom:0px; text-align:center" align-self-center>
+          <h1>Member</h1>
+          <v-layout row wrap mw-700 align-center justify-center>
 
-          <button style="padding-top:15px;padding-left:15px;width:30px; height:40px;" color='white' @click='searchBtn()'><v-icon color="lightgray">fa-search</v-icon></button>
+            <v-flex xs6 sm6 row>
+            <v-text-field @keyup.enter='searchBtn()' v-model="searchName" placeholder="Search name or email.."></v-text-field>
+            </v-flex>
 
-        </v-layout>
+            <button style="padding-left:15px;width:30px; height:40px;" color='white' @click='searchBtn()'><v-icon color="lightgray">fa-search</v-icon></button>
+
+          </v-layout>
+        </v-flex>
+
         <div class="list" style="height:600px; overflow:auto">
         <v-layout wrap mw-700 xs6 justify-start>
           <v-flex style="padding-bottom:0px;" v-for="i in userClasses.length">
@@ -67,8 +96,12 @@ export default {
       userClass: {},
       postNum: 0,
       boardNum: 0,
+      noticeNum: 0,
+      mentorNum: 0,
       chartList: [],
       chartList2: [],
+      chartList3: [],
+      chartList4: [],
       isloaded: false,
     }
   },
@@ -84,9 +117,13 @@ export default {
       await this.getUserClasses()
       this.postNum = await this.getListNum('posts')
       this.boardNum = await this.getListNum('boards')
+      this.noticeNum = await this.getListNum('notices')
+      this.mentorNum = await this.getListNum('mentors')
 
       this.chartList = await this.getDayListNum('posts')
       this.chartList2 = await this.getDayListNum('boards')
+      this.chartList3 = await this.getDayListNum('notices')
+      this.chartList4 = await this.getDayListNum('mentors')
 
       this.isloaded = true
     },
@@ -130,4 +167,35 @@ export default {
 .list::-webkit-scrollbar {
   display:none;
 }
+table {
+  border: 2px solid #7F7F7F;
+  border-radius: 2px;
+  background-color: #fff;
+  width:100%;
+}
+th {
+  background-color: #6BBCDC;
+  color: white;
+  /* cursor: pointer; */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+td {
+  background-color: #f9f9f9;
+}
+
+th, td {
+  /* min-width: 120px; */
+  padding: 10px 20px;
+}
+.tTitle{
+width:40%;
+}
+.num{
+  width:60%;
+}
+
 </style>

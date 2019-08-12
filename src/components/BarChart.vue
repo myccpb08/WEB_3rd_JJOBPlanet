@@ -5,7 +5,8 @@
     props:{
       dataList:{type:Array},
       dataList2:{type:Array},
-
+      dataList3:{type:Array},
+      dataList4:{type:Array},
       isloaded:{type:Boolean},
     },
     data () {
@@ -29,6 +30,24 @@
               pointBackgroundColor: "#6BBCDC",
               borderWidth: 2,
               pointBorderColor: "#6BBCDC",
+              data: [2,2,2]
+            },
+            {
+              label: 'Notice',
+              backgroundColor: 'rgba(0,0,0,0)',
+              borderColor: "orange",
+              pointBackgroundColor: "orange",
+              borderWidth: 2,
+              pointBorderColor: "orange",
+              data: [2,2,2]
+            },
+            {
+              label: 'Mentor',
+              backgroundColor: 'rgba(0,0,0,0)',
+              borderColor: "black",
+              pointBackgroundColor: "black",
+              borderWidth: 2,
+              pointBorderColor: "black",
               data: [2,2,2]
             },
           ]
@@ -66,7 +85,8 @@
         isloaded:function(){
           this.datacollection.datasets[0].data = this.dataList
           this.datacollection.datasets[1].data = this.dataList2
-
+          this.datacollection.datasets[2].data = this.dataList3
+          this.datacollection.datasets[3].data = this.dataList4
           this.renderChart(this.datacollection, this.options)
         }
     }

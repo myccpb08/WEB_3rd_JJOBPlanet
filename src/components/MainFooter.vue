@@ -4,11 +4,11 @@
     <div class="list hidden-xs-only" style="margin-top:20px; width:90%;">
       <div style="align:center">About Us</div>
       <div style="width:100%">
-        <v-btn small to=""><a href="https://lab.ssafy.com/Kim_yh" style="color: black">김영훈</a></v-btn>
-        <v-btn small to=""><a href="https://lab.ssafy.com/myccpb08" style="color: black">김유림</a></v-btn>
-        <v-btn small to=""><a href="https://lab.ssafy.com/seok" style="color: black">석주연</a></v-btn>
-        <v-btn small to=""><a href="https://lab.ssafy.com/LeeSuKyeong" style="color: black">이수경</a></v-btn>
-        <v-btn small to=""><a href="https://lab.ssafy.com/JIGyeongmin" style="color: black">지경민</a></v-btn>
+        <v-btn flat small href="https://lab.ssafy.com/Kim_yh" style="color: lightgray">김영훈</v-btn>
+        <v-btn flat small href="https://lab.ssafy.com/myccpb08" style="color: lightgray">김유림</v-btn>
+        <v-btn flat small href="https://lab.ssafy.com/seok" style="color: lightgray">석주연</v-btn>
+        <v-btn flat small href="https://lab.ssafy.com/LeeSuKyeong" style="color: lightgray">이수경</v-btn>
+        <v-btn flat small href="https://lab.ssafy.com/JIGyeongmin" style="color: lightgray">지경민</v-btn>
       </div>
       <!-- <v-btn flat small to=""><p style="color:lightgray">지경민</p></v-btn> -->
     </div>
