@@ -1,140 +1,144 @@
 <template>
-<v-layout wrap justify-center>
+<v-layout v-if="this.$store.state.user.email===undefined" wrap justify-center>
+  <div style="width:100%;height:750px; margin-top:-100px;">
+  <div style="background-color: #404C5F; width:100%;height:320px;">
 
-  <v-flex xs12 sm12 lg12 class="mb-4 controls" style="text-align:center">
-    <br>
-    <p v-if="this.$store.state.user.email===undefined">
-      <font><h1>로그인하고<br> 내 채용 달력보기</h1></font>
-    </p>
-    <br><br>
-    <v-select v-model="type" :items="typeOptions" label="Type"></v-select>
-
-    <!--
-    <v-menu ref="startMenu" v-model="startMenu" :close-on-content-click="false" :nudge-right="40" :return-value.sync="start" transition="scale-transition" min-width="290px" offset-y full-width>
-      <template v-slot:activator="{ on }">
-        <v-text-field v-model="start" label="Start Date" prepend-icon="event" readonly v-on="on"></v-text-field>
-      </template>
-      <v-date-picker v-model="start" no-title scrollable>
-        <v-spacer></v-spacer>
-        <v-btn text dark :color="color" @click="startMenu = false">Cancel</v-btn>
-        <v-btn text dark :color="color" @click="$refs.startMenu.save(start)">OK</v-btn>
-      </v-date-picker>
-    </v-menu>
-
-
-
-    <v-menu ref="nowMenu" v-model="nowMenu" :close-on-content-click="false" :nudge-right="40" :return-value.sync="now" transition="scale-transition" min-width="290px" offset-y full-width>
-      <template v-slot:activator="{ on }">
-        <v-text-field v-model="now" label="Today" prepend-icon="event" readonly v-on="on"></v-text-field>
-      </template>
-      <v-date-picker v-model="now" no-title scrollable>
-        <v-spacer></v-spacer>
-        <v-btn text dark :color="color" @click="nowMenu = false">Cancel</v-btn>
-        <v-btn text dark :color="color" @click="$refs.nowMenu.save(now)">OK</v-btn>
-      </v-date-picker>
-    </v-menu> -->
-
-  </v-flex>
-
-  <v-flex xs12 sm12 lg12>
-    <v-sheet min-height="500">
-
-      <div style="text-align:center">
-        <v-btn fab flat small dark color="#7f7b76" @click="$refs.calendar.prev()" style="display:inline-block">
-          <v-icon dark>keyboard_arrow_left</v-icon>
-        </v-btn>
-        <h1 style="display:inline-block; margin-left:10%; margin-right:10%;">{{start.substring(0, 7)}}</h1>
-        <v-btn fab flat small dark color="#7f7b76" @click="$refs.calendar.next()" style="display:inline-block">
-          <v-icon dark>keyboard_arrow_right</v-icon>
-        </v-btn>
-      </div>
-
-      <v-calendar ref="calendar" v-model="start" :type="type" :start="start" :first-interval="intervals.first" :interval-minutes="intervals.minutes" :interval-count="intervals.count" :interval-height="intervals.height"
-        :show-interval-label="showIntervalLabel" :short-intervals="true" :short-months="true" :short-weekdays="true" :color="color">
-
-        <template v-slot:day="day">
-          <div v-for="(i,j) in totalfavorite">
-           <v-sheet v-if="day.date===drawstart(i)" :color="getcolor(j)" class="calendarmsg white--text pa-1" @click='openmodal(i.favorite)'>
-             <v-img :src="getImgUrl('start_icon.png')" style="margin-top:1px; height:15px; width:15px; float:left;"></v-img>
-             <p style="padding-left:3px; padding-top:0px; height:1.3em; overflow:hidden;">{{ i.favorite.name }}</p>
-           </v-sheet>
-           <v-sheet v-else-if="day.date===drawend(i)" :color="getcolor(j)" class="calendarmsg white--text pa-1" @click='openmodal(i.favorite)'>
-             <v-img :src="getImgUrl('end_icon.png')" style="margin-top:1px; height:15px; width:15px; float:left; "></v-img>
-             <p style="padding-left:3px; padding-top:0px; height:1.3em; overflow:hidden;">{{ i.favorite.name }}</p>
-           </v-sheet>
+      <p style="text-align:center">
+        <div style="margin-left:34%; padding-top:12%; width:270px; display:flex;">
+          <v-img :src="getImgUrl('calendar_w.png')" style="padding-top:10px;"></v-img>
+          <font style="color:white; font-weight: bold; font-size:1.6em; margin-left:20px; padding-top:7%;">로그인하고<br> 내 채용 달력보기</font>
+        </div>
+      </p>
+      <br><br>
+    <v-flex xs12 sm12 lg12 class="mb-4 controls" style="text-align:center">
+      <v-flex xs12 sm12 lg12>
+        <br>
+        <v-sheet min-height="400" style="margin-top:80px">
+          <div style="text-align:center">
+            <v-btn fab flat small dark color="#7f7b76" @click="$refs.calendar.prev()" style="display:inline-block">
+              <v-icon dark>keyboard_arrow_left</v-icon>
+            </v-btn>
+            <h1 style="display:inline-block; margin-left:10%; margin-right:10%;">{{start.substring(0, 7)}}</h1>
+            <v-btn fab flat small dark color="#7f7b76" @click="$refs.calendar.next()" style="display:inline-block">
+              <v-icon dark>keyboard_arrow_right</v-icon>
+            </v-btn>
           </div>
-        </template>
+          <v-calendar ref="calendar" v-model="start" :type="type" :start="start" :first-interval="intervals.first" :interval-minutes="intervals.minutes" :interval-count="intervals.count" :interval-height="intervals.height"
+            :show-interval-label="showIntervalLabel" :short-intervals="true" :short-months="true" :short-weekdays="true" :color="color">
+          </v-calendar>
+          <div style="width:100%; height:70px; padding:15px; text-align:center">
+            <v-btn small dark color="#7f7b76" @click="viewToday()">today</v-btn>
+          </div>
+        </v-sheet>
+        <br>
+      </v-flex>
+    </v-flex>
+  </div>
 
-        <template v-slot:day-header="date">
-          <v-sheet :color="color" class="calendarmsg white--text pa-1">
-            <!--주간사일간어떻게 넣슴까-->
-          </v-sheet>
-        </template>
-
-      </v-calendar>
-      <div style="width:100%; height:70px; padding:15px; text-align:center">
-        <v-btn small dark color="#7f7b76" @click="viewToday()">today</v-btn>
-      </div>
-    </v-sheet>
-    <br>
-    <hr>
-    <br>
-    <v-card class="mx-auto">
-      <v-toolbar color="#6BBCDC" dark>
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
-        <v-toolbar-title>내가 추가한 기업</v-toolbar-title>
-        <v-spacer></v-spacer>
-      </v-toolbar>
-      <br>
-      <v-container fluid grid-list-md pa-2>
-        <v-layout wrap style="width:80%; margin-left:10%;">
-          <v-flex style="text-align:center; width:100%;" v-for="i in totalfavorite">
-            <!-- <div v-if="drawcalender(i)"></div> -->
-            <div color="white" style="min-height:110px; width:100%; box-shadow: 4px 4px 4px 4px gray;">
-              <v-btn @click='openmodal(i.favorite)' style="width:80%; box-shadow:none; min-height:110px; backgroundColor:white">
-                <v-img aspect-ratio=1 :src='i.favorite.logo' contain style="width:10%; margin-left:5%; "></v-img>
-                <div style="width:80%; ">
-                  {{i.favorite.name}}<br>
-                  <p style="font-size:17px; color:gray; padding-left:20px; overflow:auto;" v-if="i.favorite.end===undefined">채용시 마감</p>
-                  <p style="font-size:17px; color:gray; padding-left:20px; overflow:auto;" v-else>{{i.favorite.start}} ~ {{i.favorite.end}}
-                  </p>
-                </div>
-              </v-btn>
-              <!-- <v-btn class="ma-1" v-if="comment.uid == $store.state.user.uid" text icon @click="deleteComment(comment.id)"> -->
-              <!--<v-icon color="red" style="width:5%;" @click='delfavorite(i.favorite)'>delete</v-icon>-->
-               <v-btn icon @click='delfavorite(i.favorite)'><v-icon color="red" style="width:5%;">delete</v-icon></v-btn>
-            </div>
-            <br>
-          </v-flex>
-
-        </v-layout>
-      </v-container>
-      <br>
-    </v-card>
-
-
-  </v-flex>
-
-  <!-- The Modal -->
-  <div id="myModal" class="modal" @click='modalclose()'>
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close" @click='modalclose()'>&times;</span>
-      <div style="height: 100px;">
-        <h1>{{modalfavorite.name}}</h1>
-        <p v-if="modalfavorite.end===undefined" style="float: left; padding-top: 15px;">채용시 마감</p>
-        <p v-else style="float: left; padding-top: 15px;">{{modalfavorite.start}} ~ {{modalfavorite.end}}</p>
-        <v-btn icon disable @click='delfavorite(modalfavorite)'>
-          <v-icon small color="red" style="float: left;">delete</v-icon>
-        </v-btn>
-      </div>
-      <hr>
-      <div v-for="i in modalfavorite.detail">
-        <v-img :src=i style="height:auto; width:auto; margin:0 auto" ></v-img>
-      </div>
-    </div>
   </div>
 </v-layout>
+
+<v-layout v-else wrap justify-center>
+
+<v-flex xs12 sm12 lg12 class="mb-4 controls" style="text-align:center">
+  <v-sheet min-height="500">
+
+    <div style="text-align:center">
+      <v-btn fab flat small dark color="#7f7b76" @click="$refs.calendar.prev()" style="display:inline-block">
+        <v-icon dark>keyboard_arrow_left</v-icon>
+      </v-btn>
+      <h1 style="display:inline-block; margin-left:10%; margin-right:10%;">{{start.substring(0, 7)}}</h1>
+      <v-btn fab flat small dark color="#7f7b76" @click="$refs.calendar.next()" style="display:inline-block">
+        <v-icon dark>keyboard_arrow_right</v-icon>
+      </v-btn>
+    </div>
+
+    <v-calendar ref="calendar" v-model="start" :type="type" :start="start" :first-interval="intervals.first" :interval-minutes="intervals.minutes" :interval-count="intervals.count" :interval-height="intervals.height"
+      :show-interval-label="showIntervalLabel" :short-intervals="true" :short-months="true" :short-weekdays="true" :color="color">
+
+      <template v-slot:day="day">
+        <div v-for="(i,j) in totalfavorite">
+         <v-sheet v-if="day.date===drawstart(i)" :color="getcolor(j)" class="calendarmsg white--text pa-1" @click='openmodal(i.favorite)'>
+           <v-img :src="getImgUrl('start_icon.png')" style="margin-top:1px; height:15px; width:15px; float:left;"></v-img>
+           <p style="padding-left:3px; padding-top:0px; height:1.3em; overflow:hidden;">{{ i.favorite.name }}</p>
+         </v-sheet>
+         <v-sheet v-else-if="day.date===drawend(i)" :color="getcolor(j)" class="calendarmsg white--text pa-1" @click='openmodal(i.favorite)'>
+           <v-img :src="getImgUrl('end_icon.png')" style="margin-top:1px; height:15px; width:15px; float:left; "></v-img>
+           <p style="padding-left:3px; padding-top:0px; height:1.3em; overflow:hidden;">{{ i.favorite.name }}</p>
+         </v-sheet>
+        </div>
+      </template>
+
+      <template v-slot:day-header="date">
+        <v-sheet :color="color" class="calendarmsg white--text pa-1">
+          <!--주간사일간어떻게 넣슴까-->
+        </v-sheet>
+      </template>
+
+    </v-calendar>
+    <div style="width:100%; height:70px; padding:15px; text-align:center">
+      <v-btn small dark color="#7f7b76" @click="viewToday()">today</v-btn>
+    </div>
+  </v-sheet>
+  <br>
+  <hr>
+  <br>
+  <v-card class="mx-auto">
+    <v-toolbar color="#6BBCDC" dark>
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-toolbar-title>내가 추가한 기업</v-toolbar-title>
+      <v-spacer></v-spacer>
+    </v-toolbar>
+    <br>
+    <v-container fluid grid-list-md pa-2>
+      <v-layout wrap style="width:80%; margin-left:10%;">
+        <v-flex style="text-align:center; width:100%;" v-for="i in totalfavorite">
+          <!-- <div v-if="drawcalender(i)"></div> -->
+          <div color="white" style="min-height:110px; width:100%; box-shadow: 4px 4px 4px 4px gray;">
+            <v-btn @click='openmodal(i.favorite)' style="width:80%; box-shadow:none; min-height:110px; backgroundColor:white">
+              <v-img aspect-ratio=1 :src='i.favorite.logo' contain style="width:10%; margin-left:5%; "></v-img>
+              <div style="width:80%; ">
+                {{i.favorite.name}}<br>
+                <p style="font-size:17px; color:gray; padding-left:20px; overflow:auto;" v-if="i.favorite.end===undefined">채용시 마감</p>
+                <p style="font-size:17px; color:gray; padding-left:20px; overflow:auto;" v-else>{{i.favorite.start}} ~ {{i.favorite.end}}
+                </p>
+              </div>
+            </v-btn>
+            <!-- <v-btn class="ma-1" v-if="comment.uid == $store.state.user.uid" text icon @click="deleteComment(comment.id)"> -->
+            <!--<v-icon color="red" style="width:5%;" @click='delfavorite(i.favorite)'>delete</v-icon>-->
+             <v-btn icon @click='delfavorite(i.favorite)'><v-icon color="red" style="width:5%;">delete</v-icon></v-btn>
+          </div>
+          <br>
+        </v-flex>
+      </v-layout>
+    </v-container>
+    <br>
+  </v-card>
+
+
+</v-flex>
+
+<!-- The Modal -->
+<div id="myModal" class="modal" @click='modalclose()'>
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close" @click='modalclose()'>&times;</span>
+    <div style="height: 100px;">
+      <h1>{{modalfavorite.name}}</h1>
+      <p v-if="modalfavorite.end===undefined" style="float: left; padding-top: 15px;">채용시 마감</p>
+      <p v-else style="float: left; padding-top: 15px;">{{modalfavorite.start}} ~ {{modalfavorite.end}}</p>
+      <v-btn icon disable @click='delfavorite(modalfavorite)'>
+        <v-icon small color="red" style="float: left;">delete</v-icon>
+      </v-btn>
+    </div>
+    <hr>
+    <div v-for="i in modalfavorite.detail">
+      <v-img :src=i style="height:auto; width:auto; margin:0 auto" ></v-img>
+    </div>
+  </div>
+</div>
+</v-layout>
+
 </template>
 
 <script>
