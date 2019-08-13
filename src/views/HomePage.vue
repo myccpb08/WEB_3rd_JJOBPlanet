@@ -92,8 +92,8 @@
           <div style="background:#ffffff; width:400px; height:450px; padding:20px; padding-left:0px; display:inline-block">
 
             <div class="JO" style="width:35%; height:250px; ">
-              <v-btn flat v-for="(value, key,index) in bygroup" @click='getgroup(key,index)' :style="{background : checkClickHot[index]?'orange':'white'}" style="width:120px; height:25px; margin:1;">
-                <font style="width:100%; color:gray; font-size: 14px;">{{key}}</font>
+              <v-btn flat v-for="(value, key,index) in bygroup" @click='getgroup(key,index)' :style="{background : checkClickHot[index]?'orange':'white'}"  style="width:120px; height:25px; margin:1;">
+                <font :style="{color : checkClickHot[index]?'white':'gray'}" style="width:100%; color:gray; font-size: 14px;">{{key}}</font>
               </v-btn>
             </div>
             <div class="JO" style="width:1px; height:400px; background:gray;"></div>
@@ -193,21 +193,43 @@
       <div style="width:1px; height:600px; background: RGB(155, 155, 155, 0.2); float:left"></div>
 
       <!-- section2 -->
-      <div style="width:49%; height:500px; float:left">
+      <div style="width:1px; height:600px; background: RGB(155, 155, 155, 0.2); float:left"></div>
 
-      <div style="margin-left:30px; width: 90%; float: left;">
-        <h3 style="margin-left:30px;">점심메뉴</h3>
-        <v-layout class="applyList" style="width: 100%; display:inline-block;text-align:center;padding-top:25px; overflow:auto;">
-          <v-flex style="background:white; width: 100%;height:130px;  margin-left:5px; margin-bottom:5px; display:inline-block;" v-for="i in lunch">
-            <v-img aspect-ratio=1 :src='i.img' contain style="width:30%; height:auto; float: left;"></v-img>
-            <div style="width:70%;height:70%; margin-bottom:10px;float: left;">
-              <font><pre><br><b>{{i.menu}}</b></pre></font>
-            </div>
+<!-- section2 -->
+<div style="width:49%; height:600px; float:left;">
 
-          </v-flex>
-        </v-layout>
-      </div>
-      </div>
+<div class="onoffmixdiv" style="margin-left:30px; width: 90%; float: left;" >
+  <h3 style="margin-left:30px;">추천 공모전/강연</h3>
+
+  <v-carousel
+        style="height:550px;">
+      <v-carousel-item
+        v-for="i in onoffmix"
+      >
+        <v-sheet
+          color="#eee"
+          height="100%"
+        >
+        <v-row
+          class="fill-height"
+          align="center"
+          justify="center"
+        >
+              <v-img aspect-ratio=1 :src='i.img' contain style="width:300px; height:400px; margin:0 auto; padding-top:100px;"></v-img>
+
+              <div style=" margin:0 auto; color:gray; ">
+                <font><b>{{i.title}}</b></font><br>
+                {{i.pay}}<br>{{i.time}}
+              </div>
+
+          </v-row>
+        </v-sheet>
+      </v-carousel-item>
+    </v-carousel>
+
+
+</div>
+</div>
 
 
     </div>
@@ -225,14 +247,19 @@ import firebase from 'firebase/app'
 import FirebaseService from '@/services/FirebaseService'
 import $ from 'jquery'
 import axios from 'axios'
-
+import Vue from 'vue'
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
+Vue.use(Vuetify)
 export default {
+
   name: 'HomePage',
   components: {
     PostList,
     RepositoryList,
     Notice,
-    Mentor
+    Mentor,
+    Vuetify,
   },
   data: function () {
     return {
@@ -253,7 +280,11 @@ export default {
       totalfavorite: [],
       notices: [],
       mentors:[],
-      lunch:[]
+      onoffmix:[],
+      model: 0,
+      showArrows: true,
+      hideDelimiters: false,
+      cycle: false,
     }
   },
   created () {
@@ -276,7 +307,7 @@ export default {
         this.weekdata=response.data.week
         this.bygroup=response.data.bygroup
         this.group=response.data.bygroup['경영/사무']
-        this.lunch=response.data.lunch
+        this.onoffmix=response.data.onoffmix
       })
       .catch(function(error) {
         console.log(error)
@@ -391,7 +422,7 @@ hr{
   cursor: pointer;
 }
 .containerbtn:hover{
-  background: #eee;
+  background: #ffffff;
 }
 .homeboard{
   width: 100%;
@@ -413,5 +444,23 @@ hr{
 }
 span.grey--text{
   overflow: hidden;
+}
+.v-item-group {
+  background-color: #eee;
+}
+.v-item-group .v-btn__content{
+  width: 12px;
+}
+.v-item-group .v-icon{
+  color: black!important;
+  opacity: 0.5;
+  font-size:11px!important;
+}
+.onoffmixdiv .v-btn__content{
+  color: black!important;
+}
+
+.onoffmixdiv .v-window {
+  box-shadow: none;
 }
 </style>

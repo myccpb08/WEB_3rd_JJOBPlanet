@@ -34,7 +34,7 @@
             </div>
 
             <div id="_chat">
-              <div v-for="(v,k) in chat" class="_chat" :class="{_right: (v.email == email)}">
+              <div v-for="v in chat" class="_chat" :class="{_right: (v.email == email)}">
                 <div class="_msg" v-if="v.msg">
                   <pre>{{v.msg}}</pre>
                 </div>
@@ -78,12 +78,10 @@
 </template>
 
 <script>
-import $ from "jquery";
-import FirebaseService from "@/services/FirebaseService";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/database";
-var async = require("async");
+// var async = require("async");
 
 const database = firebase.database();
 

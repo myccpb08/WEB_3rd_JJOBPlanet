@@ -28,7 +28,6 @@ import Vue from 'vue'
 import BackToTop from 'vue-backtotop'
 import Firebaseservice from './services/FirebaseService'
 
-import $ from 'jquery'
 Vue.use(BackToTop)
 export default {
   name: 'App',
