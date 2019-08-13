@@ -96,8 +96,6 @@
 </template>
 
 <script>
-import ImageInput from '../components/ImageInput'
-import NoticeList from '../components/NoticeList'
 import FirebaseService from '@/services/FirebaseService'
 
 export default {
@@ -116,7 +114,6 @@ export default {
     }
   },
    components: {
-      NoticeList
    },
   mounted(){
     this.temp()

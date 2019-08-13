@@ -21,7 +21,6 @@
 <script>
 import ImageInput from '../components/ImageInput'
 import FirebaseService from '@/services/FirebaseService'
-import $ from 'jquery'
 export default {
   name: 'noticeWriter',
   data(){

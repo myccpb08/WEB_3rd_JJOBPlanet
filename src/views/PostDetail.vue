@@ -69,7 +69,6 @@
 </template>
 
 <script>
-import PostList from '../components/PostList'
 import FirebaseService from '@/services/FirebaseService'
 
 export default {
@@ -86,7 +85,6 @@ export default {
     }
   },
   components: {
-    PostList,
   },
   mounted() {
     this.temp()

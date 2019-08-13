@@ -44,12 +44,7 @@ new Vue({
   store,
 	created(){
 		firebase.auth().onAuthStateChanged(function(user) {
-  		if (user) {
-
-
-  		} else {
-
-  		}
+  		
 		});
 	},
   render: h => h(App)
