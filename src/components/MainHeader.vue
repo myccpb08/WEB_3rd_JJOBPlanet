@@ -423,13 +423,14 @@ export default {
                 popup: "animated bounceIn"
               }
             });
-
+            this.userClass = FirebaseService.getUserClass(this.$store.state.user.uid)
             FirebaseService.outtoken(this.$store.state.user);
             this.$store.state.accessToken = "";
             this.$store.state.user = "";
             localStorage.setItem("accessToken", this.$store.state.accessToken);
             localStorage.setItem("user", this.$store.state.user);
             this.closeDialog();
+
             this.$router.replace("/");
 
             this.check = false;
@@ -438,6 +439,7 @@ export default {
             alert(error);
           });
       }
+
     },
     closeDialog() {
       this.loginDialog = false;
