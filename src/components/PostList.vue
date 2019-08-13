@@ -1,7 +1,7 @@
 <template>
 <div>
   <div style="margin-top:50px;"></div>
-  <div style="width:100%;height:670px;border:1px solid #dddddd;">
+  <div style="width:100%;height:700px;border:1px solid #dddddd;">
     <!-- title -->
     <div style="width:100%;height:55px;background:#f2f2f2">
       <v-layout row wrap mw-700>
@@ -60,12 +60,57 @@
                 <v-text-field v-model="title" label="Q."></v-text-field>
                 <hr>
                 <v-textarea v-on:keyup="count" v-model="body" :counter="maxCount" rows="23"></v-textarea>
-                <!-- <router-link to="/postwriter"><v-btn flat class="movebtn button3">
-                  <v-icon size="25" class="mr-2 notranslate">create</v-icon>새로 작성하기</v-btn></router-link> -->
-
-                <v-btn flat @click='checkPost(body)'>
+                <!-- <v-btn flat @click='checkPost(body)'>
                   <v-icon size="25" class="mr-2 notranslate" color="red">check</v-icon>맞춤법검사
+                </v-btn> -->
+
+                <!-- 👌 맞춤법검사 버튼 모바일 모달 -->
+
+      <v-dialog v-model="dialog2" scrollable max-width="300px">
+        <template v-slot:activator="{ on }">
+          <v-btn flat color="black" dark v-on="on">
+            <v-icon size="25" class="mr-2 notranslate" color="red">check</v-icon>맞춤법검사
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-title><h2>맞춤법검사</h2></v-card-title>
+          <v-divider></v-divider>
+          <v-card-text style="height: 300px;">
+              <!-- 내용 넣기 -->
+              <v-flex xs12 md12 lg12 style="padding-left:10px;padding-right:10px">
+                <h2>Before</h2><v-divider></v-divider><v-divider></v-divider>
+                <v-textarea v-on:keyup="count" v-model="body" :counter="maxCount" :rows="15" style="width:100%"></v-textarea>
+                <v-btn flat @click="checkPost(body)" style="margin-left:30px">
+                  <v-icon size="25" class="mr-2 notranslate" color="red" >check</v-icon>검사시작
+                </v-btn><br><br>
+              </v-flex>
+
+              <v-flex xs12 md12 lg12 style="padding-left:10px;padding-right:10px;">
+                <h2>
+                  After
+                  <v-spacer></v-spacer>
+                  <img src="../../public/spell.png" />
+                </h2>
+                <v-divider></v-divider><v-divider></v-divider>
+                <div v-html="body2" style="border :1px solid gray;height:280px;width:100%;overflow:auto;"></div>
+
+                <v-btn flat @click="updatePost" style="margin-left:30px">
+                  <v-icon size="25" class="mr-2 notranslate">create</v-icon>수정저장
                 </v-btn>
+              </v-flex>
+
+
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-btn color="blue darken-1" text @click="dialog2 = false">Close</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+
+                <!-- 맞춤법 끝 -->
+
                 <v-btn flat @click='updatePost'>
                   <v-icon size="25" class="mr-2 notranslate">create</v-icon>수정
                 </v-btn>
@@ -73,7 +118,6 @@
                   <v-icon size="25" class="mr-2 notranslate">delete</v-icon>삭제
                 </v-btn>
                 <br>
-                <!--<v-label>{{letter}} / {{maxCount}}</v-label>-->
               </div>
 
             </v-alert>
@@ -94,18 +138,14 @@
       <v-text-field v-model="title" label="Q."></v-text-field>
       <hr>
       <v-textarea v-on:keyup="count" v-model="body" :counter="maxCount" rows="23"></v-textarea>
-      <!-- <router-link to="/postwriter"><v-btn flat class="movebtn button3">
-        <v-icon size="25" class="mr-2 notranslate">create</v-icon>새로 작성하기</v-btn></router-link> -->
-      <!-- <v-btn flat @click='checkPost(body)'><v-icon size="25" class="mr-2 notranslate" color="red">check</v-icon>맞춤법검사</v-btn> -->
       <v-btn flat @click='updatePost'>
         <v-icon size="25" class="mr-2 notranslate">create</v-icon>수정
       </v-btn>
       <v-btn flat @click='deletePost'>
         <v-icon size="25" class="mr-2 notranslate">delete</v-icon>삭제
       </v-btn>
-      <!-- 맞춤법 테스트 -->
-      <div>
-        <v-layout justify-center>
+
+      <!-- 수정의 맞춤법 테스트 -->
           <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
             <template v-slot:activator="{ on }">
               <!-- <v-btn color="primary" dark v-on="on">Open Dialog</v-btn> -->
@@ -154,10 +194,7 @@
               </v-container>
             </v-card>
           </v-dialog>
-        </v-layout>
-      </div>
       <br>
-      <!--<v-label>{{letter}} / {{maxCount}}</v-label>-->
     </div>
   </div>
 
@@ -195,7 +232,7 @@ export default {
       body: '',
       postId: '',
       uid: '',
-      maxCount: 1000,
+      maxCount: 3000,
       searchItem: ['전체', 'title', 'body'],
       selectedItem: '전체',
       currentItem: '전체',
@@ -204,7 +241,8 @@ export default {
       alert: false,
       choicePost: 0,
       dialog: false,
-      body2: ''
+      body2: '',
+      dialog2: false,
     }
   },
   components: {
@@ -219,6 +257,7 @@ export default {
       this.dialog = false;
       this.body2 = "";
     },
+
     checkPost(sentence) {
       const formData = new FormData();
       formData.append("sentence", sentence);
