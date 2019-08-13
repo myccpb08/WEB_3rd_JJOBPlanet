@@ -1,22 +1,44 @@
 <template>
-  <div>
-    <div style="margin-top:120px"></div>
+<div>
+  <div style="margin-top:120px"></div>
 
-    <v-container>
-      <v-layout>
-        <v-flex>
-          <div>
-            <template v-if="uid">
-              <div id="_top">
-                <div class="_btn" @click="user_list_show = !user_list_show">User List</div>
+  <v-container>
+    <v-layout>
+      <v-flex style="text-align: center;">
+        <div style="width:400px; display:inline-block;">
+          <template v-if="uid">
+            <div id="_top">
+              <!-- 회원리스트 -->
+              <div class="text-center">
+                <v-menu offset-y>
+                  <template v-slot:activator="{ on }">
+                    <v-btn color="white" v-on="on" style="cursor: pointer; margin-top:10px">
+                      User List
+                    </v-btn>
+                  </template>
+
+                  <v-list>
+                    <v-list-tile v-for="(item, index) in users" :key="index" @click="">
+
+                      <v-list-tile-action>
+                        <v-icon>account_circle</v-icon>
+                      </v-list-tile-action>
+                      <v-list-tile-content>{{ item.email }}<br>마지막 접속: {{item.datetime}} <br>
+                        <hr>
+                      </v-list-tile-content>
+                      </v-list-item-title>
+                    </v-list-tile>
+                  </v-list>
+                </v-menu>
               </div>
+            </div>
 
-              <div id="_chat">
-                <div v-for="(v,k) in chat" class="_chat" :class="{_right: (v.email == email)}">
-                  <div class="_msg" v-if="v.msg">
-                    <pre>{{v.msg}}</pre>
-                  </div>
-                  <!-- <div class="_file" v-if="v.file">
+            <div id="_chat">
+              <div v-for="(v,k) in chat" class="_chat" :class="{_right: (v.email == email)}">
+                <div class="_msg" v-if="v.msg">
+                  <pre>{{v.msg}}</pre>
+                </div>
+                <!-- <div class="_file" v-if="v.file">
                   <div v-for="f in v.file">
                     <img
                       :src="f.url"
@@ -27,70 +49,43 @@
                     <a :href="f.url" download>{{f.name}}</a>
                   </div>
                   </div>-->
-                  <div class="_meta">
-                    {{v.datetime}}
-                    <br />
-                    {{v.email}}
-                  </div>
+                <div class="_meta">
+                  {{v.datetime}}
+                  <br />
+                  {{v.email}}
                 </div>
               </div>
-              <div id="_bottom">
-                <!-- 테스트 -->
-                <v-form>
-                  <v-container grid-list-xl>
-                    <v-layout wrap>
-                      <v-flex xs12>
-                        <v-text-field
-                          v-model="msg"
-                          outlined
-                          clearable
-                          label="Message"
-                          type="text"
-                          @keypress.enter.prevent="_chat"
-                          @keypress.ctrl.enter.prevent="_new_line"
-                        >
-                          <template v-slot:append>
-                            <!-- <v-fade-transition leave-absolute>
-                              <v-progress-circular
-                                v-if="loading"
-                                size="24"
-                                color="red"
-                                indeterminate
-                              ></v-progress-circular>
-                            </v-fade-transition> -->
- <div class="_btn_write" @click="_chat">
-                              <i class="fa fa-paper-plane" aria-hidden="true" style="color:blue"></i>
-                            </div>
-                          </template>
-                        </v-text-field>
-                      </v-flex>
-                    </v-layout>
-                  </v-container>
-                </v-form>
-                <!-- 여기까지 -->
+            </div>
 
-                <!-- <textarea
-                  v-model="msg"
-                  @keypress.enter.prevent="_chat"
-                  @keypress.ctrl.enter.prevent="_new_line"
-                  placeholder="Write your message..."
-                ></textarea>-->
-                <!-- <div class="_btn_write" @click="_chat">
-                    <i class="fa fa-paper-plane" aria-hidden="true" style="color:blue"></i>
-                </div>-->
-              </div>
+            <!-- 채팅입력부 -->
+            <div id="_bottom">
+              <v-form>
+                <v-container grid-list-xl>
+                  <v-layout wrap>
+                    <v-flex xs12>
+                      <v-text-field v-model="msg" outlined label="Message" type="text" @keypress.enter.prevent="_chat" @keypress.ctrl.enter.prevent="_new_line">
+                        <template v-slot:append>
+                          <v-fade-transition leave-absolute>
+                            <i class="fa fa-paper-plane" @click="_chat" aria-hidden="true" style="color:blue"></i> <!-- 전송버튼 -->
+                          </v-fade-transition>
+                        </template>
+                      </v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-container>
+              </v-form>
+            </div>
 
-              <div id="_user_list" :class="{_show: user_list_show}">
-                <div v-for="(v,k) in users">{{v.email}} ___ {{v.datetime}}</div>
-              </div>
-            </template>
-          </div>
-        </v-flex>
-      </v-layout>
-    </v-container>
 
-    <div style="margin-top:120px"></div>
-  </div>
+
+          </template>
+        </div>
+      </v-flex>
+    </v-layout>
+  </v-container>
+
+  <div style="margin-top:120px"></div>
+</div>
 </template>
 
 <script>
@@ -144,7 +139,7 @@ export default {
         });
 
         users_ref.on("child_added", d => {
-          this.$set(z.users, d.key, d.val());
+          this.$set(z.users, d.key, d.val()); // 로그인 한 사람 등록 시키기
         });
 
         users_ref.on("child_changed", d => {
@@ -175,12 +170,6 @@ export default {
     });
   },
   methods: {
-    clickMe() {
-      this.loading = true;
-      setTimeout(() => {
-        this.loading = false;
-      }, 2000);
-    },
     // _login() {
     //   if (!this.email || !this.pw) return;
     //   firebase
@@ -243,7 +232,7 @@ export default {
 }
 
 body {
-  margin: 0;
+  margin: 500;
   padding: 0;
   background-color: gainsboro;
 }
@@ -375,7 +364,7 @@ body {
   left: 0;
 }
 
-#_user_list > div {
+#_user_list>div {
   margin-top: 10px;
   font-size: 12px;
 }
@@ -387,13 +376,14 @@ body {
 /* display:block; */
 
 /* 왼쪽 텍스트 상자 */
-#_chat ._chat > div {
+#_chat ._chat>div {
   display: inline-block;
 }
 
-#_chat ._chat._right > div {
+#_chat ._chat._right>div {
   float: right;
 }
+
 /* 왼쪽 대화상자 */
 #_chat ._chat ._msg,
 #_chat ._chat ._file {
