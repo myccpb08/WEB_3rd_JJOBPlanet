@@ -6,63 +6,6 @@
     <v-img :src="getImgUrl('Jjobplanet_banner.png')" style="width:100%;"></v-img>
 
     <!-- apply  -->
-    <!-- <div style="background:#3f4b5f;width:100%;height:320px;">
-
-      <div class="hidden-xs-only" style="width:28%;height:100%;display:inline-block;padding-left:10%;padding-top:30px;float:left">
-        <hr style="border:1px solid white; width:70px; margin-bottom:20px">
-        <p>
-          <font style="color:white;">
-            <p v-if="userName===undefined">로그인 해주세요</p>
-            <p v-else>
-              {{userName}}님이 <br>
-              <b>지원하신 채용공고</b> <br>
-              입니다 <br><br>
-              <v-btn flat dark outline style="width:110px;" to="/post"><label style='font-size:14.5px'>자기소개서</label></v-btn>
-
-            </p>
-          </font>
-        </p>
-      </div>
-
-      <div class="hidden-sm-and-up" style="width:15%;height:100%;display:inline-block;float:left">
-      </div>
-
-      <div v-if="totalfavorite.length==0" style="width:72%;height:100%;display:inline-block;text-align:center;padding-top:80px;">
-        <p>
-          <font style="color:white;font-size:30px;">
-            {{userName}}님이 지원하신 공고가 없습니다.<br>
-            <hr style="border:1px solid white; width:150px; margin:0 auto">
-          </font>
-        </p>
-      </div>
-      <div v-else>
-        <v-layout class="applyList" style="width:70%;height:100%;display:inline-block;text-align:center;padding-top:25px; overflow:auto;">
-          <v-flex style="background:white; height:130px; width:160px; margin-left:5px; margin-bottom:5px; display:inline-block;" v-for="i in totalfavorite">
-            <div class="containerbtn"  @click='openmodal(i.favorite)'>
-              <div style="width:50px; height:50px; padding-top:10px; margin:0 auto;">
-                <v-img aspect-ratio=1 :src='i.favorite.logo' contain style="width:auto; height:50px;"></v-img>
-              </div>
-              <div style="width:100%;height:70%; margin-bottom:10px;">
-                <p>
-                  <div>
-                    <font><b>{{i.favorite.name}}</b></font><br>
-                  </div>
-                  <div style="color:gray; font-size:12px; height:15px; overflow:hidden">
-                    <font>{{i.favorite.plus}}</font><br>
-                  </div>
-                  <div style="color:orange; font-size:12px; height:15px; overflow:hidden">
-                    <font>{{i.favorite.job}}</font>
-                  </div>
-                </p>
-              </div>
-            </div>
-          </v-flex>
-        </v-layout>
-      </div>
-
-    </div> -->
-
-    <!-- apply  -->
     <div style="background:#3f4b5f;width:100%;height:320px;">
 
       <div class="hidden-xs-only" style="width:28%;height:100%;display:inline-block;padding-left:10%;padding-top:30px;float:left">
@@ -250,27 +193,21 @@
       <div style="width:1px; height:600px; background: RGB(155, 155, 155, 0.2); float:left"></div>
 
       <!-- section2 -->
-      <div style="width:1px; height:800px; background: RGB(155, 155, 155, 0.2); float:left"></div>
+      <div style="width:49%; height:500px; float:left">
 
-<!-- section2 -->
-<div style="width:49%; height:800px; float:left; overflow:scroll">
+      <div style="margin-left:30px; width: 90%; float: left;">
+        <h3 style="margin-left:30px;">점심메뉴</h3>
+        <v-layout class="applyList" style="width: 100%; display:inline-block;text-align:center;padding-top:25px; overflow:auto;">
+          <v-flex style="background:white; width: 100%;height:130px;  margin-left:5px; margin-bottom:5px; display:inline-block;" v-for="i in lunch">
+            <v-img aspect-ratio=1 :src='i.img' contain style="width:30%; height:auto; float: left;"></v-img>
+            <div style="width:70%;height:70%; margin-bottom:10px;float: left;">
+              <font><pre><br><b>{{i.menu}}</b></pre></font>
+            </div>
 
-<div style="margin-left:30px; width: 90%; float: left;">
-  <h3 style="margin-left:30px;">추천 공모전/강연</h3>
-  <v-layout class="applyList" style="width: 100%; display:inline-block;text-align:center;padding-top:25px; overflow:auto;">
-    <v-flex style="background:white; width: 100%;height:350px;  margin-left:5px; margin-bottom:5px; display:inline-block;" v-for="i in onoffmix">
-
-      <v-img aspect-ratio=1 :src='i.img' contain style="width:300px; height:auto; margin:0 auto;"></v-img>
-
-      <div style=" margin:0 auto;">
-        <font><b>{{i.title}}</b></font><br>
-        {{i.pay}} / {{i.time}}
+          </v-flex>
+        </v-layout>
       </div>
-
-    </v-flex>
-  </v-layout>
-</div>
-</div>
+      </div>
 
 
     </div>
@@ -316,7 +253,7 @@ export default {
       totalfavorite: [],
       notices: [],
       mentors:[],
-      onoffmix:[]
+      lunch:[]
     }
   },
   created () {
@@ -339,7 +276,7 @@ export default {
         this.weekdata=response.data.week
         this.bygroup=response.data.bygroup
         this.group=response.data.bygroup['경영/사무']
-        this.onoffmix=response.data.onoffmix
+        this.lunch=response.data.lunch
       })
       .catch(function(error) {
         console.log(error)

@@ -12,9 +12,9 @@ import store from './store'
 import './registerServiceWorker'
 import VueMq from 'vue-mq'
 
-// if ('serviceWorker' in navigator){
-// 	navigator.serviceWorker.register('sw.js')
-// };
+if ('serviceWorker' in navigator){
+	navigator.serviceWorker.register('sw.js')
+};
 
 Vue.use(VueMq,{
 	breakpoints: {

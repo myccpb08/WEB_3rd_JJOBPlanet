@@ -137,7 +137,12 @@
 
       <v-text-field v-model="title" label="Q."></v-text-field>
       <hr>
-      <v-textarea v-on:keyup="count" v-model="body" :counter="maxCount" rows="23"></v-textarea>
+      <div v-if="this.totalPosts.length===0">
+        <div style="margin-bottom:200px"></div>
+        <b>작성된 자소서가 없습니다. 작성버튼을 눌러 새 자소서를 작성하세요</b>
+        <div style="margin-top:250px"></div>
+      </div>
+      <v-textarea v-else v-on:keyup="count" v-model="body" :counter="maxCount" rows="23"></v-textarea>
       <v-btn flat @click='updatePost'>
         <v-icon size="25" class="mr-2 notranslate">create</v-icon>수정
       </v-btn>
