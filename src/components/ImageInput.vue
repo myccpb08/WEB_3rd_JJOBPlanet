@@ -6,7 +6,6 @@
   </v-flex>
 </template>
 <script>
-import FirebaseService from '@/services/FirebaseService'
 import $ from 'jquery'
 export default {
   props: {

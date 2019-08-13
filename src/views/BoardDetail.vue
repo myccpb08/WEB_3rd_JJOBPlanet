@@ -97,8 +97,6 @@
 </template>
 
 <script>
-import ImageInput from '../components/ImageInput'
-import BoardList from '../components/BoardList'
 import FirebaseService from '@/services/FirebaseService'
 
 export default {
@@ -120,7 +118,6 @@ export default {
     }
   },
   components: {
-    BoardList
   },
   mounted() {
     this.temp()

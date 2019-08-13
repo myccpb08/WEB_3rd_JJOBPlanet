@@ -142,7 +142,7 @@
 <script>
 import FirebaseService from '@/services/FirebaseService'
 import moment from 'moment'
-const weekdaysDefault = [0, 1, 2, 3, 4, 5, 6]
+
 const intervalsDefault = {
   first: 0,
   minutes: 60,

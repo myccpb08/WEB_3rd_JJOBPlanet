@@ -210,7 +210,6 @@
 </template>
 
 <script>
-import $ from 'jquery'
 import FirebaseService from '@/services/FirebaseService'
 import firebase from 'firebase/app'
 const Swal2 = require('sweetalert2')

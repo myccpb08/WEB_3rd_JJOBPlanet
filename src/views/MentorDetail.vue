@@ -97,8 +97,6 @@
 </template>
 
 <script>
-import ImageInput from '../components/ImageInput'
-import MentorList from '../components/MentorList'
 import FirebaseService from '@/services/FirebaseService'
 
 export default {
@@ -120,7 +118,6 @@ export default {
     }
   },
   components: {
-    MentorList
   },
   mounted() {
     this.temp()

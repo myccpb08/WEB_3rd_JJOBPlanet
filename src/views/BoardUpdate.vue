@@ -9,7 +9,6 @@
       <v-textarea solo v-model="board.body"></v-textarea>
 
       <v-flex xs12 text-xs-center round my-5>
-        <!-- <v-btn color="info" v-on:click="updateBoard()" class="movebtn button1">submit</v-btn> -->
         <v-btn flat color="gray" v-on:click="updateBoard()" class="movebtn">submit</v-btn>
         <v-btn flat color="gray" @click='$router.go(-1)' class="movebtn">back</v-btn>
       </v-flex>
@@ -22,7 +21,6 @@
 <script>
 import ImageInput from '../components/ImageInput'
 import FirebaseService from '@/services/FirebaseService'
-import $ from 'jquery'
 export default {
   name: 'boardWriter',
   data() {
