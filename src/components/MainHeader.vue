@@ -251,6 +251,10 @@ export default {
     }
   },
   methods: {
+    getClass(result){
+      this.userClass=result
+      console.log(result)
+    },
     async checkUserClass(uid) {
       if (uid == null) {
         return false;
@@ -457,9 +461,16 @@ export default {
       this.$store.state.accessToken = localStorage.getItem('accessToken');
     }
     this.userClass = FirebaseService.getUserClass(this.$store.state.user.uid)
-    // this.check = this.checkUserClass(this.$store.state.user.uid)
+    // console.log(this.userClass)
+    this.check = this.checkUserClass(this.$store.state.user.uid)
 
-  }
+  },
+  created () {
+    var userClass =
+    FirebaseService.getUserClass(uid).then((result) => {
+     this.getClass(result);
+   })
+  },
 }
 </script>
 
