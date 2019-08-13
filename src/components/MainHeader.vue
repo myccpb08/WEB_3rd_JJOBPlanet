@@ -24,6 +24,7 @@
         </v-btn>
         <v-btn flat to="/post">Post</v-btn>
         <v-btn flat to="/backoffice" v-if='check'>BackOffice</v-btn>
+        <v-btn flat to="/chat" v-if='check'>chat</v-btn>
 
         <!-- login SignUp Form -->
         <v-dialog v-if="!$store.state.user" v-model="loginDialog" max-width="500">

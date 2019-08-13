@@ -19,6 +19,7 @@ import MentorWriter from './views/MentorWriter.vue'
 import MentorDetail from './views/MentorDetail.vue'
 import MentorUpdate from './views/MentorUpdate.vue'
 import CalendarPage from './views/CalendarPage.vue'
+import Chat from  './views/Chat.vue'
 
 Vue.use(Router)
 
@@ -129,6 +130,11 @@ export default new Router({
          path: '/calendar',
          name: 'calendar',
          component: CalendarPage
+      },
+      {
+         path: '/chat',
+         name: 'chat',
+         component: Chat
       }
 
   ]
