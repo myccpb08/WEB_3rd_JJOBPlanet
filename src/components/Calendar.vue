@@ -4,7 +4,7 @@
   <div style="background-color: #404C5F; width:100%;height:320px;">
 
       <p style="text-align:center">
-        <div style="margin-left:34%; padding-top:12%; width:270px; display:flex;">
+        <div style="margin-left:38%; padding-top:10%; width:270px; display:flex;">
           <v-img :src="getImgUrl('calendar_w.png')" style="padding-top:10px;"></v-img>
           <font style="color:white; font-weight: bold; font-size:1.6em; margin-left:20px; padding-top:7%;">로그인하고<br> 내 채용 달력보기</font>
         </div>
@@ -13,7 +13,7 @@
     <v-flex xs12 sm12 lg12 class="mb-4 controls" style="text-align:center">
       <v-flex xs12 sm12 lg12>
         <br>
-        <v-sheet min-height="400" style="margin-top:80px">
+        <v-sheet min-height="380" style="margin-top:80px">
           <div style="text-align:center">
             <v-btn fab flat small dark color="#7f7b76" @click="$refs.calendar.prev()" style="display:inline-block">
               <v-icon dark>keyboard_arrow_left</v-icon>
