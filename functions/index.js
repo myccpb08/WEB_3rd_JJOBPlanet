@@ -10,10 +10,6 @@ admin.initializeApp({
 var db = admin.firestore();
 
 exports.dbPostWrite = functions.firestore.document('posts/{any}').onCreate( event => {
-    // const beforeData = change.before.data(); // data before the write
-    // const afterData = change.after.data(); // data after the write
-    // console.log(beforeData)
-    // console.log(afterData)
 
     const payload = {
         notification : {
@@ -25,7 +21,6 @@ exports.dbPostWrite = functions.firestore.document('posts/{any}').onCreate( even
 
     db.collection('users').get().then((snapshot)=> {
         snapshot.forEach(doc => {
-            // console.log(doc.data()['test_token'])
 
             if (doc.data()['test_token'] !='' && doc.data()['test_token'] != undefined) {
                 console.log(doc.data()['test_token'])
@@ -34,13 +29,8 @@ exports.dbPostWrite = functions.firestore.document('posts/{any}').onCreate( even
         })
     })
   });
-//
 
 exports.dbBoardWrite = functions.firestore.document('boards/{any}').onCreate( event => {
-    // const beforeData = change.before.data(); // data before the write
-    // const afterData = change.after.data(); // data after the write
-    // console.log(beforeData)
-    // console.log(afterData)
 
     const payload = {
         notification : {
@@ -63,10 +53,6 @@ exports.dbBoardWrite = functions.firestore.document('boards/{any}').onCreate( ev
   });
 
   exports.dbPostWriteComment = functions.firestore.document('posts/{any}/post-comments/{anyy}').onCreate( event => {
-    // const beforeData = change.before.data(); // data before the write
-    // const afterData = change.after.data(); // data after the write
-    // console.log(beforeData)
-    // console.log(afterData)
 
     const payload = {
         notification : {
@@ -78,7 +64,6 @@ exports.dbBoardWrite = functions.firestore.document('boards/{any}').onCreate( ev
 
     db.collection('users').get().then((snapshot)=> {
         snapshot.forEach(doc => {
-            // console.log(doc.data()['test_token'])
 
             if (doc.data()['userClass'] == 'admin' && doc.data()['test_token']) {
                 console.log(doc.data()['test_token'])
@@ -89,10 +74,6 @@ exports.dbBoardWrite = functions.firestore.document('boards/{any}').onCreate( ev
   });
 
   exports.dbBoardWriteComment = functions.firestore.document('boards/{any}/post-comments/{anyy}').onCreate( event => {
-    // const beforeData = change.before.data(); // data before the write
-    // const afterData = change.after.data(); // data after the write
-    // console.log(beforeData)
-    // console.log(afterData)
 
     const payload = {
         notification : {
@@ -104,8 +85,7 @@ exports.dbBoardWrite = functions.firestore.document('boards/{any}').onCreate( ev
 
     db.collection('users').get().then((snapshot)=> {
         snapshot.forEach(doc => {
-            // console.log(doc.data()['test_token'])
-
+          
             if (doc.data()['userClass'] == 'admin' && doc.data()['test_token']) {
                 console.log(doc.data()['test_token'])
                 admin.messaging().sendToDevice(doc.data()['test_token'], payload)
@@ -113,5 +93,3 @@ exports.dbBoardWrite = functions.firestore.document('boards/{any}').onCreate( ev
         })
     })
   });
-
- 

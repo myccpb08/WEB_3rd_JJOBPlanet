@@ -153,7 +153,6 @@
       <!-- 수정의 맞춤법 테스트 -->
           <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
             <template v-slot:activator="{ on }">
-              <!-- <v-btn color="primary" dark v-on="on">Open Dialog</v-btn> -->
 
               <v-btn flat v-on="on">
                 <v-icon size="25" class="mr-2 notranslate" color="red">check</v-icon>맞춤법검사하러가기
@@ -165,7 +164,6 @@
                 <v-toolbar-title>맞춤법검사</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
-                  <!-- <v-btn icon dark @click="dialog = false"> -->
                   <v-btn icon dark @click="reset()">
                     <v-icon>close</v-icon>
                   </v-btn>
@@ -254,7 +252,6 @@ export default {
     Post
   },
   mounted() {
-    // this.getPosts()
     this.getPersonalPosts()
   },
   methods: {
@@ -317,7 +314,6 @@ export default {
       this.proplimit += 6;
       console.log("proplimit : " + this.proplimit)
       this.$emit('loadMore', this.proplimit)
-      // console.log(this.limits)
     },
     count: function() {
       this.letter = this.body.length;

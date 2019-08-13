@@ -8,10 +8,10 @@
     </v-content>
 
     <back-to-top bottom="80px" right="25px">
-     <v-btn flat icon type="button" class="btn btn-info btn-to-top notranslate">
-       <v-icon>keyboard_arrow_up</v-icon>
-     </v-btn>
-   </back-to-top>
+      <v-btn flat icon type="button" class="btn btn-info btn-to-top notranslate">
+        <v-icon>keyboard_arrow_up</v-icon>
+      </v-btn>
+    </back-to-top>
     <Advertisement />
     <div style="margin-top:46px;"></div>
     <MainFooter />
@@ -49,8 +49,8 @@ export default {
       await Firebaseservice.notificationcheck()
     }
   },
-  mounted(){
-    this.check()//알림허용할지 확인
+  mounted() {
+    this.check() //알림허용할지 확인
   }
 }
 </script>
@@ -66,12 +66,13 @@ export default {
 * {
   font-family: Swagger;
 }
+
 a {
   text-decoration: none;
 }
+
 #bannerTitle {
   z-index: 1;
-  /* background: linear-gradient(90deg, rgba(240,20,30,5) 0%, rgba(150,120,220,1) 46%, rgba(250,240,0,5) 100%); */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 

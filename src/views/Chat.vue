@@ -38,17 +38,6 @@
                 <div class="_msg" v-if="v.msg">
                   <pre>{{v.msg}}</pre>
                 </div>
-                <!-- <div class="_file" v-if="v.file">
-                  <div v-for="f in v.file">
-                    <img
-                      :src="f.url"
-                      :alt="f.name"
-                      onload="setScrollToBottom('_chat')"
-                      v-if="f.type.indexOf('image')>-1"
-                    />
-                    <a :href="f.url" download>{{f.name}}</a>
-                  </div>
-                  </div>-->
                 <div class="_meta">
                   {{v.datetime}}
                   <br />

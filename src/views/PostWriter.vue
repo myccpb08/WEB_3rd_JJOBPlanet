@@ -24,7 +24,6 @@
               <v-toolbar-title>맞춤법검사</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-toolbar-items>
-                <!-- <v-btn icon dark @click="dialog = false"> -->
                 <v-btn icon dark @click="reset()">
                   <v-icon>close</v-icon>
                 </v-btn>

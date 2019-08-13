@@ -36,11 +36,11 @@
                 </tr>
               </tbody>
             </table>
-            </v-flex>
+          </v-flex>
           <div style="width:100%; height:5px;"></div>
           <v-flex style="padding-bottom:0px; padding-top:15px; text-align:center" align-self-center>
             <h2 style='font-size:medium'>7일간 새로 게시된 게시글</h2>
-            <BarChart :isloaded="isloaded" :dataList="chartList" :dataList2="chartList2" :dataList3="chartList3" :dataList4="chartList4" ></BarChart>
+            <BarChart :isloaded="isloaded" :dataList="chartList" :dataList2="chartList2" :dataList3="chartList3" :dataList4="chartList4"></BarChart>
           </v-flex>
           <div style="width:100%; height:5px;"></div>
         </v-layout>
@@ -54,22 +54,24 @@
           <v-layout row wrap mw-700 align-center justify-center>
 
             <v-flex xs6 sm6 row>
-            <v-text-field @keyup.enter='searchBtn()' v-model="searchName" placeholder="Search name or email.."></v-text-field>
+              <v-text-field @keyup.enter='searchBtn()' v-model="searchName" placeholder="Search name or email.."></v-text-field>
             </v-flex>
 
-            <button style="padding-left:15px;width:30px; height:40px;" color='white' @click='searchBtn()'><v-icon color="lightgray">fa-search</v-icon></button>
+            <button style="padding-left:15px;width:30px; height:40px;" color='white' @click='searchBtn()'>
+              <v-icon color="lightgray">fa-search</v-icon>
+            </button>
 
           </v-layout>
         </v-flex>
 
         <div class="list" style="height:600px; overflow:auto">
-        <v-layout wrap mw-700 xs6 justify-start>
-          <v-flex style="padding-bottom:0px;" v-for="i in userClasses.length">
-            <UserClass :displayName="userClasses[i - 1].displayName" :email="userClasses[i - 1].email" :userClass="userClasses[i - 1].userClass" :uid="userClasses[i - 1].uid">
-            </UserClass>
-          </v-flex>
-        </v-layout>
-      </div>
+          <v-layout wrap mw-700 xs6 justify-start>
+            <v-flex style="padding-bottom:0px;" v-for="i in userClasses.length">
+              <UserClass :displayName="userClasses[i - 1].displayName" :email="userClasses[i - 1].email" :userClass="userClasses[i - 1].userClass" :uid="userClasses[i - 1].uid">
+              </UserClass>
+            </v-flex>
+          </v-layout>
+        </div>
       </v-card>
     </div>
   </div>
@@ -165,18 +167,19 @@ export default {
 </script>
 <style>
 .list::-webkit-scrollbar {
-  display:none;
+  display: none;
 }
+
 table {
   border: 2px solid #7F7F7F;
   border-radius: 2px;
   background-color: #fff;
-  width:100%;
+  width: 100%;
 }
+
 th {
   background-color: #6BBCDC;
   color: white;
-  /* cursor: pointer; */
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -187,15 +190,16 @@ td {
   background-color: #f9f9f9;
 }
 
-th, td {
-  /* min-width: 120px; */
+th,
+td {
   padding: 10px 20px;
 }
-.tTitle{
-width:40%;
-}
-.num{
-  width:60%;
+
+.tTitle {
+  width: 40%;
 }
 
+.num {
+  width: 60%;
+}
 </style>

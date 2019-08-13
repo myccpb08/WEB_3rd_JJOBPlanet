@@ -40,7 +40,6 @@ export default {
             return
          }
 
-         //this.repositories = response.data
          this.repositories.push(response.data[0])
       },
 

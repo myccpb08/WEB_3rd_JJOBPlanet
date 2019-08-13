@@ -105,52 +105,31 @@
         </v-list-tile-action>
         <v-list-tile-content>{{ item.title }}</v-list-tile-content>
       </v-list-tile>
-      <v-list-group
-          prepend-icon="fa-edit"
-          no-action
-      >
-      <v-list-tile slot="activator">
-        <v-list-tile-content>
-          <v-list-tile-title>Board</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+      <v-list-group prepend-icon="fa-edit" no-action>
+        <v-list-tile slot="activator">
+          <v-list-tile-content>
+            <v-list-tile-title>Board</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
 
-      <v-list-tile to="/board">
-        <v-list-tile-content>
-          <v-list-tile-title>Healing</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+        <v-list-tile to="/board">
+          <v-list-tile-content>
+            <v-list-tile-title>Healing</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
 
-      <v-list-tile to="/notice">
-        <v-list-tile-content>
-          <v-list-tile-title>Notice</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+        <v-list-tile to="/notice">
+          <v-list-tile-content>
+            <v-list-tile-title>Notice</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
 
-      <v-list-tile to="/mentor">
-        <v-list-tile-content>
-          <v-list-tile-title>Mentor</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-    </v-list-group>
-      <!-- <v-list-group prepend-icon="account_circle" value="true">
-        <template v-slot:activator>
-          <v-list-item-content>
-            <v-list-item-title>Board</v-list-item-title>
-          </v-list-item-content>
-        </template>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>Healing</v-list-item-title>
-          </v-list-item-content>
-          <v-list-item-content>
-            <v-list-item-title>Notice</v-list-item-title>
-          </v-list-item-content>
-          <v-list-item-content>
-            <v-list-item-title>Mentor</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-group> -->
+        <v-list-tile to="/mentor">
+          <v-list-tile-content>
+            <v-list-tile-title>Mentor</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list-group>
 
       <template v-if="check">
         <v-list-tile to="/backoffice">
@@ -180,7 +159,6 @@
           <div class="overlay-container">
             <div class="overlay">
               <div class="m-overlay-left">
-                <!-- <v-img :src="getImgUrl('lock.png')" style="padding-top:20px; width:60px; height:100px"></v-img>-->
 
                 <h2>Sign Up</h2>
                 <br>
@@ -193,21 +171,10 @@
 
                 </div>
               </div>
-              <!-- <div class="overlay-right">
-                    <v-img :src="getImgUrl('signup_img.png')" style="padding-top:20px; width:120px; height:90px"></v-img>
-                    <br>
-                    <p style="color:lightgray;">Welcome<br>New<br>Members!</p>
-                    <v-btn dark small flat class="invert" id="signUp" @click="signUpAni = !signUpAni">회원가입</v-btn>
-                  </div> -->
             </div>
           </div>
 
           <form class="sign-up" action="#">
-            <!-- <h2>Sign Up</h2>
-                <br>
-                <v-text-field @keyup.enter="loginWithMail" v-model="signupEmail" label="Email" placeholder="이메일을 입력하세요." style="width:200px;"></v-text-field>
-                <v-text-field @keyup.enter="loginWithMail" v-model="signupPassword" label="Password" placeholder="비밀번호를 입력하세요." style="width:200px;" type="password"></v-text-field>
-                <v-btn flat dark v-on:click="signUp()" style="width:139px; height:35px;">Sign Up</v-btn> -->
           </form>
 
           <form class="sign-in" action="#">
@@ -273,11 +240,6 @@ export default {
           title: 'Calendar',
           link: '/calendar'
         },
-        // {
-        //   icon: 'fa-edit',
-        //   title: 'Board',
-        //   link: '/board'
-        // },
         {
           icon: 'photo_filter',
           title: 'Post',
@@ -307,7 +269,7 @@ export default {
       return require('../assets/team6/logo/' + img)
     },
     async loginWithMail() {
-           firebase
+      firebase
         .auth()
         .signInWithEmailAndPassword(this.loginEmail, this.loginPassword)
         .then(user => {
@@ -344,7 +306,7 @@ export default {
         });
     },
     async loginWithGoogle() {
-          const result = await FirebaseService.loginWithGoogle();
+      const result = await FirebaseService.loginWithGoogle();
       this.$store.state.accessToken = result.credential.accessToken;
       this.$store.state.user = result.user;
       localStorage.setItem("accessToken", this.$store.state.accessToken);
@@ -372,7 +334,7 @@ export default {
       this.check = await this.checkUserClass(this.$store.state.user.uid);
     },
     async loginWithFacebook() {
-        const result = await FirebaseService.loginWithFacebook();
+      const result = await FirebaseService.loginWithFacebook();
       this.$store.state.accessToken = result.credential.accessToken;
       this.$store.state.user = result.user;
       localStorage.setItem("accessToken", this.$store.state.accessToken);
@@ -401,7 +363,7 @@ export default {
       this.check = await this.checkUserClass(this.$store.state.user.uid);
     },
     signUp() {
-       firebase
+      firebase
         .auth()
         .createUserWithEmailAndPassword(this.signupEmail, this.signupPassword)
         .then(user => {
@@ -429,7 +391,7 @@ export default {
         });
     },
     logout() {
-       if (firebase.auth().currentUser == null) {
+      if (firebase.auth().currentUser == null) {
         Swal2.fire({
           title: "로그인 후 이용해주세요",
           type: "error",

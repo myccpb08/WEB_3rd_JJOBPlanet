@@ -10,7 +10,6 @@
         <v-btn flat small href="https://lab.ssafy.com/LeeSuKyeong" style="color: lightgray">이수경</v-btn>
         <v-btn flat small href="https://lab.ssafy.com/JIGyeongmin" style="color: lightgray">지경민</v-btn>
       </div>
-      <!-- <v-btn flat small to=""><p style="color:lightgray">지경민</p></v-btn> -->
     </div>
 
     <div style="width:100%; margin-top:20px;">

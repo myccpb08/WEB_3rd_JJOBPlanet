@@ -30,7 +30,6 @@
                 <div :id="repos.owner.username" style="height: 250px; width: 90%;" v-if="!flags" ></div>
                 <!-- 미니그래프 테스트 끝 -->
                 <v-divider></v-divider>
-                <!-- <h4 class="mt-3">{{ repos.owner.name }}님 프로젝트 <v-icon> arrow_downward</v-icon> </h4> -->
 
                 <h3 style="color:white" class="mt-3 notranslate">
                   <v-card-title primary-title>
@@ -39,7 +38,6 @@
                       <v-icon> arrow_downward</v-icon>
                     </v-btn>
                   </v-card-title>
-                  <!-- {{ repos.owner.name }}님 프로젝트 More -->
 
                 </h3>
                 <div class="mt-0" v-if="flags">

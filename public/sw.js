@@ -21,10 +21,10 @@ var filesToCache = [
   '/img/icons/favicon-32x32.png',
 ];
 
-const limitCacheSize= (name, size)=>{
-  caches.open(name).then(cache=>{
-    cache.keys().then(keys=>{
-      if (keys.length > size){
+const limitCacheSize = (name, size) => {
+  caches.open(name).then(cache => {
+    cache.keys().then(keys => {
+      if (keys.length > size) {
         cache.delete(keys[0]).then(limitCacheSize(name, size));
       }
     })
@@ -53,26 +53,26 @@ self.addEventListener('activate', function(event) {
       return Promise.all(keys
         .filter(key => key !== CACHE_NAME && key !== dynamicCACHE_NAME)
         .map(key => caches.delete(key))
-        )
+      )
     })
   )
 });
 
 self.addEventListener('fetch', function(event) {
   // console.log('[fetch]', event);
-  if(event.request.url.indexOf('firestore.googleapis.com')===-1){
+  if (event.request.url.indexOf('firestore.googleapis.com') === -1) {
     event.respondWith(
       caches.match(event.request).then(function(response) {
         return response || fetch(event.request).then(fetchRes => {
-          return caches.open(dynamicCACHE_NAME).then(cache =>{
+          return caches.open(dynamicCACHE_NAME).then(cache => {
             cache.put(event.request.url, fetchRes.clone());
             limitCacheSize(dynamicCACHE_NAME, 100);
             return fetchRes;
           })
         });
-      }).catch(function(error){
+      }).catch(function(error) {
         return console.log(error);
       })
     );
- }
+  }
 });

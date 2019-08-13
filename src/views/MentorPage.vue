@@ -3,7 +3,7 @@
     <div style="margin-top:48px"></div>
     <div style="padding:60px;">
       <v-container>
-        <h1>공지사항</h1>
+        <h1>취업자 게시판</h1>
         <!-- Mentor -->
         <v-layout>
           <v-flex xs12>
