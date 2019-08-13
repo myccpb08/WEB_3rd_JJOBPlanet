@@ -23,7 +23,7 @@
           </div>
         </v-btn>
         <v-btn flat to="/post">Post</v-btn>
-        <v-btn flat to="/backoffice" v-if='check'>BackOffice</v-btn>
+        <v-btn flat to="/backoffice" v-if="userClass==='admin'">BackOffice</v-btn>
         <v-btn flat to="/chat" v-if='check'>chat</v-btn>
 
         <!-- login SignUp Form -->
@@ -131,7 +131,7 @@
         </v-list-tile>
       </v-list-group>
 
-      <template v-if="check">
+      <template v-if="userClass==='admin'">
         <v-list-tile to="/backoffice">
           <v-list-tile-action>
             <v-icon>fa-user</v-icon>
@@ -175,7 +175,7 @@
           </div>
 
           <form class="sign-up" action="#">
-          </form>
+                </form>
 
           <form class="sign-in" action="#">
             <br><br>
@@ -210,6 +210,7 @@
 </template>
 
 <script>
+import $ from 'jquery'
 import FirebaseService from '@/services/FirebaseService'
 import firebase from 'firebase/app'
 const Swal2 = require('sweetalert2')
@@ -246,7 +247,7 @@ export default {
         },
       ],
       check: false,
-      userClass: {}
+      userClass: ''
     }
   },
   methods: {
@@ -453,8 +454,8 @@ export default {
       this.$store.state.user = JSON.parse(localStorage.getItem("user") || "{}");
       this.$store.state.accessToken = localStorage.getItem('accessToken');
     }
-
-    this.check = this.checkUserClass(this.$store.state.user.uid)
+    this.userClass = FirebaseService.getUserClass(this.$store.state.user.uid)
+    // this.check = this.checkUserClass(this.$store.state.user.uid)
 
   }
 }
