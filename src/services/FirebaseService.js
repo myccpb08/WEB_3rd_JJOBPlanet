@@ -89,7 +89,7 @@ export default {
             const gap = Math.ceil((day.getTime() - today) / 1000 / 60 / 60 / 24)
             console.log(gap)
 
-            if (gap <= 3) { // 마감 일이 내일이면, 알람울릴 list 에 추가
+            if (gap <= 1) { // 마감 일이 내일이면, 알람울릴 list 에 추가
               alarmlist.push({
                 'name': recruit_info.name,
                 'end': recruit_info.end

@@ -4,8 +4,8 @@
 
   <v-container>
     <v-layout>
-      <v-flex style="text-align: center;">
-        <div style="width:400px; display:inline-block;">
+      <v-flex style="display: flex; align-items: center; justify-content: center;">
+        <div style="width:400px;">
           <template v-if="uid">
             <div id="_top">
               <!-- 회원리스트 -->
@@ -335,7 +335,7 @@ body {
 #_bottom {
   width: 100%;
   height: 100px;
-  background-color: #fff;
+  /* background-color: #fff; */
 }
 
 #_bottom textarea {
