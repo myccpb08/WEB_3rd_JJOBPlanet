@@ -106,7 +106,7 @@
         <v-list-tile-content>{{ item.title }}</v-list-tile-content>
       </v-list-tile>
       <v-list-group
-          prepend-icon="account_circle"
+          prepend-icon="fa-edit"
           no-action
       >
       <v-list-tile slot="activator">
@@ -273,11 +273,11 @@ export default {
           title: 'Calendar',
           link: '/calendar'
         },
-        {
-          icon: 'fa-edit',
-          title: 'Board',
-          link: '/board'
-        },
+        // {
+        //   icon: 'fa-edit',
+        //   title: 'Board',
+        //   link: '/board'
+        // },
         {
           icon: 'photo_filter',
           title: 'Post',
