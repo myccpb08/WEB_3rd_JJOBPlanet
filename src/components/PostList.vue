@@ -135,7 +135,7 @@
     <!-- content -->
     <div style="width:70%;height:700px;padding:20px;text-align:center;float:left" class="hidden-xs-only">
 
-      <v-text-field v-model="title" label="Q."></v-text-field>
+      <v-text-field v-model="title" label="Q." @keyup="requestWrite()"></v-text-field>
       <hr>
       <div v-if="this.totalPosts.length===0">
         <div style="margin-bottom:200px"></div>
@@ -153,6 +153,7 @@
       <!-- 수정의 맞춤법 테스트 -->
           <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
             <template v-slot:activator="{ on }">
+              <!-- <v-btn color="primary" dark v-on="on">Open Dialog</v-btn> -->
 
               <v-btn flat v-on="on">
                 <v-icon size="25" class="mr-2 notranslate" color="red">check</v-icon>맞춤법검사하러가기
@@ -164,6 +165,7 @@
                 <v-toolbar-title>맞춤법검사</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
+                  <!-- <v-btn icon dark @click="dialog = false"> -->
                   <v-btn icon dark @click="reset()">
                     <v-icon>close</v-icon>
                   </v-btn>
@@ -198,6 +200,22 @@
             </v-card>
           </v-dialog>
       <br>
+    </div>
+    <div class="requestWriteBtn">
+      <div class="requestContainer">
+        <div class="requestContent" justify="center" align="center" style="padding-top:50px;">
+          <b style="text-weight:bold;">글을 작성하시려면<br>우측 상단의 작성 버튼을 눌러주세요</b>
+          <br>
+
+          <div @click="closePopup()">
+
+              <button style="margin-right:48%;" type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">x</span>
+              </button>
+
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -252,9 +270,18 @@ export default {
     Post
   },
   mounted() {
+    // this.getPosts()
     this.getPersonalPosts()
   },
   methods: {
+    requestWrite(){
+      if (this.body == ''){
+      document.querySelector(".requestWriteBtn").style.display = "block";
+      }
+    },
+    closePopup(){
+      document.querySelector(".requestWriteBtn").style.display = "none";
+    },
     reset() {
       this.dialog = false;
       this.body2 = "";
@@ -314,6 +341,7 @@ export default {
       this.proplimit += 6;
       console.log("proplimit : " + this.proplimit)
       this.$emit('loadMore', this.proplimit)
+      // console.log(this.limits)
     },
     count: function() {
       this.letter = this.body.length;
@@ -378,5 +406,30 @@ export default {
 
 .violet_text {
   color: #a566ff;
+}
+
+.requestWriteBtn{
+  display: none;
+  background-color: rgba(0,0,0,0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.requestContainer{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.requestContent{
+  width: 30%;
+  height: 15%;
+  background-color: white;
+  transform: translateY(-30%);
 }
 </style>
