@@ -250,21 +250,27 @@
       <div style="width:1px; height:600px; background: RGB(155, 155, 155, 0.2); float:left"></div>
 
       <!-- section2 -->
-      <div style="width:49%; height:500px; float:left">
+      <div style="width:1px; height:800px; background: RGB(155, 155, 155, 0.2); float:left"></div>
 
-      <div style="margin-left:30px; width: 90%; float: left;">
-        <h3 style="margin-left:30px;">점심메뉴</h3>
-        <v-layout class="applyList" style="width: 100%; display:inline-block;text-align:center;padding-top:25px; overflow:auto;">
-          <v-flex style="background:white; width: 100%;height:130px;  margin-left:5px; margin-bottom:5px; display:inline-block;" v-for="i in lunch">
-            <v-img aspect-ratio=1 :src='i.img' contain style="width:30%; height:auto; float: left;"></v-img>
-            <div style="width:70%;height:70%; margin-bottom:10px;float: left;">
-              <font><pre><br><b>{{i.menu}}</b></pre></font>
-            </div>
+<!-- section2 -->
+<div style="width:49%; height:800px; float:left; overflow:scroll">
 
-          </v-flex>
-        </v-layout>
+<div style="margin-left:30px; width: 90%; float: left;">
+  <h3 style="margin-left:30px;">추천 공모전/강연</h3>
+  <v-layout class="applyList" style="width: 100%; display:inline-block;text-align:center;padding-top:25px; overflow:auto;">
+    <v-flex style="background:white; width: 100%;height:350px;  margin-left:5px; margin-bottom:5px; display:inline-block;" v-for="i in onoffmix">
+
+      <v-img aspect-ratio=1 :src='i.img' contain style="width:300px; height:auto; margin:0 auto;"></v-img>
+
+      <div style=" margin:0 auto;">
+        <font><b>{{i.title}}</b></font><br>
+        {{i.pay}} / {{i.time}}
       </div>
-      </div>
+
+    </v-flex>
+  </v-layout>
+</div>
+</div>
 
 
     </div>
@@ -310,7 +316,7 @@ export default {
       totalfavorite: [],
       notices: [],
       mentors:[],
-      lunch:[]
+      onoffmix:[]
     }
   },
   created () {
@@ -333,7 +339,7 @@ export default {
         this.weekdata=response.data.week
         this.bygroup=response.data.bygroup
         this.group=response.data.bygroup['경영/사무']
-        this.lunch=response.data.lunch
+        this.onoffmix=response.data.onoffmix
       })
       .catch(function(error) {
         console.log(error)
