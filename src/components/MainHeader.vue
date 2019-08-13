@@ -116,21 +116,21 @@
       </v-list-tile>
 
       <v-list-tile to="/board">
-        <v-list-title-content>
+        <v-list-tile-content>
           <v-list-tile-title>Healing</v-list-tile-title>
-        </v-list-title-content>
+        </v-list-tile-content>
       </v-list-tile>
 
       <v-list-tile to="/notice">
-        <v-list-title-content>
+        <v-list-tile-content>
           <v-list-tile-title>Notice</v-list-tile-title>
-        </v-list-title-content>
+        </v-list-tile-content>
       </v-list-tile>
 
       <v-list-tile to="/mentor">
-        <v-list-title-content>
+        <v-list-tile-content>
           <v-list-tile-title>Mentor</v-list-tile-title>
-        </v-list-title-content>
+        </v-list-tile-content>
       </v-list-tile>
     </v-list-group>
       <!-- <v-list-group prepend-icon="account_circle" value="true">
@@ -307,21 +307,22 @@ export default {
       return require('../assets/team6/logo/' + img)
     },
     async loginWithMail() {
-      firebase.auth().signInWithEmailAndPassword(this.loginEmail, this.loginPassword)
-        .then((user) => {
-          this.$store.state.accessToken = user.user.refreshToken
-          this.$store.state.user = user.user
-          localStorage.setItem('accessToken', this.$store.state.accessToken)
-          localStorage.setItem('user', JSON.stringify(user.user))
-          alert(this.$store.state.user.email + "님 로그인 되었습니다")
-          this.loginEmail = ''
-          this.loginPassword = ''
-          this.closeDialog()
-          // this.$router.replace('/')
-          FirebaseService.addLog(this.$store.state.user.uid, "login with mail")
+           firebase
+        .auth()
+        .signInWithEmailAndPassword(this.loginEmail, this.loginPassword)
+        .then(user => {
+          this.$store.state.accessToken = user.user.refreshToken;
+          this.$store.state.user = user.user;
+          localStorage.setItem("accessToken", this.$store.state.accessToken);
+          localStorage.setItem("user", JSON.stringify(user.user));
 
-          FirebaseService.gettingtoken(this.$store.state.user)
-          FirebaseService.alarmfavorite(this.$store.state.user)
+          this.loginEmail = "";
+          this.loginPassword = "";
+          this.closeDialog();
+          this.$router.replace("/");
+          FirebaseService.addLog(this.$store.state.user.uid, "login with mail");
+
+          FirebaseService.gettingtoken(this.$store.state.user);
 
           Swal2.fire({
             text: this.$store.state.user.email + "님 로그인 되었습니다",
@@ -336,93 +337,145 @@ export default {
               FirebaseService.alarmfavorite(this.$store.state.user);
             }
           });
-          this.check = this.checkUserClass(this.$store.state.user.uid)
-          this.$router.replace('/')
+          this.check = this.checkUserClass(this.$store.state.user.uid);
         })
-        .catch((error) => {
-          alert(error)
-        })
-    },
-    async loginWithGoogle() {
-      const result = await FirebaseService.loginWithGoogle()
-      this.$store.state.accessToken = result.credential.accessToken
-      this.$store.state.user = result.user
-      localStorage.setItem('accessToken', this.$store.state.accessToken)
-      localStorage.setItem('user', JSON.stringify(result.user))
-      alert(this.$store.state.user.email + "님 로그인 되었습니다")
-      this.closeDialog()
-      FirebaseService.addLog(this.$store.state.user.uid, "login with google")
-      FirebaseService.initUserClass(result.user, "visitor")
-      this.$router.replace('/')
-
-      FirebaseService.gettingtoken(this.$store.state.user)
-      FirebaseService.alarmfavorite(this.$store.state.user)
-
-      this.check = await this.checkUserClass(this.$store.state.user.uid)
-      this.$router.replace('/')
-    },
-    async loginWithFacebook() {
-      const result = await FirebaseService.loginWithFacebook()
-      this.$store.state.accessToken = result.credential.accessToken
-      this.$store.state.user = result.user
-      localStorage.setItem('accessToken', this.$store.state.accessToken)
-      localStorage.setItem('user', JSON.stringify(result.user))
-      alert(this.$store.state.user.displayName + "님 로그인 되었습니다")
-      this.closeDialog()
-      FirebaseService.addLog(this.$store.state.user.uid, "login with facebook")
-      FirebaseService.initUserClass(result.user, "visitor")
-      this.$router.replace('/')
-
-      FirebaseService.gettingtoken(this.$store.state.user)
-      FirebaseService.alarmfavorite(this.$store.state.user)
-
-      this.check = await this.checkUserClass(this.$store.state.user.uid)
-      this.$router.replace('/')
-    },
-    signUp() {
-      firebase.auth().createUserWithEmailAndPassword(this.signupEmail, this.signupPassword)
-        .then((user) => {
-          alert("Your account has been created!")
-          this.closeDialog()
-
-          //권한 초기 설정
-          FirebaseService.addLog(user.user.uid, "singup")
-          FirebaseService.initUserClass(user.user, "visitor")
-          this.$router.replace('/')
-          this.signupEmail = '';
-          this.signupPassword = '';
-        })
-        .catch((error) => {
-          alert(error)
-        })
-    },
-    logout() {
-      if (firebase.auth().currentUser == null) {
-        alert("로그인 후 이용해주세요.");
-        this.$store.state.accessToken = '';
-        this.$store.state.user = '';
-        localStorage.setItem('accessToken', this.$store.state.accessToken)
-        localStorage.setItem('user', this.$store.state.user)
-        this.$router.replace('/')
-      } else if (firebase.auth().currentUser) {
-        console.log(this.$store.state.user)
-        firebase.auth().signOut().then(() => {
-          FirebaseService.addLog(this.$store.state.user.uid, "logout");
-          alert(this.$store.state.user.email + "님 로그아웃 되었습니다.");
-          FirebaseService.outtoken(this.$store.state.user)
-          this.$store.state.accessToken = '';
-          this.$store.state.user = '';
-          localStorage.setItem('accessToken', this.$store.state.accessToken)
-          localStorage.setItem('user', this.$store.state.user)
-          this.closeDialog()
-          this.$router.replace('/')
-
-          this.check = false
-        }).catch(function(error) {
+        .catch(error => {
           alert(error);
         });
-      }
+    },
+    async loginWithGoogle() {
+          const result = await FirebaseService.loginWithGoogle();
+      this.$store.state.accessToken = result.credential.accessToken;
+      this.$store.state.user = result.user;
+      localStorage.setItem("accessToken", this.$store.state.accessToken);
+      localStorage.setItem("user", JSON.stringify(result.user));
+      this.closeDialog();
+      FirebaseService.addLog(this.$store.state.user.uid, "login with google");
+      FirebaseService.initUserClass(result.user, "visitor");
+      this.$router.replace("/");
 
+      FirebaseService.gettingtoken(this.$store.state.user);
+
+      Swal2.fire({
+        text: this.$store.state.user.email + "님 로그인 되었습니다",
+        type: "success",
+        confirmButtonText: '<i class="fa fa-thumbs-up"></i> OK!',
+        animation: false,
+        customClass: {
+          popup: "animated rollIn"
+        }
+      }).then(result => {
+        if (result.value) {
+          FirebaseService.alarmfavorite(this.$store.state.user);
+        }
+      });
+      this.check = await this.checkUserClass(this.$store.state.user.uid);
+    },
+    async loginWithFacebook() {
+        const result = await FirebaseService.loginWithFacebook();
+      this.$store.state.accessToken = result.credential.accessToken;
+      this.$store.state.user = result.user;
+      localStorage.setItem("accessToken", this.$store.state.accessToken);
+      localStorage.setItem("user", JSON.stringify(result.user));
+      this.closeDialog();
+      FirebaseService.addLog(this.$store.state.user.uid, "login with facebook");
+      FirebaseService.initUserClass(result.user, "visitor");
+      this.$router.replace("/");
+
+      FirebaseService.gettingtoken(this.$store.state.user);
+
+      Swal2.fire({
+        text: this.$store.state.user.email + "님 로그인 되었습니다",
+        type: "success",
+        confirmButtonText: '<i class="fa fa-thumbs-up"></i> OK!',
+        animation: false,
+        customClass: {
+          popup: "animated rollIn"
+        }
+      }).then(result => {
+        if (result.value) {
+          FirebaseService.alarmfavorite(this.$store.state.user);
+        }
+      });
+
+      this.check = await this.checkUserClass(this.$store.state.user.uid);
+    },
+    signUp() {
+       firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.signupEmail, this.signupPassword)
+        .then(user => {
+          Swal2.fire({
+            title: "Your account has been created!",
+            type: "warning",
+            confirmButtonText: '<i class="fa fa-thumbs-up"></i> OK!',
+            animation: false,
+            customClass: {
+              popup: "animated bounce"
+            }
+          });
+
+          this.closeDialog();
+
+          //권한 초기 설정
+          FirebaseService.addLog(user.user.uid, "singup");
+          FirebaseService.initUserClass(user.user, "visitor");
+          this.$router.replace("/");
+          this.signupEmail = "";
+          this.signupPassword = "";
+        })
+        .catch(error => {
+          alert(error);
+        });
+    },
+    logout() {
+       if (firebase.auth().currentUser == null) {
+        Swal2.fire({
+          title: "로그인 후 이용해주세요",
+          type: "error",
+          confirmButtonText: '<i class="fa fa-thumbs-up"></i> OK!',
+          animation: false,
+          customClass: {
+            popup: "animated bounceIn"
+          }
+        });
+        this.$store.state.accessToken = "";
+        this.$store.state.user = "";
+        localStorage.setItem("accessToken", this.$store.state.accessToken);
+        localStorage.setItem("user", this.$store.state.user);
+        this.$router.replace("/");
+      } else if (firebase.auth().currentUser) {
+        console.log(this.$store.state.user);
+        firebase
+          .auth()
+          .signOut()
+          .then(() => {
+            FirebaseService.addLog(this.$store.state.user.uid, "logout");
+
+            Swal2.fire({
+              text: this.$store.state.user.email + "님 로그아웃 되었습니다.",
+              type: "error",
+              confirmButtonText: '<i class="fa fa-thumbs-up"></i> OK!',
+              animation: false,
+              customClass: {
+                popup: "animated bounceIn"
+              }
+            });
+
+            FirebaseService.outtoken(this.$store.state.user);
+            this.$store.state.accessToken = "";
+            this.$store.state.user = "";
+            localStorage.setItem("accessToken", this.$store.state.accessToken);
+            localStorage.setItem("user", this.$store.state.user);
+            this.closeDialog();
+            this.$router.replace("/");
+
+            this.check = false;
+          })
+          .catch(function(error) {
+            alert(error);
+          });
+      }
     },
     closeDialog() {
       this.loginDialog = false;
