@@ -243,9 +243,7 @@ import Notice from '@/components/Notice'
 import Mentor from '@/components/Mentor'
 import PostList from '../components/PostList'
 import RepositoryList from '../components/RepositoryList'
-import firebase from 'firebase/app'
 import FirebaseService from '@/services/FirebaseService'
-import $ from 'jquery'
 import axios from 'axios'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
@@ -255,8 +253,6 @@ export default {
 
   name: 'HomePage',
   components: {
-    PostList,
-    RepositoryList,
     Notice,
     Mentor,
     Vuetify,
