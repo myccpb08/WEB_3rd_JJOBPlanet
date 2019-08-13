@@ -16,7 +16,7 @@
         </div>
 
         <div class="hidden-xs-only" style="width:35%;height:100%;display:inline-block;">
-          <v-btn dark color="warning">기업회원 페이지 가기</v-btn>
+          <v-btn dark color="warning" href="https://ssafy-245804.firebaseapp.com/">기업회원 페이지 가기</v-btn>
           <v-img :src="getImgUrl('footerimg.png')" style="width:350px; float:right"></v-img>
         </div>
 
