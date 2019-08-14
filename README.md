@@ -13,6 +13,8 @@ QA : 이수경
 
    `sudo pip install firebase-admin`
 
+   `pip install colorama`
+
    `django-admin startproject jjobplanet .`
 
    `python manage.py startapp posts`
