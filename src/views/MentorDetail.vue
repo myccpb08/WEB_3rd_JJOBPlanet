@@ -124,6 +124,7 @@ export default {
   },
   methods: {
     async temp() {
+      console.log(this.$route.params.mentorId)
       this.checkUserClass(this.$store.state.user.uid)
       this.getMentor(this.mentorId)
       this.getComments(this.mentorId)
@@ -136,17 +137,18 @@ export default {
 
     // 댓글 생성
     async postComment(mentorId, content) {
+      console.log(mentorId)
       if (content == "") {
         alert("내용을 입력해주세요");
       } else {
         await FirebaseService.postMentorComment(
-          mentorId,
+         this.$route.params.mentorId,
           content,
           this.$store.state.user
         );
         alert("댓글이 작성되었습니다.");
         this.content = ''
-        this.getComments(mentorId)
+        this.getComments(this.$route.params.mentorId)
       }
     },
     // 댓글 수정

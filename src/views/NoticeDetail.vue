@@ -131,19 +131,19 @@ export default {
     },
 
     // 댓글 생성
-    async postComment(mentorId, content) {
-    console.log(this.mentorId)
+    async postComment(noticeId, content) {
+    console.log(this.noticeId)
     if (content == "") {
       alert("내용을 입력해주세요");
     } else {
-      await FirebaseService.postMentorComment(
-        this.$route.params.mentorId,
+      await FirebaseService.postNoticeComment(
+        noticeId,
         content,
         this.$store.state.user
       );
       alert("댓글이 작성되었습니다.");
       this.content = ''
-      this.getComments(this.$route.params.mentorId)
+      this.getComments(noticeId)
     }
   },
     // 댓글 수정

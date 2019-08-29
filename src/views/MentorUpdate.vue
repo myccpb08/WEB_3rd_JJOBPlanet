@@ -22,11 +22,11 @@
 import ImageInput from '../components/ImageInput'
 import FirebaseService from '@/services/FirebaseService'
 export default {
-  name: 'mentWriter',
+  name: 'mentoUpdate',
   data(){
     return{
-      mentId:this.$route.params.mentId,
-      ment:{},
+      mentorId:this.$route.params.mentorId,
+      mentor:{},
     }
   },
   components: {
