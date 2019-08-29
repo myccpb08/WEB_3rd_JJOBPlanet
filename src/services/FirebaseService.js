@@ -87,7 +87,6 @@ export default {
           if (recruit_info.end) { // 마감날짜가 존재하면
             const day = new Date(recruit_info.end.split(' ')[0])
             const gap = Math.ceil((day.getTime() - today) / 1000 / 60 / 60 / 24)
-            console.log(gap)
 
             if (gap <= 1) { // 마감 일이 내일이면, 알람울릴 list 에 추가
               alarmlist.push({
@@ -656,7 +655,6 @@ export default {
           let data = doc.data()
           data.created_at = new Date(data.created_at.toDate())
           data.id = doc.id
-          console.log(data)
           return data
         })
       })

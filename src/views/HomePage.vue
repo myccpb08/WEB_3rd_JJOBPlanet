@@ -10,15 +10,14 @@
 
       <div class="hidden-xs-only" style="width:28%;height:100%;display:inline-block;padding-left:10%;padding-top:30px;float:left">
         <hr style="border:1px solid white; width:70px; margin-bottom:20px">
-        <p v-if="userName===undefined">
+        <!-- <p v-if="userName===undefined">
           <font style="color:white;">로그인 해주세요</font>
         </p>
-        <p v-else>
+        <p v-else> -->
           <font style="color:white;">
-            {{userName}}<br>
             <p>추천 채용공고</p>
           </font>
-        </p>
+        <!-- </p> -->
         <v-btn flat dark outline style="width:110px;" to="/post"><label style='font-size:14.5px'>자기소개서</label></v-btn>
         <v-btn flat dark outline style="width:110px;" to="/calendar"><label style='font-size:14.5px'>내 채용달력</label></v-btn>
 
@@ -361,6 +360,7 @@ export default {
   props: {
     limits: {type: Number, default: 4}
   },
+
 }
 </script>
 

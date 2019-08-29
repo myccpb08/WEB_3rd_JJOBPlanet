@@ -466,10 +466,13 @@ export default {
 
   },
   created () {
+   if(this.$store.state.user.uid!==undefined){
     var userClass =
-    FirebaseService.getUserClass(uid).then((result) => {
-     this.getClass(result);
+    FirebaseService.getUserClass(this.$store.state.user.uid).then((result) => {
+      console.log(result);
+      this.getClass(result);
    })
+   }
   },
 }
 </script>
